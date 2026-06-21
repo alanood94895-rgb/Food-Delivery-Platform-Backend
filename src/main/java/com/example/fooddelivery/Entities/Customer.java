@@ -23,12 +23,12 @@ public class Customer extends BaseEntity {
     private Integer loyaltyPoints;
     private String customerCode;
 
-    @OneToMany
+    @OneToMany (mappedBy = "customer")
     private List<CustomerAddress> addresses;
 
-    @OneToMany
+    @OneToMany (mappedBy = "customer")
     private List<Order> orders;
 
-    @OneToMany
+    @OneToMany (mappedBy = "customer")
     private List<Review> reviews;
 }
