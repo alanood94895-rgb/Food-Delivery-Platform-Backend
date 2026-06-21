@@ -21,6 +21,6 @@ public class RestaurantOwner extends BaseEntity {
     private String passwordHash;
     private String businessLicenseCode;
 
-    @OneToMany
+    @OneToMany (mappedBy = "restaurantOwner")
     private List<Restaurant> restaurants;
 }
