@@ -28,9 +28,9 @@ public class Restaurant extends BaseEntity {
     @ManyToOne
     private RestaurantOwner restaurantOwner;
 
-    @OneToMany
+    @OneToMany (mappedBy = "restaurant")
     private List<MenuItem> menuItems;
 
-    @OneToMany
+    @OneToMany (mappedBy = "restaurant")
     private List<ComboMeal> comboMeals;
 }
