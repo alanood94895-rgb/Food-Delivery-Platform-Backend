@@ -16,10 +16,10 @@ import java.util.List;
 public class MenuItem extends BaseEntity {
     private String name;
     private String description;
-    private int price;
+    private Double  price;
     private Boolean isAvailable;
     private Boolean isVegetarian;
-    private String calories;
+    private Integer calories;
 
     @ManyToOne
     private Restaurant restaurant;
