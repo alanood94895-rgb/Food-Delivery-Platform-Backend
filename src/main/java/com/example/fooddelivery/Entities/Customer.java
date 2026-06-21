@@ -18,21 +18,18 @@ public class Customer extends BaseEntity {
 
     private String firstName;
     private String lastName;
-
-    @Column(unique = true)
-    private String email;
-
+    private String customerEmail;
     private String phone;
     private String passwordHash;
     private Integer loyaltyPoints;
     private String customerCode;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany
     private List<CustomerAddress> addresses;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany
     private List<Review> reviews;
 }
