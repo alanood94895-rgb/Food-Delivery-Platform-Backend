@@ -1,4 +1,13 @@
 package com.example.fooddelivery.Entities;
 
-public class RestaurantOwner {
+import jakarta.persistence.Entity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class RestaurantOwner extends BaseEntity {
 }
