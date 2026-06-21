@@ -1,5 +1,6 @@
 package com.example.fooddelivery.Entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.criteria.Order;
@@ -11,24 +12,27 @@ import java.util.List;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+@AllArgsConstructor
+public class Customer extends BaseEntity {
 
     private String firstName;
     private String lastName;
-    private String email;
-    private int phone;
-    private int passwordHash;
-    private int loyaltyPoints;
-    private int customerCode;
 
-    @OneToMany
+    @Column(unique = true)
+    private String email;
+
+    private String phone;
+    private String passwordHash;
+    private Integer loyaltyPoints;
+    private String customerCode;
+
+    @OneToMany(mappedBy = "customer")
     private List<CustomerAddress> addresses;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private List<Order> orders;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private List<Review> reviews;
 }
