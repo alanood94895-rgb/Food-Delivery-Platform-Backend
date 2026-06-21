@@ -27,5 +27,5 @@ public class CorporateOrder extends BaseEntity {
 
 
     @OneToMany
-    private List<CorporateOrderItem> items;
+    private List<CorporateOrderItem> corporateOrderItems;
 }
