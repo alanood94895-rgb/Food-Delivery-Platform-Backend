@@ -24,4 +24,14 @@ public class BaseEntity {
     private LocalDateTime updatedDate;
 
     private Boolean isActive = true;
+
+    @Override
+    public String toString() {
+        return "BaseEntity{" +
+                "id=" + id +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                ", isActive=" + isActive +
+                '}';
+    }
 }
