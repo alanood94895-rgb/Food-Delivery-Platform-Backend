@@ -2,9 +2,12 @@ package com.example.fooddelivery.Entities;
 
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -12,4 +15,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DeliveryDriver extends BaseEntity{
 
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String passwordHash;
+    private String driverCode;
+    private String vehicleType;
+    private String vehiclePlate;
+    private String currentLat;
+    private String currentLng;
+    private Boolean isOnline;
+
+    @OneToMany
+    private List <Delivery> delivery;
 }
