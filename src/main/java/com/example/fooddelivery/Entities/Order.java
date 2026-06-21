@@ -32,7 +32,7 @@ public class Order extends BaseEntity {
     private Restaurant restaurant;
 
     @OneToMany
-    private List<OrderItem> orderItems;
+    private List<CorporateOrderItem> corporateOrderItems;
 
     @OneToOne
     private Delivery delivery;
