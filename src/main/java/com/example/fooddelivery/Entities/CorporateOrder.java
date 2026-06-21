@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CorporateOrder {
+public class CorporateOrder extends BaseEntity {
 }
