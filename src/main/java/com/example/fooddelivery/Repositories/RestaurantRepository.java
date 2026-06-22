@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Customer, Integer> {
+public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
     @Query("SELECT r FROM Restaurant r WHERE r.cuisineType = :cuisineType AND c.isActive = true")
     Optional<Restaurant> findByCuisineTypeIgnoreCase(@Param("cuisineType") String cuisineType);
