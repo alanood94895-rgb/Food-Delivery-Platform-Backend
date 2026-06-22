@@ -20,6 +20,6 @@ public class RestaurantResponseDTO {
 
     private Boolean acceptingOrders;
 
-    private RestaurantSummaryDTO owner;
+    private RestaurantResponseDTO owner;
 
 }
