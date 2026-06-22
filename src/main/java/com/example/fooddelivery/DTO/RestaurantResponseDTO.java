@@ -1,5 +1,7 @@
 package com.example.fooddelivery.DTO;
 
+import lombok.AllArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
