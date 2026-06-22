@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
-    @Query("SELECT r FROM Restaurant r WHERE r.cuisineType = :cuisineType AND c.isActive = true")
+    @Query("SELECT r FROM Restaurant r WHERE r.cuisineType = :cuisineType AND r.isActive = true")
     Optional<Restaurant> findByCuisineTypeIgnoreCase(@Param("cuisineType") String cuisineType);
 
     @Query("SELECT r FROM Restaurant r WHERE r.acceptingOrders = true AND r.isActive = true")
