@@ -15,9 +15,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MenuItem extends BaseEntity {
+
     private String name;
     private String description;
-    private Double  price;
+    private Double price;
     private Boolean isAvailable;
     private Boolean isVegetarian;
     private Integer calories;
@@ -25,9 +26,9 @@ public class MenuItem extends BaseEntity {
     @ManyToOne
     private Restaurant restaurant;
 
-    @OneToMany (mappedBy = "MenuItem")
-    private List <CorporateOrderItem> corporateOrderItems;
+    @OneToMany(mappedBy = "menuItem")
+    private List<CorporateOrderItem> corporateOrderItems;
 
-    @ManyToMany (mappedBy = "MenuItem")
+    @ManyToMany(mappedBy = "menuItems")
     private List<ComboMeal> comboMeals;
 }

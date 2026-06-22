@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeliveryDriver extends BaseEntity{
+public class DeliveryDriver extends BaseEntity {
 
     private String firstName;
     private String lastName;
@@ -27,6 +27,6 @@ public class DeliveryDriver extends BaseEntity{
     private String currentLng;
     private Boolean isOnline;
 
-    @OneToMany (mappedBy = "driver")
-    private List <Delivery> delivery;
+    @OneToMany(mappedBy = "deliveryDriver")
+    private List<Delivery> deliveries;
 }
