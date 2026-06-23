@@ -1,5 +1,10 @@
 package com.example.fooddelivery.DTO.Response;
 
+import com.example.fooddelivery.Entities.RestaurantOwner;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
