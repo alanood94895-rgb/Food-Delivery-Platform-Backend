@@ -1,4 +1,4 @@
-package com.example.fooddelivery.DTO;
+package com.example.fooddelivery.DTO.Summary;
 
 import com.example.fooddelivery.Entities.Customer;
 import lombok.AllArgsConstructor;

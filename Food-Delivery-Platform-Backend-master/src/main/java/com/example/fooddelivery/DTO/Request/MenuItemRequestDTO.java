@@ -1,5 +1,7 @@
-package com.example.fooddelivery.DTO;
+package com.example.fooddelivery.DTO.Request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,13 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MenuItemResponseDTO {
-    private Integer id;
-
+public class MenuItemRequestDTO {
+    @NotBlank
     private String name;
 
     private String description;
 
+    @PositiveOrZero
     private Double price;
 
     private Boolean isAvailable;

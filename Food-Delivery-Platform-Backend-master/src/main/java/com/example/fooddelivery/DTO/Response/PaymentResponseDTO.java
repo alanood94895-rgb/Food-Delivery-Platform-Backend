@@ -1,4 +1,4 @@
-package com.example.fooddelivery.DTO;
+package com.example.fooddelivery.DTO.Response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

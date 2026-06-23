@@ -1,4 +1,4 @@
-package com.example.fooddelivery.DTO;
+package com.example.fooddelivery.DTO.Request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
