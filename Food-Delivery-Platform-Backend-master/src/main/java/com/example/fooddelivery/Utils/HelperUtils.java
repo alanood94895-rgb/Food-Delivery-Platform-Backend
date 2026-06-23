@@ -11,7 +11,6 @@ public class HelperUtils {
         return prefix + "-" + number;
     }
 
-    // REST-483921
     public static String generateCode(String prefix, int length) {
         StringBuilder code = new StringBuilder();
 
