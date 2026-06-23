@@ -1,5 +1,6 @@
 package com.example.fooddelivery.DTO.Request;
 
+import com.example.fooddelivery.Entities.Order;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
