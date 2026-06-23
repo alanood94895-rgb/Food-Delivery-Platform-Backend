@@ -35,7 +35,7 @@ public class RestaurantRequestDTO {
 
     private Boolean acceptingOrders;
 
-    public Restaurant toEntity() {
+    public Restaurant toEntity() { //For Creating
         Restaurant restaurant = new Restaurant();
 
         restaurant.setName(name);
@@ -50,7 +50,7 @@ public class RestaurantRequestDTO {
         return restaurant;
     }
 
-    public void applyTo(Restaurant restaurant) {
+    public void applyTo(Restaurant restaurant) { //For Updating
         restaurant.setName(name);
         restaurant.setDescription(description);
         restaurant.setCuisineType(cuisineType);
@@ -60,4 +60,5 @@ public class RestaurantRequestDTO {
         restaurant.setDeliveryFee(deliveryFee);
         restaurant.setAcceptingOrders(acceptingOrders);
     }
+
 }
