@@ -1,8 +1,11 @@
 package com.example.fooddelivery.DTO.Response;
 
+import com.example.fooddelivery.Entities.Restaurant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
