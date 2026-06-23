@@ -34,7 +34,7 @@ public class RestaurantResponseDTO {
     }
 
     public static List<RestaurantResponseDTO> fromEntity(List<Restaurant> restaurants){
-        List<RestaurantResponseDTO> dtos = new ArrayList<>(); //return type
+        List<RestaurantResponseDTO> dtos = new ArrayList<>();
         if (restaurants != null){
             for (Restaurant restaurant : restaurants){
                 dtos.add(fromEntity(restaurant));
