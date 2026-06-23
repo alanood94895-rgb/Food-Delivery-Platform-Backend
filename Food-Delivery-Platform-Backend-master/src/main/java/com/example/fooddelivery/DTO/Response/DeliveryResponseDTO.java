@@ -1,5 +1,9 @@
 package com.example.fooddelivery.DTO.Response;
 
+import com.example.fooddelivery.Entities.Delivery;
+
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
