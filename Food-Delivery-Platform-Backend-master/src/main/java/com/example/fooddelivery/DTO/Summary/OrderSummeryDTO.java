@@ -1,5 +1,6 @@
 package com.example.fooddelivery.DTO.Summary;
 
+import com.example.fooddelivery.Entities.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,7 @@ public class OrderSummeryDTO {
         OrderSummeryDTO dto = new OrderSummeryDTO();
 
         dto.setOrderCode(order.getOrderCode());
-        dto.setOrderDate(order.getOrderDate());
+        dto.setOrderDate(LocalDate.from(order.getOrderDate()));
         dto.setStatus(order.getStatus());
         dto.setTotalAmount(order.getTotalAmount());
 
