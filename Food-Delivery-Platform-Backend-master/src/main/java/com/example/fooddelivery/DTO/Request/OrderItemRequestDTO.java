@@ -1,12 +1,11 @@
 package com.example.fooddelivery.DTO.Request;
 
 
+import com.example.fooddelivery.Entities.Order;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @NoArgsConstructor
 public class OrderItemRequestDTO {
@@ -28,6 +27,7 @@ public class OrderItemRequestDTO {
     private Long corporateOrderId;
 
 
+
     public OrderItem toEntity() { // For Creating
         OrderItem orderItem = new OrderItem();
 
@@ -46,4 +46,3 @@ public class OrderItemRequestDTO {
         orderItem.setSpecialInstructions(specialInstructions);
     }
 }
-
