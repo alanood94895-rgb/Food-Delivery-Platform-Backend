@@ -9,18 +9,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerSummaryDTO {
-    private Integer id;
 
     private String firstName;
-
     private String lastName;
+    private String customerCode;
 
     public static CustomerSummaryDTO fromEntity(Customer customer){
 
-        return new CustomerSummaryDTO(
-                customer.getId(),
-                customer.getFirstName(),
-                customer.getLastName()
-        );
+        CustomerSummaryDTO dto = new CustomerSummaryDTO();
+
+        dto.setFirstName(customer.getFirstName());
+        dto.setLastName(customer.getLastName());
+        dto.setCustomerCode(customer.getCustomerCode());
+
+        return dto;
     }
 }
