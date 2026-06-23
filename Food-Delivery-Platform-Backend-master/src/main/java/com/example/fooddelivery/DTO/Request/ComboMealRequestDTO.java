@@ -1,8 +1,7 @@
 package com.example.fooddelivery.DTO.Request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.PositiveOrZero;
+import com.example.fooddelivery.Entities.ComboMeal;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,19 +9,38 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ComboMealRequestDTO {
-    @NotBlank
+    @NotBlank(message = "Combo name is required")
     private String comboName;
 
+    @NotBlank(message = "Description is required")
     private String description;
 
-    @PositiveOrZero
+    @NotNull(message = "Total price is required")
+    @Min(value = 0, message = "Total price cannot be negative")
     private Double totalPrice;
 
     private Boolean isAvailable;
 
-    @NotEmpty
-    private List<Integer> menuItemIds;
+    @NotNull(message = "Restaurant ID is required")
+    private Long restaurantId;
+
+    public ComboMeal toEntity() { // For Creating
+        ComboMeal comboMeal = new ComboMeal();
+
+        comboMeal.setComboName(comboName);
+        comboMeal.setDescription(description);
+        comboMeal.setTotalPrice(totalPrice);
+        comboMeal.setIsAvailable(isAvailable);
+
+        return comboMeal;
+    }
+
+    public void applyTo(ComboMeal comboMeal) { // For Updating
+        comboMeal.setComboName(comboName);
+        comboMeal.setDescription(description);
+        comboMeal.setTotalPrice(totalPrice);
+        comboMeal.setIsAvailable(isAvailable);
+    }
 }
