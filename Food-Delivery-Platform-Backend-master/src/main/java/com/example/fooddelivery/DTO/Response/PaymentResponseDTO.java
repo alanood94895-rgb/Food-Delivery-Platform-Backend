@@ -1,21 +1,43 @@
 package com.example.fooddelivery.DTO.Response;
 
+import com.example.fooddelivery.Entities.Payment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class PaymentResponseDTO {
-
-    private Integer id;
-
     private String paymentMethod;
-
     private String status;
-
     private Double amount;
-
     private String transactionRef;
+    private LocalDateTime processedAt;
+
+    public static PaymentResponseDTO fromEntity(Payment payment) {
+        if (payment == null) {
+            return null;
+        }
+
+        PaymentResponseDTO dto = new PaymentResponseDTO();
+
+        dto.setPaymentMethod(payment.getPaymentMethod());
+        dto.setStatus(payment.getStatus());
+        dto.setAmount(payment.getAmount());
+        dto.setTransactionRef(payment.getTransactionRef());
+        dto.setProcessedAt(payment.getProcessedAt());
+
+        return dto;
+    }
+
+    public static List<PaymentResponseDTO> fromEntity(List<Payment> payments) {
+        List<PaymentResponseDTO> dtos = new ArrayList<>();
+        if (payments != null) {
+            for (Payment payment : payments) {
+                dtos.add(fromEntity(payment));
+            }
+        }
+        return dtos;
+    }
 }
