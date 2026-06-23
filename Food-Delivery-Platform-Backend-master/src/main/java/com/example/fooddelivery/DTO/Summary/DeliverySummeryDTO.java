@@ -1,6 +1,9 @@
 package com.example.fooddelivery.DTO.Summary;
 
 import com.example.fooddelivery.Entities.Delivery;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
