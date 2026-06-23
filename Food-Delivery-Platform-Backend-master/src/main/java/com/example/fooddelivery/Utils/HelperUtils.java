@@ -27,7 +27,7 @@ public class HelperUtils {
             double lat2,
             double lng2) {
 
-        final double EARTH_RADIUS = 6371; // km
+        final double EARTH_RADIUS = 6371;
 
         double latDistance = Math.toRadians(lat2 - lat1);
         double lngDistance = Math.toRadians(lng2 - lng1);
