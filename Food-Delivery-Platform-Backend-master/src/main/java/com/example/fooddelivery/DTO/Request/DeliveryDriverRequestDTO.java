@@ -3,16 +3,13 @@ package com.example.fooddelivery.DTO.Request;
 import com.example.fooddelivery.Entities.DeliveryDriver;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class DriverRequestDTO {
-
+public class DeliveryDriverRequestDTO {
     @NotBlank(message = "First name is required")
     private String firstName;
 
