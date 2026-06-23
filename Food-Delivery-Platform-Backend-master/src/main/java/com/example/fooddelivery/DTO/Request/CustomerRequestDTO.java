@@ -12,35 +12,43 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class CustomerRequestDTO {
 
-    @NotBlank
+    @NotBlank(message = "First name is required")
     private String firstName;
 
-    @NotBlank
+    @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @NotBlank
-    @Email
-    private String email;
+    @NotBlank(message = "Email is required")
+    @Email(message = "Please provide a valid email address")
+    private String customerEmail;
 
-    @Pattern(regexp = "^\\+?[0-9]{8,15}$")
+    @NotBlank(message = "Phone number is required")
     private String phone;
 
-    @NotBlank
-    private String passwordHash;
+    private Integer loyaltyPoints;
+    private String customerCode;
 
-    public Customer toEntity() {
 
+    public Customer toEntity() { //For Creating
         Customer customer = new Customer();
 
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
-        customer.setCustomerEmail(email);
+        customer.setCustomerEmail(customerEmail);
         customer.setPhone(phone);
-        customer.setPasswordHash(passwordHash);
-
+        customer.setCustomerCode(customerCode);
+        //customer.setLoyaltyPoints(loyaltyPoints);
         return customer;
+    }
+
+    public void applyTo(Customer customer){
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
+        customer.setCustomerEmail(customerEmail);
+        customer.setPhone(phone);
+        customer.setCustomerCode(customerCode);
+        //customer.setLoyaltyPoints(loyaltyPoints);
     }
 }
