@@ -8,25 +8,54 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class RestaurantRequestDTO {
-    @NotBlank
+
+    @NotBlank(message = "Restaurant name is required")
     private String name;
 
+    @NotBlank(message = "Description is required")
     private String description;
 
-    @NotBlank
+    @NotBlank(message = "Cuisine type is required")
     private String cuisineType;
 
-    @NotBlank
+    @NotBlank(message = "Opening time is required")
     private String openingTime;
 
-    @NotBlank
+    @NotBlank(message = "Closing time is required")
     private String closingTime;
 
-    @PositiveOrZero
+    @NotNull(message = "Minimum order amount is required")
     private Double minOrderAmount;
 
-    @PositiveOrZero
+    @NotNull(message = "Delivery fee is required")
     private Double deliveryFee;
+
+    private Boolean acceptingOrders;
+
+    public Restaurant toEntity() { //For Creating
+        Restaurant restaurant = new Restaurant();
+
+        restaurant.setName(name);
+        restaurant.setDescription(description);
+        restaurant.setCuisineType(cuisineType);
+        restaurant.setOpeningTime(openingTime);
+        restaurant.setClosingTime(closingTime);
+        restaurant.setMinOrderAmount(minOrderAmount);
+        restaurant.setDeliveryFee(deliveryFee);
+        restaurant.setAcceptingOrders(acceptingOrders);
+
+        return restaurant;
+    }
+
+    public void applyTo(Restaurant restaurant) { //For Updating
+        restaurant.setName(name);
+        restaurant.setDescription(description);
+        restaurant.setCuisineType(cuisineType);
+        restaurant.setOpeningTime(openingTime);
+        restaurant.setClosingTime(closingTime);
+        restaurant.setMinOrderAmount(minOrderAmount);
+        restaurant.setDeliveryFee(deliveryFee);
+        restaurant.setAcceptingOrders(acceptingOrders);
+    }
 }
