@@ -35,7 +35,7 @@ public class RestaurantRequestDTO {
 
     private Boolean acceptingOrders;
 
-    public Restaurant toEntity() { //For Creating
+    public Restaurant toEntity() {
         Restaurant restaurant = new Restaurant();
 
         restaurant.setName(name);
