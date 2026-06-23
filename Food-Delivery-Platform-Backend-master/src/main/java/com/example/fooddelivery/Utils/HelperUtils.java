@@ -21,7 +21,6 @@ public class HelperUtils {
         return prefix + "-" + code;
     }
 
-    // Distance in kilometers (Haversine Formula)
     public static double calculateDistance(
             double lat1,
             double lng1,
