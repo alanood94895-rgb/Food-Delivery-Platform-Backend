@@ -26,7 +26,7 @@ public class CorporateOrderSummeryDTO {
 
         dto.setCorporateCode(corporateOrder.getCorporateCode());
         dto.setCompanyName(corporateOrder.getCompanyName());
-        dto.setOrderDate(corporateOrder.getOrderDate());
+        dto.setOrderDate(LocalDate.from(corporateOrder.getOrderDate()));
         dto.setStatus(corporateOrder.getStatus());
         dto.setTotalAmount(corporateOrder.getTotalAmount());
 
