@@ -30,7 +30,7 @@ public class CorporateOrderResponseDTO {
         dto.setCorporateCode(corporateOrder.getCorporateCode());
         dto.setCompanyName(corporateOrder.getCompanyName());
         dto.setCostCenter(corporateOrder.getCostCenter());
-        dto.setOrderDate(corporateOrder.getOrderDate());
+        dto.setOrderDate(LocalDate.from(corporateOrder.getOrderDate()));
         dto.setStatus(corporateOrder.getStatus());
         dto.setTotalAmount(corporateOrder.getTotalAmount());
         return dto;

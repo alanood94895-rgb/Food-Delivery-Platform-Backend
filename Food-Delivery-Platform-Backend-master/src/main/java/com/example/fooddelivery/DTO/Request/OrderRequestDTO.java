@@ -43,7 +43,7 @@ public class OrderRequestDTO {
         Order order = new Order();
 
         order.setOrderCode(orderCode);
-        order.setOrderDate(orderDate);
+        order.setOrderDate(orderDate.atStartOfDay());
         order.setStatus(status);
         order.setSubtotal(subtotal);
         order.setDeliveryFee(deliveryFee);
@@ -56,7 +56,7 @@ public class OrderRequestDTO {
 
     public void applyTo(Order order) { // For Updating
         order.setOrderCode(orderCode);
-        order.setOrderDate(orderDate);
+        order.setOrderDate(orderDate.atStartOfDay());
         order.setStatus(status);
         order.setSubtotal(subtotal);
         order.setDeliveryFee(deliveryFee);

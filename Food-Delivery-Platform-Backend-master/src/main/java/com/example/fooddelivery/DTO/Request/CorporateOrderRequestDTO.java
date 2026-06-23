@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -35,7 +36,7 @@ public class CorporateOrderRequestDTO {
         corporateOrder.setCorporateCode(corporateCode);
         corporateOrder.setCompanyName(companyName);
         corporateOrder.setCostCenter(costCenter);
-        corporateOrder.setOrderDate(orderDate);
+        corporateOrder.setOrderDate(LocalDateTime.from(orderDate));
         corporateOrder.setStatus(status);
         corporateOrder.setTotalAmount(totalAmount);
 
@@ -46,7 +47,7 @@ public class CorporateOrderRequestDTO {
         corporateOrder.setCorporateCode(corporateCode);
         corporateOrder.setCompanyName(companyName);
         corporateOrder.setCostCenter(costCenter);
-        corporateOrder.setOrderDate(orderDate);
+        corporateOrder.setOrderDate(LocalDateTime.from(orderDate));
         corporateOrder.setStatus(status);
         corporateOrder.setTotalAmount(totalAmount);
     }

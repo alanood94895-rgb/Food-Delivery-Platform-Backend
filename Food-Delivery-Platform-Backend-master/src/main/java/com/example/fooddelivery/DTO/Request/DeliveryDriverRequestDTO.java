@@ -50,9 +50,9 @@ public class DeliveryDriverRequestDTO {
         driver.setDriverCode(driverCode);
         driver.setVehicleType(vehicleType);
         driver.setVehiclePlate(vehiclePlate);
-        driver.setCurrentLate(currentLate);
+        driver.setCurrentLat(currentLate);
         driver.setCurrentLng(currentLng);
-        driver.setOnline(isOnline);
+        driver.setIsOnline(isOnline);
 
         return driver;
     }
@@ -66,8 +66,8 @@ public class DeliveryDriverRequestDTO {
         driver.setDriverCode(driverCode);
         driver.setVehicleType(vehicleType);
         driver.setVehiclePlate(vehiclePlate);
-        driver.setCurrentLate(currentLate);
+        driver.setCurrentLat(currentLate);
         driver.setCurrentLng(currentLng);
-        driver.setOnline(isOnline);
+        driver.setIsOnline(isOnline);
     }
 }

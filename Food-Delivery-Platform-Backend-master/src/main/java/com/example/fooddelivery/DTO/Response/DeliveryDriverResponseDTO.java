@@ -38,9 +38,9 @@ public class DeliveryDriverResponseDTO {
         dto.setDriverCode(driver.getDriverCode());
         dto.setVehicleType(driver.getVehicleType());
         dto.setVehiclePlate(driver.getVehiclePlate());
-        dto.setCurrentLate(driver.getCurrentLate());
+        dto.setCurrentLate(driver.getCurrentLat());
         dto.setCurrentLng(driver.getCurrentLng());
-        dto.setOnline(driver.isOnline());
+        dto.setOnline(driver.getIsOnline());
 
         return dto;
     }

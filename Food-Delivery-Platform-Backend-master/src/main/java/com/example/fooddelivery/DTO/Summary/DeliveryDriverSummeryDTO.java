@@ -22,7 +22,7 @@ public class DeliveryDriverSummeryDTO {
         dto.setFirstName(driver.getFirstName());
         dto.setLastName(driver.getLastName());
         dto.setDriverCode(driver.getDriverCode());
-        dto.setOnline(driver.isOnline());
+        dto.setOnline(driver.getIsOnline());
 
         return dto;
     }

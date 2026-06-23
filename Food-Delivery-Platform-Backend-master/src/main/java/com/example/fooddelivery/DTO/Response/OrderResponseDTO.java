@@ -32,7 +32,7 @@ public class OrderResponseDTO {
 
         OrderResponseDTO dto = new OrderResponseDTO();
         dto.setOrderCode(order.getOrderCode());
-        dto.setOrderDate(order.getOrderDate());
+        dto.setOrderDate(LocalDate.from(order.getOrderDate()));
         dto.setStatus(order.getStatus());
         dto.setSubtotal(order.getSubtotal());
         dto.setDeliveryFee(order.getDeliveryFee());
