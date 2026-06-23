@@ -31,7 +31,7 @@ public class CustomerRequestDTO {
     private String customerCode;
 
 
-    public Customer toEntity() { //For Creating
+    public Customer toEntity() {
         Customer customer = new Customer();
 
         customer.setFirstName(firstName);
