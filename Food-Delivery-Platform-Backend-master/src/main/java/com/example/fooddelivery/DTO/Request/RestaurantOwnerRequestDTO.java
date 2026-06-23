@@ -1,6 +1,7 @@
 package com.example.fooddelivery.DTO.Request;
 
 import com.example.fooddelivery.Entities.RestaurantOwner;
+import jakarta.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
