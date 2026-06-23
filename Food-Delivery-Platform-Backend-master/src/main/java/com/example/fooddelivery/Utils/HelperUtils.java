@@ -6,7 +6,6 @@ import java.util.Random;
 public class HelperUtils {
     private static final Random RANDOM = new Random();
 
-    // CUST-8492
     public static String generateCode(String prefix) {
         int number = 1000 + RANDOM.nextInt(9000);
         return prefix + "-" + number;
