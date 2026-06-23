@@ -50,7 +50,7 @@ public class RestaurantRequestDTO {
         return restaurant;
     }
 
-    public void applyTo(Restaurant restaurant) { //For Updating
+    public void applyTo(Restaurant restaurant) {
         restaurant.setName(name);
         restaurant.setDescription(description);
         restaurant.setCuisineType(cuisineType);
