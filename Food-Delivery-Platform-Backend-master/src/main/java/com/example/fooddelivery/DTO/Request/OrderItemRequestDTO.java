@@ -9,15 +9,41 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-    public class OrderItemRequestDTO {
+public class OrderItemRequestDTO {
+    @NotNull(message = "Quantity is required")
+    @Min(value = 1, message = "Quantity must be at least 1")
+    private Integer quantity;
 
-        @NotNull
-        private Integer menuItemId;
+    @NotNull(message = "Unit price is required")
+    @Min(value = 0, message = "Unit price cannot be negative")
+    private Double unitPrice;
 
-        @Min(1)
-        private Integer quantity;
+    @NotNull(message = "Total price is required")
+    @Min(value = 0, message = "Total price cannot be negative")
+    private Double totalPrice;
 
-        private String specialInstructions;
+    private String specialInstructions;
+
+    private Long orderId;
+    private Long corporateOrderId;
+
+
+    public OrderItem toEntity() { // For Creating
+        OrderItem orderItem = new OrderItem();
+
+        orderItem.setQuantity(quantity);
+        orderItem.setUnitPrice(unitPrice);
+        orderItem.setTotalPrice(totalPrice);
+        orderItem.setSpecialInstructions(specialInstructions);
+
+        return orderItem;
     }
+
+    public void applyTo(OrderItem orderItem) { // For Updating
+        orderItem.setQuantity(quantity);
+        orderItem.setUnitPrice(unitPrice);
+        orderItem.setTotalPrice(totalPrice);
+        orderItem.setSpecialInstructions(specialInstructions);
+    }
+}
 
