@@ -2,10 +2,13 @@ package com.example.fooddelivery.DTO.Response;
 
 import com.example.fooddelivery.DTO.Request.OrderItemRequestDTO;
 import com.example.fooddelivery.DTO.Summary.CustomerSummaryDTO;
+import com.example.fooddelivery.Entities.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
