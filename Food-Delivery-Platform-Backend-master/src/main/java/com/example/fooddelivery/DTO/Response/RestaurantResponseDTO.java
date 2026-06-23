@@ -5,21 +5,37 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class RestaurantResponseDTO {
-    private Integer id;
 
     private String name;
-
-    private String description;
-
     private String cuisineType;
-
     private Double deliveryFee;
-
     private Boolean acceptingOrders;
 
-    private RestaurantResponseDTO owner;
+    public static RestaurantResponseDTO fromEntity(Restaurant restaurant) {
+        if (restaurant == null) {
+            return null;
+        }
 
+        RestaurantResponseDTO dto = new RestaurantResponseDTO();
+
+        dto.setName(restaurant.getName());
+        dto.setCuisineType(restaurant.getCuisineType());
+        dto.setDeliveryFee(restaurant.getDeliveryFee());
+        dto.setAcceptingOrders(restaurant.getAcceptingOrders());
+
+        return dto;
+    }
+
+    public static List<RestaurantResponseDTO> fromEntity(List<Restaurant> restaurants){
+        List<RestaurantResponseDTO> dtos = new ArrayList<>(); //return type
+        if (restaurants != null){
+            for (Restaurant restaurant : restaurants){
+                dtos.add(fromEntity(restaurant));
+            }
+        }
+        return dtos;
+    }
 }
