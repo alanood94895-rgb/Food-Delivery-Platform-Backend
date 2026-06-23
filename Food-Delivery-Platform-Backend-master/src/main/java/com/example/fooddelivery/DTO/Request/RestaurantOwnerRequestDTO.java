@@ -3,6 +3,8 @@ package com.example.fooddelivery.DTO.Request;
 import com.example.fooddelivery.Entities.RestaurantOwner;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
