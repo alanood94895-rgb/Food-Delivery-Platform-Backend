@@ -1,7 +1,12 @@
 package com.example.fooddelivery.DTO.Response;
 
 import com.example.fooddelivery.Entities.CorporateOrder;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
