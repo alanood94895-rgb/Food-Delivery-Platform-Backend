@@ -2,6 +2,7 @@ package com.example.fooddelivery.DTO.Request;
 
 
 import com.example.fooddelivery.Entities.Order;
+import com.example.fooddelivery.Entities.OrderItem;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
