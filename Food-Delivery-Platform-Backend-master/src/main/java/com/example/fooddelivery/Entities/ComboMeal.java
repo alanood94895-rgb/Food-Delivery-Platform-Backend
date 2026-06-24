@@ -24,10 +24,10 @@ public class ComboMeal {
     private Date createdDate;
     private Date updatedDate;
     private boolean  isActive;
+
     @ManyToOne
     private Restaurant restaurant;
-
     @ManyToMany
-    private List<MenuItem> menuItems;
+    private List<MenuItem> menuItemList;
 
 }

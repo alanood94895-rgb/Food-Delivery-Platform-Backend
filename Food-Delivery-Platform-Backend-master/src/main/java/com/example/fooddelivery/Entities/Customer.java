@@ -27,12 +27,10 @@ public class Customer {
     private boolean  isActive;
 
 
-    @OneToMany (mappedBy = "customer")
-    private List<CustomerAddress> addresses;
-
-    @OneToMany (mappedBy = "customer")
-    private List<Order> orders;
-
-    @OneToMany (mappedBy = "customer")
-    private List<Review> reviews;
+    @OneToMany
+    private List<CustomerAddress> customerAddressList;
+    @OneToMany
+    private  List<Order> orderList;
+    @OneToMany
+    private List<Review> reviewList;
 }

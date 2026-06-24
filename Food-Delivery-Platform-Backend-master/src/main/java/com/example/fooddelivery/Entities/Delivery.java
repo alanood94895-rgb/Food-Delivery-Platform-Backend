@@ -27,7 +27,6 @@ public class Delivery {
 
     @OneToOne
     private Order order;
-
     @ManyToOne
     private DeliveryDriver deliveryDriver;
 

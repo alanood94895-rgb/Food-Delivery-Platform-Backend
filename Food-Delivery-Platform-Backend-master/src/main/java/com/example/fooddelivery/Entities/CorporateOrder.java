@@ -30,6 +30,9 @@ public class CorporateOrder {
     @ManyToOne
     private Restaurant restaurant;
 
+    @OneToMany
+    private List<OrderItem> orderItemList;
+
 
     @OneToMany (mappedBy = "corporateOrder")
     private List<CorporateOrderItem> corporateOrderItems;
