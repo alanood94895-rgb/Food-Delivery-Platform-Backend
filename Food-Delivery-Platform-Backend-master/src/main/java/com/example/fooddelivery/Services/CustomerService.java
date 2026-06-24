@@ -4,87 +4,149 @@ import com.example.fooddelivery.DTO.Request.CustomerAddressRequestDTO;
 import com.example.fooddelivery.DTO.Request.CustomerRequestDTO;
 import com.example.fooddelivery.DTO.Response.CustomerAddressResponseDTO;
 import com.example.fooddelivery.DTO.Response.CustomerResponseDTO;
+import com.example.fooddelivery.DTO.Response.OrderResponseDTO;
 import com.example.fooddelivery.Entities.Customer;
 import com.example.fooddelivery.Entities.CustomerAddress;
+import com.example.fooddelivery.Entities.Order;
 import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
 import com.example.fooddelivery.Repositories.CustomerAddressRepository;
 import com.example.fooddelivery.Repositories.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CustomerService {
-    private final CustomerRepository customerRepository;
-    private final CustomerAddressRepository customerAddressRepository;
-
-    public CustomerService(CustomerRepository repository, CustomerAddressRepository customerAddressRepository) {
-        this.customerRepository = repository;
+    CustomerRepository customerRepository;
+    CustomerAddressRepository customerAddressRepository;
+    @Autowired
+    public CustomerService(CustomerRepository customerRepository, CustomerAddressRepository customerAddressRepository) {
+        this.customerRepository = customerRepository;
         this.customerAddressRepository = customerAddressRepository;
     }
-
-    public CustomerResponseDTO createCustomer(CustomerRequestDTO dto) {
-        Customer customer = CustomerRequestDTO.toEntity();
-        customerRepository.save(customer);
+    public CustomerResponseDTO createCustomer(CustomerRequestDTO dto){
+        Customer customer = dto.toEntity();
+        customer.setFirstName(dto.getFirstName());
+        customer.setLastName(dto.getLastName());
+        customer.setPhone(dto.getPhone());
+        customer.setEmail(dto.getEmail());
+        customer.setPasswordHash(dto.getPasswordHash());
+        customer= customerRepository.save(customer);
         return CustomerResponseDTO.fromEntity(customer);
     }
-
     public CustomerResponseDTO createCustomer(CustomerRequestDTO dto, CustomerAddressRequestDTO initialAddress) {
-        Customer customer = CustomerRequestDTO.toEntity();
-        customerRepository.save(customer);
+        Customer customer = dto.toEntity();
+        customer.setFirstName(dto.getFirstName());
+        customer.setLastName(dto.getLastName());
+        customer.setPhone(dto.getPhone());
+        customer.setEmail(dto.getEmail());
+        customer.setPasswordHash(dto.getPasswordHash());
+        customer.setLoyaltyPoints(dto.getLoyaltyPoints());
 
-        CustomerAddress customerAddress = CustomerAddressRequestDTO.toEntity();
-        customerAddress.setCustomer(customer);
-
-        customerAddressRepository.save(customerAddress);
+        CustomerAddress customerAddress = initialAddress.toEntity();
+        customerAddress.setStreet(initialAddress.getStreet());
+        customerAddress.setCity(initialAddress.getCity());
+        customerAddress.setBuilding(initialAddress.getBuilding());
+        customerAddress.setDefault(initialAddress.isDefault());
+        customerAddress = customerAddressRepository.save(customerAddress);
+        customer.getCustomerAddressList().add(customerAddress);
+        customer = customerRepository.save(customer);
 
         return CustomerResponseDTO.fromEntity(customer);
-
     }
 
-    public CustomerAddressResponseDTO addAddress(Integer customerId, CustomerAddressRequestDTO address) {
+    public CustomerAddressResponseDTO addAddress(Integer customerId,CustomerAddressRequestDTO address) {
 
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
-        CustomerAddress customerAddress = CustomerAddressRequestDTO.toEntity();
-        customerAddress.setCustomer(customer);
-        customerAddressRepository.save(customerAddress);
+        CustomerAddress customerAddress = address.toEntity();
+        customerAddress.setStreet(address.getStreet());
+        customerAddress.setCity(address.getCity());
+        customerAddress.setBuilding(address.getBuilding());
+        customerAddress.setDefault(address.isDefault());
+        customerAddress = customerAddressRepository.save(customerAddress);
+        customer.getCustomerAddressList().add(customerAddress);
+        customerRepository.save(customer);
 
         return CustomerAddressResponseDTO.fromEntity(customerAddress);
     }
-
-    public CustomerResponseDTO updateLoyaltyPoints(Integer customerId, int points) {
-
+    public CustomerResponseDTO updateLoyaltyPoints(Integer customerId, int points){
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
         customer.setLoyaltyPoints(customer.getLoyaltyPoints() + points);
-        customerRepository.save(customer);
+        customer = customerRepository.save(customer);
 
         return CustomerResponseDTO.fromEntity(customer);
     }
-
-    public CustomerResponseDTO applyLoyaltyPenalty(Integer customerId, int pointsDeducted) {
-
+    public CustomerResponseDTO applyLoyaltyPenalty(Integer customerId, int pointsDeducted){
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
-
         customer.setLoyaltyPoints(customer.getLoyaltyPoints() - pointsDeducted);
-        customerRepository.save(customer);
+        customer = customerRepository.save(customer);
 
         return CustomerResponseDTO.fromEntity(customer);
+    }
+    public CustomerResponseDTO deactivateCustomer(Integer customerId){
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        customer.setActive(false);
+        customer = customerRepository.save(customer);
 
+        return CustomerResponseDTO.fromEntity(customer);
+    }
+    public List<CustomerResponseDTO> getAllCustomers() {
+        return customerRepository.getAllCustomers();
+    }
+    public CustomerResponseDTO getCustomerByEmail(String email) {
+        Customer customer = customerRepository.findByEmail(email);
+        if (customer == null) {
+            throw new ResourceNotFoundException("Customer not found");
+        }
+        return CustomerResponseDTO.fromEntity(customer);
+    }
+    public List<CustomerAddressResponseDTO> getAllCustomerAddresses(Integer customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        List<CustomerAddressResponseDTO> addressResponseList = new ArrayList<>();
+        for (CustomerAddress address : customer.getCustomerAddressList()) {
+            CustomerAddressResponseDTO dto = CustomerAddressResponseDTO.fromEntity(address);
+            addressResponseList.add(dto);
+        }
+        return addressResponseList;
+    }
+    public CustomerAddressResponseDTO setDefaultAddress(Integer addressId) {
+        CustomerAddress address = customerAddressRepository.findById(addressId)
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+
+        address.setDefault(true);
+        customerAddressRepository.save(address);
+        return CustomerAddressResponseDTO.fromEntity(address);
     }
 
-    public String deactivateCustomer(Integer customerId){
-
+    public void deleteAddress(Integer addressId) {
+        CustomerAddress address = customerAddressRepository.findById(addressId)
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+        address.setActive(false);
+        customerAddressRepository.save(address);
+    }
+    public CustomerResponseDTO getCustomerById(Integer customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+        return CustomerResponseDTO.fromEntity(customer);
+    }
+    public List<OrderResponseDTO> getCustomerOrders(Integer customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
-        customer.setIsActive(false);
-        customerRepository.save(customer);
-
-        return "Customer was deleted successfully";
-
+        List<OrderResponseDTO> orderResponseList = new ArrayList<>();
+        for (Order order : customer.getOrderList()) {
+            OrderResponseDTO dto = OrderResponseDTO.fromEntity(order);
+            orderResponseList.add(dto);
+        }
+        return orderResponseList;
     }
-
 }

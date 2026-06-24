@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface CustomerAddressRepository extends JpaRepository<CustomerAddress, Integer> {
 
-    @Query("SELECT a FROM CustomerAddress a WHERE LOWER(a.city) = LOWER(:city) AND a.isActive = true")
-    List<CustomerAddress> findByCity(@Param("city") String city);
+    @Query("Select ca from CustomerAddress ca where ca.isActive=true and ca.city=:city")
+    CustomerAddress findByCity(@Param("city") String city);
 }
