@@ -51,7 +51,7 @@ public class CustomerService {
         customerAddress.setBuilding(initialAddress.getBuilding());
         customerAddress.setDefault(initialAddress.isDefault());
         customerAddress = customerAddressRepository.save(customerAddress);
-        customer.getAddresses().add(customerAddress);
+        customer.getCustomerAddressList().add(customerAddress);
         customer = customerRepository.save(customer);
 
         return CustomerResponseDTO.fromEntity(customer);
@@ -68,7 +68,7 @@ public class CustomerService {
         customerAddress.setBuilding(address.getBuilding());
         customerAddress.setDefault(address.isDefault());
         customerAddress = customerAddressRepository.save(customerAddress);
-        customer.getAddresses().add(customerAddress);
+        customer.getCustomerAddressList().add(customerAddress);
         customerRepository.save(customer);
 
         return CustomerAddressResponseDTO.fromEntity(customerAddress);
@@ -112,7 +112,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
         List<CustomerAddressResponseDTO> addressResponseList = new ArrayList<>();
-        for (CustomerAddress address : customer.getAddresses()) {
+        for (CustomerAddress address : customer.getCustomerAddressList()) {
             CustomerAddressResponseDTO dto = CustomerAddressResponseDTO.fromEntity(address);
             addressResponseList.add(dto);
         }

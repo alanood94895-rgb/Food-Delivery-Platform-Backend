@@ -38,7 +38,7 @@ public class Order {
     private Restaurant restaurant;
 
     @OneToMany
-    private List<CorporateOrderItem> corporateOrderItems;
+    private List<OrderItem> orderItems;
 
     @OneToOne
     private Delivery delivery;

@@ -11,6 +11,7 @@ import com.example.fooddelivery.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -75,8 +76,8 @@ public class OrderService {
         item.setQuantity(quantity);
         item.setUnitPrice(menuItem.getPrice());
         item.setTotalPrice(quantity * menuItem.getPrice());
-        item = (OrderItem) orderItemRepository.save(item);
-        order.getOrderItemList().add(item);
+        item = orderItemRepository.save(item);
+        order.getOrderItems().add(item);
         orderRepository.save(order);
 
         return OrderResponseDTO.fromEntity(order);
@@ -84,8 +85,8 @@ public class OrderService {
     public void removeMenuItemFromOrder(Integer orderId, Integer orderItemId){
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-        if (order.getOrderItemList() != null) {
-            for (OrderItem item : order.getOrderItemList()) {
+        if (order.getOrderItems() != null) {
+            for (OrderItem item : order.getOrderItems()) {
                 if (item.getItemCode() == orderItemId) {
                     item.setActive(false);
                     break;
@@ -128,7 +129,7 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         double subtotal = 0;
-        for(OrderItem item : order.getOrderItemList()){
+        for(OrderItem item : order.getOrderItems()){
             subtotal += item.getTotalPrice();
         }
         order.setSubtotal(subtotal);
@@ -150,6 +151,27 @@ public class OrderService {
     public OrderResponseDTO getOrderById(Integer orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+        return OrderResponseDTO.fromEntity(order);
+    }
+    public List<OrderResponseDTO> getOrdersByRestaurantAndStatus(Integer restaurantId, String status) {
+        restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+
+        List<Order> orders = orderRepository.findByRestaurantIdAndStatus(restaurantId, status);
+        List<OrderResponseDTO> result = new ArrayList<>();
+
+        for (Order order : orders) {
+            result.add(OrderResponseDTO.fromEntity(order));
+        }
+        return result;
+    }
+    public OrderResponseDTO confirmOrder(Integer orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
+
+        order.setStatus("CONFIRMED");
+        order = orderRepository.save(order);
+
         return OrderResponseDTO.fromEntity(order);
     }
 }
