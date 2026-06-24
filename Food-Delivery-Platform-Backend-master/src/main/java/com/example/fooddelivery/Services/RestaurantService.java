@@ -43,8 +43,8 @@ public class RestaurantService {
         restaurant.setName(dto.getName());
         restaurant.setDescription(dto.getDescription());
         restaurant.setCuisineType(dto.getCuisineType());
-        //restaurant.setOpeningTime(dto.getOpeningTime());//
-      //  restaurant.setClosingTime(dto.getClosingTime());//
+        restaurant.setOpeningTime(dto.getOpeningTime());
+        restaurant.setClosingTime(dto.getClosingTime());
         restaurant.setMinOrderAmount(dto.getMinOrderAmount());
         restaurant.setDeliveryFee(dto.getDeliveryFee());
         restaurant.setAcceptingOrders(dto.isAcceptingOrders());
