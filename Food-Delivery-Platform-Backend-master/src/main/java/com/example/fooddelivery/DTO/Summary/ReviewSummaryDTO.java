@@ -8,15 +8,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewSummeryDTO {
-    private Long id;
-    private Integer rating;
+
+public class ReviewSummaryDTO {
+    private int id;
+    private int rating;
     private String comment;
 
-    public static ReviewSummeryDTO fromEntity(Review review) {
+    public static ReviewSummaryDTO fromEntity(Review review) {
 
-        ReviewSummeryDTO dto = new ReviewSummeryDTO();
-
+        ReviewSummaryDTO dto = new ReviewSummaryDTO();
+        dto.setId(review.getId());
         dto.setRating(review.getRating());
         dto.setComment(review.getComment());
 

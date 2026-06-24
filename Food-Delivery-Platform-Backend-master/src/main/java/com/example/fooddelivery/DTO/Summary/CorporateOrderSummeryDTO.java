@@ -10,27 +10,22 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CorporateOrderSummeryDTO {
-    private String corporateCode;
+public class CorporateOrderSummaryDTO {
+    private int corporateCode;
     private String companyName;
-    private LocalDate orderDate;
     private String status;
-    private Double totalAmount;
+    private double totalAmount;
+    private boolean isActive;
 
-    public static CorporateOrderSummeryDTO fromEntity(CorporateOrder corporateOrder) {
-        if (corporateOrder == null) {
-            return null;
-        }
+    public static CorporateOrderSummaryDTO fromEntity(CorporateOrder corporateOrder) {
 
-        CorporateOrderSummeryDTO dto = new CorporateOrderSummeryDTO();
-
+        CorporateOrderSummaryDTO dto = new CorporateOrderSummaryDTO();
         dto.setCorporateCode(corporateOrder.getCorporateCode());
         dto.setCompanyName(corporateOrder.getCompanyName());
-        dto.setOrderDate(LocalDate.from(corporateOrder.getOrderDate()));
         dto.setStatus(corporateOrder.getStatus());
         dto.setTotalAmount(corporateOrder.getTotalAmount());
+        dto.setActive(corporateOrder.isActive());
 
         return dto;
     }
-
 }

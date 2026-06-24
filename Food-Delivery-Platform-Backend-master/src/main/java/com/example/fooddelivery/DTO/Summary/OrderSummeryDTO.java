@@ -1,5 +1,6 @@
 package com.example.fooddelivery.DTO.Summary;
 
+import com.example.fooddelivery.DTO.Response.OrderResponseDTO;
 import com.example.fooddelivery.Entities.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,23 +8,22 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class OrderSummeryDTO {
-
-    private String orderCode;
-    private LocalDate orderDate;
+public class OrderSummaryDTO {
+    private int orderCode;
+    private Date orderDate;
     private String status;
-    private Double totalAmount;
+    private double deliveryFee;
+    private double totalAmount;
+    private boolean  isActive;
 
-    public static OrderSummeryDTO fromEntity(Order order) {
-        OrderSummeryDTO dto = new OrderSummeryDTO();
-
+    public static OrderResponseDTO fromEntity(Order order){
+        OrderResponseDTO dto = new OrderResponseDTO();
         dto.setOrderCode(order.getOrderCode());
-        dto.setOrderDate(LocalDate.from(order.getOrderDate()));
+        dto.setOrderDate(order.getOrderDate());
         dto.setStatus(order.getStatus());
+        dto.setDeliveryFee(order.getDeliveryFee());
         dto.setTotalAmount(order.getTotalAmount());
+        dto.setActive(order.isActive());
 
         return dto;
     }

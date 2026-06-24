@@ -1,32 +1,35 @@
 package com.example.fooddelivery.DTO.Summary;
 
+import com.example.fooddelivery.DTO.Response.RestaurantResponseDTO;
 import com.example.fooddelivery.Entities.Restaurant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestaurantSummaryDTO {
+    private int id;
     private String name;
+    private String description;
     private String cuisineType;
-    private Double deliveryFee;
-    private Boolean acceptingOrders;
+    private LocalDateTime openingTime;
+    private LocalDateTime closingTime;
+    private boolean  isActive;
 
-    public static RestaurantSummaryDTO fromEntity(Restaurant restaurant) {
-        if (restaurant == null) {
-            return null;
-        }
-
-        RestaurantSummaryDTO dto = new RestaurantSummaryDTO();
-
+    public static RestaurantResponseDTO fromEntity(Restaurant restaurant){
+        RestaurantResponseDTO dto = new RestaurantResponseDTO();
+        dto.setId(restaurant.getId());
         dto.setName(restaurant.getName());
+        dto.setDescription(restaurant.getDescription());
         dto.setCuisineType(restaurant.getCuisineType());
-        dto.setDeliveryFee(restaurant.getDeliveryFee());
-        dto.setAcceptingOrders(restaurant.getAcceptingOrders());
+        dto.setOpeningTime(restaurant.getOpeningTime());
+        dto.setClosingTime(restaurant.getClosingTime());
+        dto.setActive(restaurant.isActive());
 
         return dto;
     }
-
 }

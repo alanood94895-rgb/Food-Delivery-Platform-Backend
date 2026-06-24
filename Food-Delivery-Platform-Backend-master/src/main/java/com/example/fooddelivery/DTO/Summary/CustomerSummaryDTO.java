@@ -5,22 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerSummaryDTO {
-
+    private int customerCode;
     private String firstName;
     private String lastName;
-    private String customerCode;
+    private boolean  isActive;
 
     public static CustomerSummaryDTO fromEntity(Customer customer){
-
         CustomerSummaryDTO dto = new CustomerSummaryDTO();
-
+        dto.setCustomerCode(customer.getCustomerCode());
         dto.setFirstName(customer.getFirstName());
         dto.setLastName(customer.getLastName());
-        dto.setCustomerCode(customer.getCustomerCode());
+        dto.setActive(customer.isActive());
 
         return dto;
     }
