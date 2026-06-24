@@ -2,9 +2,14 @@ package com.example.fooddelivery.Services;
 
 
 
+import com.example.fooddelivery.DTO.Request.CustomerAddressRequestDTO;
 import com.example.fooddelivery.DTO.Request.CustomerRequestDTO;
 import com.example.fooddelivery.DTO.Response.CustomerResponseDTO;
+import com.example.fooddelivery.Entities.Customer;
+import com.example.fooddelivery.Entities.CustomerAddress;
+import com.example.fooddelivery.Exceptions.DuplicateResourceException;
 import com.example.fooddelivery.Exceptions.InvalidOrderStateException;
+import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
 import com.example.fooddelivery.Repositories.CustomerAddressRepository;
 import com.example.fooddelivery.Repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
