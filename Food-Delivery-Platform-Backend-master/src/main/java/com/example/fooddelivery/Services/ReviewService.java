@@ -61,7 +61,7 @@ public class ReviewService {
         }
         Review review = new Review();
         review.setCustomer(customer);
-        review.setDeliveryDriver(driver);
+        review.setDriver(driver);
         review.setTargetType("DRIVER");
         review.setRating(rating);
         review.setComment(comment);
