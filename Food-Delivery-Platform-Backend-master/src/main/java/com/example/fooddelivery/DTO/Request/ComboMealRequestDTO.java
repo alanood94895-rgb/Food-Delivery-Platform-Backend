@@ -9,38 +9,32 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class ComboMealRequestDTO {
-    @NotBlank(message = "Combo name is required")
+    @NotBlank
     private String comboName;
-
-    @NotBlank(message = "Description is required")
     private String description;
+    @PositiveOrZero
+    @DecimalMin("0.0")
+    private double totalPrice;
+    private boolean isAvailable;
 
-    @NotNull(message = "Total price is required")
-    @Min(value = 0, message = "Total price cannot be negative")
-    private Double totalPrice;
-
-    private Boolean isAvailable;
-
-    @NotNull(message = "Restaurant ID is required")
-    private Long restaurantId;
-
-    public ComboMeal toEntity() { // For Creating
+    public ComboMeal toEntity() {
         ComboMeal comboMeal = new ComboMeal();
 
         comboMeal.setComboName(comboName);
         comboMeal.setDescription(description);
         comboMeal.setTotalPrice(totalPrice);
-        comboMeal.setIsAvailable(isAvailable);
+        comboMeal.setAvailable(isAvailable);
 
         return comboMeal;
     }
 
-    public void applyTo(ComboMeal comboMeal) { // For Updating
+    public void applyTo(ComboMeal comboMeal) {
         comboMeal.setComboName(comboName);
         comboMeal.setDescription(description);
         comboMeal.setTotalPrice(totalPrice);
-        comboMeal.setIsAvailable(isAvailable);
+        comboMeal.setAvailable(isAvailable);
     }
 }

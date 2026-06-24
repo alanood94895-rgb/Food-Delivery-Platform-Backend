@@ -11,44 +11,40 @@ import lombok.NoArgsConstructor;
 
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class CustomerRequestDTO {
-
     @NotBlank(message = "First name is required")
     private String firstName;
-
     @NotBlank(message = "Last name is required")
     private String lastName;
-
     @NotBlank(message = "Email is required")
-    @Email(message = "Please provide a valid email address")
-    private String customerEmail;
+    @Email(message = "Invalid email format")
+    private String email;
 
-    @NotBlank(message = "Phone number is required")
-    private String phone;
+    @Pattern(regexp = "^\\+?[0-9]{8,15}$", message = "Phone number must contain 8-15 digits")
+    private int phone;
+    @NotBlank(message = "Password is required")
+    private String passwordHash;
+    private int loyaltyPoints;
 
-    private Integer loyaltyPoints;
-    private String customerCode;
-
-
-    public static Customer toEntity() {
-        Customer customer = new Customer();
-
+    public Customer toEntity() {
+        Customer customer =new Customer();
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
-        customer.setCustomerEmail(customerEmail);
+        customer.setEmail(email);
         customer.setPhone(phone);
-        customer.setCustomerCode(customerCode);
-        //customer.setLoyaltyPoints(loyaltyPoints);
+        customer.setPasswordHash(passwordHash);
+        customer.setLoyaltyPoints(loyaltyPoints);
         return customer;
     }
 
     public void applyTo(Customer customer){
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
-        customer.setCustomerEmail(customerEmail);
+        customer.setEmail(email);
         customer.setPhone(phone);
-        customer.setCustomerCode(customerCode);
-        //customer.setLoyaltyPoints(loyaltyPoints);
+        customer.setPasswordHash(passwordHash);
+        customer.setLoyaltyPoints(loyaltyPoints);
     }
 }

@@ -7,36 +7,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class CustomerAddressRequestDTO {
-
-    @NotBlank(message = "Street is required")
     private String street;
-
-    @NotBlank(message = "City is required")
     private String city;
-
-    @NotBlank(message = "Building description is required")
     private String building;
+    private boolean isDefault;
 
-    private Boolean isDefault;
-
-
-    public static CustomerAddress toEntity() { //For Creating
+    public CustomerAddress toEntity() {
         CustomerAddress customerAddress = new CustomerAddress();
-
         customerAddress.setStreet(street);
         customerAddress.setCity(city);
         customerAddress.setBuilding(building);
-        customerAddress.setIsDefault(isDefault);
-
+        customerAddress.setDefault(isDefault);
         return customerAddress;
     }
 
-    public void applyTo(CustomerAddress customerAddress) { //For Updating
+    public void applyTo(CustomerAddress customerAddress){
         customerAddress.setStreet(street);
         customerAddress.setCity(city);
         customerAddress.setBuilding(building);
-        customerAddress.setIsDefault(isDefault);
+        customerAddress.setDefault(isDefault);
     }
 }
