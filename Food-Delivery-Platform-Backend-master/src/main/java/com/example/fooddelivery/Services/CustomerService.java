@@ -66,7 +66,7 @@ public class CustomerService {
     public CustomerResponseDTO applyLoyaltyPenalty(Integer customerId, int pointsDeducted) {
 
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
         customer.setLoyaltyPoints(customer.getLoyaltyPoints() - pointsDeducted);
         customerRepository.save(customer);
@@ -78,7 +78,7 @@ public class CustomerService {
     public String deactivateCustomer(Integer customerId){
 
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
         customer.setIsActive(false);
         customerRepository.save(customer);
