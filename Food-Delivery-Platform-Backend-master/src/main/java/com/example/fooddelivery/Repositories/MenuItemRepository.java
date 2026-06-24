@@ -10,19 +10,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MenuItemRepository extends JpaRepository<MenuItem, Integer> {
-
-    @Query("SELECT m FROM MenuItem m " + "WHERE m.restaurant.id = :restaurantId AND m.isActive = true")
-    List<MenuItem> findByRestaurantId(@Param("restaurantId") Integer restaurantId);
-
-    @Query("SELECT m FROM MenuItem m " + "WHERE m.restaurant.id = :restaurantId AND m.isAvailable = true AND m.isActive = true")
-    List<MenuItem> findByRestaurantIdAndIsAvailableTrue(@Param("restaurantId") Integer restaurantId);
-
-    @Query("SELECT m FROM MenuItem m " + "WHERE m.isVegetarian = true AND m.isActive = true")
+public interface MenuItemRepository extends JpaRepository<MenuItem,Integer> {
+    @Query("select mi from MenuItem mi where mi.isActive= true and mi.restaurant.id=:id")
+    List<MenuItem> findByRestaurantId(@Param("id") Integer id);
+    @Query("select mi from MenuItem mi where mi.isAvailable= true and mi.restaurant.id=:id")
+    List<MenuItem> findByRestaurantIdAndIsAvailableTrue(@Param("id") Integer id);
+    @Query("select mi from MenuItem mi where mi.isVegetarian= true")
     List<MenuItem> findByIsVegetarianTrue();
-
-    @Query("SELECT m FROM MenuItem m " + "WHERE m.price BETWEEN :min AND :max AND m.isActive = true")
-    List<MenuItem> findByPriceBetween(@Param("min") double min, @Param("max") double max);
+    @Query("SELECT mi FROM MenuItem mi WHERE mi.isActive=true AND mi.price BETWEEN :min AND :max")
+    List<MenuItem> findByPriceBetween(double min, double max);
 
 
 }
