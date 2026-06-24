@@ -1,6 +1,5 @@
 package com.example.fooddelivery.Services;
 
-
 import com.example.fooddelivery.DTO.Request.CustomerAddressRequestDTO;
 import com.example.fooddelivery.DTO.Request.CustomerRequestDTO;
 import com.example.fooddelivery.DTO.Response.CustomerAddressResponseDTO;
@@ -67,7 +66,7 @@ public class CustomerService {
     public CustomerResponseDTO applyLoyaltyPenalty(Integer customerId, int pointsDeducted) {
 
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not exist"));
 
         customer.setLoyaltyPoints(customer.getLoyaltyPoints() - pointsDeducted);
         customerRepository.save(customer);
@@ -79,7 +78,7 @@ public class CustomerService {
     public String deactivateCustomer(Integer customerId){
 
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not exist"));
 
         customer.setIsActive(false);
         customerRepository.save(customer);
