@@ -1,16 +1,12 @@
-package com.example.Food.Delivery.Platform.Backend.Services;
+package com.example.fooddelivery.Services;
 
-import com.example.Food.Delivery.Platform.Backend.DTO.Request.CustomerAddressRequestDTO;
-import com.example.Food.Delivery.Platform.Backend.DTO.Request.CustomerRequestDTO;
-import com.example.Food.Delivery.Platform.Backend.DTO.Response.CustomerAddressResponseDTO;
-import com.example.Food.Delivery.Platform.Backend.DTO.Response.CustomerResponseDTO;
-import com.example.Food.Delivery.Platform.Backend.Entities.Customer;
-import com.example.Food.Delivery.Platform.Backend.Entities.CustomerAddress;
-import com.example.Food.Delivery.Platform.Backend.Exceptions.DuplicateResourceException;
-import com.example.Food.Delivery.Platform.Backend.Exceptions.InvalidOrderStateException;
-import com.example.Food.Delivery.Platform.Backend.Exceptions.ResourceNotFoundException;
-import com.example.Food.Delivery.Platform.Backend.Repositories.CustomerAddressRepository;
-import com.example.Food.Delivery.Platform.Backend.Repositories.CustomerRepository;
+
+
+import com.example.fooddelivery.DTO.Request.CustomerRequestDTO;
+import com.example.fooddelivery.DTO.Response.CustomerResponseDTO;
+import com.example.fooddelivery.Exceptions.InvalidOrderStateException;
+import com.example.fooddelivery.Repositories.CustomerAddressRepository;
+import com.example.fooddelivery.Repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
