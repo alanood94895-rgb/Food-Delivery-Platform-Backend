@@ -1,20 +1,28 @@
 package com.example.fooddelivery.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+import java.util.Date;
+
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class OrderItem extends BaseEntity{
-    private Integer quantity;
-    private Double unitPrice;
-    private Double totalPrice;
+public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int itemCode;
+
+    private int quantity;
+    private double unitPrice;
+    private double totalPrice;
     private String specialInstructions;
+    private Date createdDate;
+    private Date updatedDate;
+    private boolean  isActive;
 
     @ManyToOne
     private Order order;

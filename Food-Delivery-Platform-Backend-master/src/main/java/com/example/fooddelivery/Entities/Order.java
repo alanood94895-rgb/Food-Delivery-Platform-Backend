@@ -6,22 +6,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Table (name = "Orders")
-public class Order extends BaseEntity {
-    private String orderCode;
-    private LocalDateTime orderDate;
+@NoArgsConstructor
+@Entity
+@Table(name = "Orders")
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int orderCode;
+
+    private Date orderDate;
     private String status;
-    private Double subtotal;
-    private Double deliveryFee;
-    private Double discountAmount;
-    private Double totalAmount;
+    private double subtotal;
+    private double deliveryFee;
+    private double discountAmount;
+    private double totalAmount;
     private String deliveryNotes;
+    private Date createdDate;
+    private Date updatedDate;
+    private boolean  isActive;
+
 
     @ManyToOne
     private Customer customer;

@@ -1,26 +1,31 @@
 package com.example.fooddelivery.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CorporateOrder extends BaseEntity {
-    private String corporateCode;
+@NoArgsConstructor
+@Entity
+public class CorporateOrder {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int corporateCode;
+
     private String companyName;
     private String costCenter;
-    private LocalDateTime orderDate;
+    private Date orderDate;
     private String status;
-    private Double totalAmount;
+    private double totalAmount;
+    private Date createdDate;
+    private Date updatedDate;
+    private boolean  isActive;
 
     @ManyToOne
     private Restaurant restaurant;

@@ -1,27 +1,32 @@
 package com.example.fooddelivery.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class MenuItem extends BaseEntity {
+@NoArgsConstructor
+@Entity
+public class MenuItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     private String name;
     private String description;
-    private Double price;
-    private Boolean isAvailable;
-    private Boolean isVegetarian;
-    private Integer calories;
+    private double price;
+    private boolean isAvailable;
+    private boolean isVegetarian;
+    private double calories;
+    private Date createdDate;
+    private Date updatedDate;
+    private boolean  isActive;
+
 
     @ManyToOne
     private Restaurant restaurant;

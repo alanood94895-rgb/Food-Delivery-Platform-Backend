@@ -1,27 +1,31 @@
 package com.example.fooddelivery.Entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Customer extends BaseEntity {
-
+@NoArgsConstructor
+@Entity
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int customerCode;
     private String firstName;
     private String lastName;
-    private String customerEmail;
-    private String phone;
+    private String email;
+    private int phone;
     private String passwordHash;
-    private Integer loyaltyPoints;
-    private String customerCode;
+    private int loyaltyPoints;
+    private Date createdDate;
+    private Date updatedDate;
+    private boolean  isActive;
+
 
     @OneToMany (mappedBy = "customer")
     private List<CustomerAddress> addresses;

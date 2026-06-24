@@ -1,24 +1,30 @@
 package com.example.fooddelivery.Entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class Payment extends BaseEntity {
+@NoArgsConstructor
+@Entity
+public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
+    private int transactionRef;
     private String paymentMethod;
-    private String status;
-    private Double amount;
-    private String transactionRef;
+    private String  status;
+    private double amount;
     private LocalDateTime processedAt;
+    private Date createdDate;
+    private Date updatedDate;
+    private boolean  isActive;
 
     @OneToOne
     private Order order;

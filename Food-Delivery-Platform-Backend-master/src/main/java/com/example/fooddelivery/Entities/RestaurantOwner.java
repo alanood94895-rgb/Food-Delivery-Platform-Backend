@@ -1,25 +1,31 @@
 package com.example.fooddelivery.Entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
-@Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class RestaurantOwner extends BaseEntity {
+@NoArgsConstructor
+@Entity
+public class RestaurantOwner {
+    @Id
+    private String businessLicenseCode;
 
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
+    private int phone;
     private String passwordHash;
-    private String businessLicenseCode;
+    private Date createdDate;
+    private Date updatedDate;
+    private boolean  isActive;
 
     @OneToMany (mappedBy = "restaurantOwner")
     private List<Restaurant> restaurants;
