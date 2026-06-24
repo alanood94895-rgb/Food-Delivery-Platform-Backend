@@ -1,4 +1,68 @@
 package com.example.fooddelivery.Services;
 
+import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
+import com.example.fooddelivery.Repositories.CustomerRepository;
+import com.example.fooddelivery.Repositories.ReviewRepository;
+import org.springframework.stereotype.Service;
+
+@Service
 public class ReviewService {
+    ReviewRepository reviewRepository;
+    CustomerRepository customerRepository;
+    RestaurantRepository restaurantRepository;
+    OrderRepository orderRepository;
+    DeliveryRepository deliveryRepository;
+    @Autowired
+    public ReviewService(ReviewRepository reviewRepository, CustomerRepository customerRepository,
+                         RestaurantRepository restaurantRepository, OrderRepository orderRepository,DeliveryRepository deliveryRepository) {
+        this.reviewRepository = reviewRepository;
+        this.customerRepository = customerRepository;
+        this.restaurantRepository = restaurantRepository;
+        this.orderRepository = orderRepository;
+        this.deliveryRepository= deliveryRepository;
+    }
+    public ReviewResponseDTO leaveRestaurantReview(Integer customerId,
+                                                   Integer restaurantId, int rating,String comment){
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+        Review review = new Review();
+        review.setCustomer(customer);
+        review.setRestaurant(restaurant);
+        review.setTargetType("RESTAURANT");
+        review.setRating(rating);
+        review.setComment(comment);
+        review.setCreatedAt(LocalDateTime.now());
+        review = reviewRepository.save(review);
+
+        return ReviewResponseDTO.fromEntity(review);
+    }
+    public ReviewResponseDTO leaveDriverReview(Integer customerId, Integer driverId,
+                                               int rating, String comment){
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+
+        DeliveryDriver driver = new DeliveryDriver();
+        List<Delivery> deliveries = deliveryRepository.findAll();
+
+        for (Delivery delivery : deliveries) {
+            if (delivery.getDeliveryDriver() != null &&
+                    delivery.getDeliveryDriver().getDriverCode() == driverId) {
+                driver = delivery.getDeliveryDriver();
+                break;
+            }
+        }
+        Review review = new Review();
+        review.setCustomer(customer);
+        review.setDeliveryDriver(driver);
+        review.setTargetType("DRIVER");
+        review.setRating(rating);
+        review.setComment(comment);
+        review.setCreatedAt(LocalDateTime.now());
+        review = reviewRepository.save(review);
+
+        return ReviewResponseDTO.fromEntity(review);
+    }
 }
