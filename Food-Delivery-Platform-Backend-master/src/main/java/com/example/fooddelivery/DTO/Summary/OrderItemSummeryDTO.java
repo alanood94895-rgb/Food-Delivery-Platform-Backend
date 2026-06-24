@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderItemSummaryDTO {
+public class OrderItemSummeryDTO {
     private int itemCode;
     private int quantity;
     private double totalPrice;
 
-    public static OrderItemSummaryDTO fromEntity(OrderItem orderItem) {
+    public static OrderItemSummeryDTO fromEntity(OrderItem orderItem) {
 
-        OrderItemSummaryDTO dto = new OrderItemSummaryDTO();
+        OrderItemSummeryDTO dto = new OrderItemSummeryDTO();
         dto.setItemCode(orderItem.getItemCode());
         dto.setQuantity(orderItem.getQuantity());
         dto.setTotalPrice(orderItem.getTotalPrice());

@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ComboMealSummaryDTO {
+public class ComboMealSummeryDTO {
     private int id;
     private String comboName;
     private double totalPrice;
     private boolean isAvailable;
 
-    public static ComboMealSummaryDTO fromEntity(ComboMeal comboMeal) {
+    public static ComboMealSummeryDTO fromEntity(ComboMeal comboMeal) {
 
-        ComboMealSummaryDTO dto = new ComboMealSummaryDTO();
+        ComboMealSummeryDTO dto = new ComboMealSummeryDTO();
         dto.setId(comboMeal.getId());
         dto.setComboName(comboMeal.getComboName());
         dto.setTotalPrice(comboMeal.getTotalPrice());

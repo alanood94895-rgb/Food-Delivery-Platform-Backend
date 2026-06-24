@@ -19,7 +19,7 @@ public class PaymentSummeryDTO {
 
         dto.setStatus(payment.getStatus());
         dto.setAmount(payment.getAmount());
-        dto.setTransactionRef(payment.getTransactionRef());
+        dto.setTransactionRef(payment.getPaymentMethod());
 
         return dto;
     }

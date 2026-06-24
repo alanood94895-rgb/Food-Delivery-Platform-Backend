@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliveryDriverSummaryDTO {
+public class DeliveryDriverSummeryDTO {
     private int driverId;
     private String firstName;
     private String lastName;

@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RestaurantOwnerSummaryDTO {
+public class RestaurantOwnerSummeryDTO {
     private String businessLicenseCode;
     private String firstName;
     private String lastName;
     private String email;
     private boolean isActive;
 
-    public static RestaurantOwnerSummaryDTO fromEntity(RestaurantOwner owner) {
+    public static RestaurantOwnerSummeryDTO fromEntity(RestaurantOwner owner) {
 
-        RestaurantOwnerSummaryDTO dto = new RestaurantOwnerSummaryDTO();
+        RestaurantOwnerSummeryDTO dto = new RestaurantOwnerSummeryDTO();
         dto.setBusinessLicenseCode(owner.getBusinessLicenseCode());
         dto.setFirstName(owner.getFirstName());
         dto.setLastName(owner.getLastName());

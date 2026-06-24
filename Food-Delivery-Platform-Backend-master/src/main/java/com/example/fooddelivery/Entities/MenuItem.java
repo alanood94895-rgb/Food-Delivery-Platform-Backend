@@ -25,15 +25,9 @@ public class MenuItem {
     private double calories;
     private Date createdDate;
     private Date updatedDate;
-    private boolean  isActive;
-
-
+    private boolean isActive;
     @ManyToOne
     private Restaurant restaurant;
-
-    @OneToMany(mappedBy = "menuItem")
-    private List<CorporateOrderItem> corporateOrderItems;
-
-    @ManyToMany(mappedBy = "menuItems")
-    private List<ComboMeal> comboMeals;
+    @OneToMany
+    private List<OrderItem> orderItemList;
 }

@@ -143,7 +143,7 @@ public class CustomerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
         List<OrderResponseDTO> orderResponseList = new ArrayList<>();
-        for (Order order : customer.getOrders()) {
+        for (Order order : customer.getOrderList()) {
             OrderResponseDTO dto = OrderResponseDTO.fromEntity(order);
             orderResponseList.add(dto);
         }

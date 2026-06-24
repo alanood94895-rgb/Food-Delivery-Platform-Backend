@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DeliverySummaryDTO {
+public class DeliverySummeryDTO {
     private int trackingCode;
     private String status;
     private  LocalDateTime pickedUpAt;

@@ -5,21 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CorporateOrderSummaryDTO {
+public class CorporateOrderSummeryDTO {
     private int corporateCode;
     private String companyName;
     private String status;
     private double totalAmount;
     private boolean isActive;
 
-    public static CorporateOrderSummaryDTO fromEntity(CorporateOrder corporateOrder) {
+    public static CorporateOrderSummeryDTO fromEntity(CorporateOrder corporateOrder) {
 
-        CorporateOrderSummaryDTO dto = new CorporateOrderSummaryDTO();
+        CorporateOrderSummeryDTO dto = new CorporateOrderSummeryDTO();
         dto.setCorporateCode(corporateOrder.getCorporateCode());
         dto.setCompanyName(corporateOrder.getCompanyName());
         dto.setStatus(corporateOrder.getStatus());

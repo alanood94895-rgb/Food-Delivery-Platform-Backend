@@ -1,9 +1,8 @@
 package com.example.fooddelivery.DTO.Request;
 
 import com.example.fooddelivery.Entities.Payment;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
