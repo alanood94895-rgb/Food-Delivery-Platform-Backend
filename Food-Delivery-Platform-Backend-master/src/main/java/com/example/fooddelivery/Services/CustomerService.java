@@ -51,7 +51,7 @@ public class CustomerService {
         customerAddress.setBuilding(initialAddress.getBuilding());
         customerAddress.setDefault(initialAddress.isDefault());
         customerAddress = customerAddressRepository.save(customerAddress);
-        customer.getCustomerAddressList().add(customerAddress);
+        customer.getAddresses().add(customerAddress);
         customer = customerRepository.save(customer);
 
         return CustomerResponseDTO.fromEntity(customer);
@@ -68,7 +68,7 @@ public class CustomerService {
         customerAddress.setBuilding(address.getBuilding());
         customerAddress.setDefault(address.isDefault());
         customerAddress = customerAddressRepository.save(customerAddress);
-        customer.getCustomerAddressList().add(customerAddress);
+        customer.getAddresses().add(customerAddress);
         customerRepository.save(customer);
 
         return CustomerAddressResponseDTO.fromEntity(customerAddress);
@@ -112,7 +112,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
         List<CustomerAddressResponseDTO> addressResponseList = new ArrayList<>();
-        for (CustomerAddress address : customer.getCustomerAddressList()) {
+        for (CustomerAddress address : customer.getAddresses()) {
             CustomerAddressResponseDTO dto = CustomerAddressResponseDTO.fromEntity(address);
             addressResponseList.add(dto);
         }
@@ -143,7 +143,7 @@ public class CustomerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
         List<OrderResponseDTO> orderResponseList = new ArrayList<>();
-        for (Order order : customer.getOrderList()) {
+        for (Order order : customer.getOrders()) {
             OrderResponseDTO dto = OrderResponseDTO.fromEntity(order);
             orderResponseList.add(dto);
         }
