@@ -1,9 +1,7 @@
 package com.example.fooddelivery.Services;
 
-import com.example.fooddelivery.Repositories.CustomerRepository;
-import com.example.fooddelivery.Repositories.MenuItemRepository;
-import com.example.fooddelivery.Repositories.OrderRepository;
-import com.example.fooddelivery.Repositories.RestaurantRepository;
+import com.example.fooddelivery.Repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
