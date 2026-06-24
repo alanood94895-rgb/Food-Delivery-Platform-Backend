@@ -1,54 +1,48 @@
 package com.example.fooddelivery.DTO.Request;
 
 import com.example.fooddelivery.Entities.MenuItem;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
+
 public class MenuItemRequestDTO {
-
-    @NotBlank(message = "Item name is required")
+    @NotBlank
     private String name;
-
-    @NotBlank(message = "Description is required")
+    @NotBlank
     private String description;
+    @PositiveOrZero
+    @DecimalMin("0.0")
+    private double price;
+    private boolean isAvailable;
+    private boolean isVegetarian;
+    @DecimalMin("0.0")
+    private double calories;
 
-    @NotNull(message = "Price is required")
-    @Min(value = 0, message = "Price cannot be negative")
-    private Double price;
+    public MenuItem toEntity() {
 
-    private Boolean isAvailable;
-    private Boolean isVegetarian;
-    private Integer calories;
+        MenuItem item = new MenuItem();
+        item.setName(name);
+        item.setDescription(description);
+        item.setPrice(price);
+        item.setAvailable(isAvailable);
+        item.setVegetarian(isVegetarian);
+        item.setCalories(calories);
 
-    @NotNull(message = "Restaurant ID is required")
-    private Long restaurantId;
-
-    public MenuItem toEntity(){
-        MenuItem menuItem = new MenuItem();
-
-        menuItem.setName(name);
-        menuItem.setDescription(description);
-        menuItem.setPrice(price);
-        menuItem.setIsAvailable(isAvailable);
-        menuItem.setIsVegetarian(isVegetarian);
-        menuItem.setCalories(calories);
-
-        return menuItem;
+        return item;
     }
 
-    public void applyTo(MenuItem menuItem){
-        menuItem.setName(name);
-        menuItem.setDescription(description);
-        menuItem.setPrice(price);
-        menuItem.setIsAvailable(isAvailable);
-        menuItem.setIsVegetarian(isVegetarian);
-        menuItem.setCalories(calories);
+    public void applyTo(MenuItem item) {
+
+        item.setName(name);
+        item.setDescription(description);
+        item.setPrice(price);
+        item.setAvailable(isAvailable);
+        item.setVegetarian(isVegetarian);
+        item.setCalories(calories);
     }
 }

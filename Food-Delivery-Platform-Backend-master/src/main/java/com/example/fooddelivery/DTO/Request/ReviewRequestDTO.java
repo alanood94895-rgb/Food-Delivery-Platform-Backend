@@ -12,40 +12,25 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class ReviewRequestDTO {
-
-    @NotBlank(message = "Target type is required (e.g., RESTAURANT or DRIVER)")
     private String targetType;
-
-    @NotNull(message = "Rating score is required")
-    @Min(value = 1, message = "Rating must be at least 1")
-    @Max(value = 5, message = "Rating cannot exceed 5")
-    private Integer rating;
-
+    private int rating;
     private String comment;
-    private LocalDateTime createdAt;
 
-    @NotNull(message = "Customer ID is required")
-    private Long customerId;
-
-
-    public Review toEntity() { // For Creating
+    public Review toEntity() {
         Review review = new Review();
-
         review.setTargetType(targetType);
         review.setRating(rating);
         review.setComment(comment);
-        review.setCreatedAt(createdAt);
 
         return review;
     }
 
-    public void applyTo(Review review) { // For Updating
+    public void applyTo(Review review) {
         review.setTargetType(targetType);
         review.setRating(rating);
         review.setComment(comment);
-        review.setCreatedAt(createdAt);
     }
-
 }

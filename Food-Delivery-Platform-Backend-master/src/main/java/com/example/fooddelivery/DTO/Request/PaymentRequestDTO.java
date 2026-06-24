@@ -10,39 +10,30 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 public class PaymentRequestDTO {
-
-    @NotBlank(message = "Payment method is required")
+    private int transactionRef;
     private String paymentMethod;
-
-    @NotBlank(message = "Status is required")
     private String status;
+    @PositiveOrZero
+    @DecimalMin("0.0")
+    private double amount;
 
-    @NotNull(message = "Amount is required")
-    @Min(value = 0, message = "Amount cannot be negative")
-    private Double amount;
-
-    private String transactionRef;
-    private LocalDateTime processedAt;
-
-    public Payment toEntity() { // For Creating
+    public Payment toEntity() {
         Payment payment = new Payment();
-
+        payment.setTransactionRef(transactionRef);
         payment.setPaymentMethod(paymentMethod);
         payment.setStatus(status);
         payment.setAmount(amount);
-        payment.setTransactionRef(transactionRef);
-        payment.setProcessedAt(processedAt);
 
         return payment;
     }
 
-    public void applyTo(Payment payment) { // For Updating
+    public void applyTo(Payment payment) {
+        payment.setTransactionRef(transactionRef);
         payment.setPaymentMethod(paymentMethod);
         payment.setStatus(status);
         payment.setAmount(amount);
-        payment.setTransactionRef(transactionRef);
-        payment.setProcessedAt(processedAt);
     }
 }
