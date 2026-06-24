@@ -1,8 +1,10 @@
 package com.example.fooddelivery.Services;
 
+import com.example.fooddelivery.DTO.Response.ReviewResponseDTO;
+import com.example.fooddelivery.Entities.Customer;
 import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
-import com.example.fooddelivery.Repositories.CustomerRepository;
-import com.example.fooddelivery.Repositories.ReviewRepository;
+import com.example.fooddelivery.Repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +24,7 @@ public class ReviewService {
         this.deliveryRepository= deliveryRepository;
     }
     public ReviewResponseDTO leaveRestaurantReview(Integer customerId,
-                                                   Integer restaurantId, int rating,String comment){
+                                                   Integer restaurantId, int rating, String comment){
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
