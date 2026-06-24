@@ -27,7 +27,7 @@ public class PaymentService {
         Payment payment = new Payment();
         payment.setTransactionRef(order.getOrderCode());
         payment.setPaymentMethod(method);
-        payment.setStatus("PAID");
+        payment.setStatus("PENDING");
         payment.setAmount(order.getTotalAmount());
         payment.setProcessedAt(LocalDateTime.now());
         payment = paymentRepository.save(payment);
@@ -40,6 +40,19 @@ public class PaymentService {
         payment.setStatus("REFUNDED");
         payment = paymentRepository.save(payment);
 
+        return PaymentResponseDTO.fromEntity(payment);
+    }
+    public PaymentResponseDTO completePayment(Integer paymentId) {
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Payment not found"));
+        payment.setStatus("PAID");
+        payment.setProcessedAt(LocalDateTime.now());
+        payment = paymentRepository.save(payment);
+
+        return PaymentResponseDTO.fromEntity(payment);
+    }
+    public PaymentResponseDTO getPaymentByOrder(Integer orderId) {
+        Payment payment = paymentRepository.findByOrderId(orderId);
         return PaymentResponseDTO.fromEntity(payment);
     }
 }
