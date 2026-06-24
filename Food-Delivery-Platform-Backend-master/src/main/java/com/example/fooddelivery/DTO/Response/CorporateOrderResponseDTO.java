@@ -7,42 +7,36 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CorporateOrderResponseDTO {
-    private String corporateCode;
+    private int corporateCode;
     private String companyName;
     private String costCenter;
-    private LocalDate orderDate;
+    private Date orderDate;
     private String status;
-    private Double totalAmount;
+    private double totalAmount;
+    private Date createdDate;
+    private Date updatedDate;
+    private boolean isActive;
 
     public static CorporateOrderResponseDTO fromEntity(CorporateOrder corporateOrder) {
-        if (corporateOrder == null) {
-            return null;
-        }
 
         CorporateOrderResponseDTO dto = new CorporateOrderResponseDTO();
-
         dto.setCorporateCode(corporateOrder.getCorporateCode());
         dto.setCompanyName(corporateOrder.getCompanyName());
         dto.setCostCenter(corporateOrder.getCostCenter());
-        dto.setOrderDate(LocalDate.from(corporateOrder.getOrderDate()));
+        dto.setOrderDate(corporateOrder.getOrderDate());
         dto.setStatus(corporateOrder.getStatus());
         dto.setTotalAmount(corporateOrder.getTotalAmount());
-        return dto;
-    }
+        dto.setCreatedDate(corporateOrder.getCreatedDate());
+        dto.setUpdatedDate(corporateOrder.getUpdatedDate());
+        dto.setActive(corporateOrder.isActive());
 
-    public static List<CorporateOrderResponseDTO> fromEntity(List<CorporateOrder> corporateOrders) {
-        List<CorporateOrderResponseDTO> dtos = new ArrayList<>();
-        if (corporateOrders != null) {
-            for (CorporateOrder corporateOrder : corporateOrders) {
-                dtos.add(fromEntity(corporateOrder));
-            }
-        }
-        return dtos;
+        return dto;
     }
 }

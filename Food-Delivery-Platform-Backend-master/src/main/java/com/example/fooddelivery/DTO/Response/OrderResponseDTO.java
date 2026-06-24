@@ -9,48 +9,35 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderResponseDTO {
-
-    private String orderCode;
-    private LocalDate orderDate;
+    private int orderCode;
+    private Date orderDate;
     private String status;
-    private Double subtotal;
-    private Double deliveryFee;
-    private Double discountAmount;
-    private Double totalAmount;
+    private double subtotal;
+    private double deliveryFee;
+    private double discountAmount;
+    private double totalAmount;
     private String deliveryNotes;
+    private boolean  isActive;
 
-    public static OrderResponseDTO fromEntity(Order order) {
-        if (order == null) {
-            return null;
-        }
-
+    public static OrderResponseDTO fromEntity(Order order){
         OrderResponseDTO dto = new OrderResponseDTO();
         dto.setOrderCode(order.getOrderCode());
-        dto.setOrderDate(LocalDate.from(order.getOrderDate()));
+        dto.setOrderDate(order.getOrderDate());
         dto.setStatus(order.getStatus());
         dto.setSubtotal(order.getSubtotal());
         dto.setDeliveryFee(order.getDeliveryFee());
         dto.setDiscountAmount(order.getDiscountAmount());
         dto.setTotalAmount(order.getTotalAmount());
         dto.setDeliveryNotes(order.getDeliveryNotes());
+        dto.setActive(order.isActive());
 
         return dto;
     }
-
-    public static List<OrderResponseDTO> fromEntity(List<Order> orders) {
-        List<OrderResponseDTO> dtos = new ArrayList<>();
-        if (orders != null) {
-            for (Order order : orders) {
-                dtos.add(fromEntity(order));
-            }
-        }
-        return dtos;
-    }
-
 }

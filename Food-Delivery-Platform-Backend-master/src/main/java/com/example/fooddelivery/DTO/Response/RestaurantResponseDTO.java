@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,34 +13,28 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestaurantResponseDTO {
-
+    private int id;
     private String name;
+    private String description;
     private String cuisineType;
-    private Double deliveryFee;
-    private Boolean acceptingOrders;
+    private LocalDateTime openingTime;
+    private LocalDateTime closingTime;
+    private int minOrderAmount;
+    private double deliveryFee;
+    private boolean  isActive;
 
-    public static RestaurantResponseDTO fromEntity(Restaurant restaurant) {
-        if (restaurant == null) {
-            return null;
-        }
-
+    public static RestaurantResponseDTO fromEntity(Restaurant restaurant){
         RestaurantResponseDTO dto = new RestaurantResponseDTO();
-
+        dto.setId(restaurant.getId());
         dto.setName(restaurant.getName());
+        dto.setDescription(restaurant.getDescription());
         dto.setCuisineType(restaurant.getCuisineType());
+        dto.setOpeningTime(restaurant.getOpeningTime());
+        dto.setClosingTime(restaurant.getClosingTime());
+        dto.setMinOrderAmount(restaurant.getMinOrderAmount());
         dto.setDeliveryFee(restaurant.getDeliveryFee());
-        dto.setAcceptingOrders(restaurant.getAcceptingOrders());
+        dto.setActive(restaurant.isActive());
 
         return dto;
-    }
-
-    public static List<RestaurantResponseDTO> fromEntity(List<Restaurant> restaurants){
-        List<RestaurantResponseDTO> dtos = new ArrayList<>();
-        if (restaurants != null){
-            for (Restaurant restaurant : restaurants){
-                dtos.add(fromEntity(restaurant));
-            }
-        }
-        return dtos;
     }
 }

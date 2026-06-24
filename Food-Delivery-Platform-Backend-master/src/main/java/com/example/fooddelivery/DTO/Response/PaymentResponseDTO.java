@@ -7,41 +7,36 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentResponseDTO {
+
+    private int id;
+    private int transactionRef;
     private String paymentMethod;
     private String status;
-    private Double amount;
-    private String transactionRef;
+    private double amount;
     private LocalDateTime processedAt;
+    private Date createdDate;
+    private Date updatedDate;
 
     public static PaymentResponseDTO fromEntity(Payment payment) {
-        if (payment == null) {
-            return null;
-        }
 
         PaymentResponseDTO dto = new PaymentResponseDTO();
 
+        dto.setId(payment.getId());
+        dto.setTransactionRef(payment.getTransactionRef());
         dto.setPaymentMethod(payment.getPaymentMethod());
         dto.setStatus(payment.getStatus());
         dto.setAmount(payment.getAmount());
-        dto.setTransactionRef(payment.getTransactionRef());
         dto.setProcessedAt(payment.getProcessedAt());
+        dto.setCreatedDate(payment.getCreatedDate());
+        dto.setUpdatedDate(payment.getUpdatedDate());
 
         return dto;
-    }
-
-    public static List<PaymentResponseDTO> fromEntity(List<Payment> payments) {
-        List<PaymentResponseDTO> dtos = new ArrayList<>();
-        if (payments != null) {
-            for (Payment payment : payments) {
-                dtos.add(fromEntity(payment));
-            }
-        }
-        return dtos;
     }
 }

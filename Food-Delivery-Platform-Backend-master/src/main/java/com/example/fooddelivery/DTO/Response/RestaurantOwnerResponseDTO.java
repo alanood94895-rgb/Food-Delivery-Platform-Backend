@@ -5,42 +5,34 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestaurantOwnerResponseDTO {
+    private String businessLicenseCode;
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
-    private String businessLicenseCode;
+    private int phone;
+    private Date createdDate;
+    private Date updatedDate;
+    private boolean isActive;
 
     public static RestaurantOwnerResponseDTO fromEntity(RestaurantOwner owner) {
-        if (owner == null) {
-            return null;
-        }
 
         RestaurantOwnerResponseDTO dto = new RestaurantOwnerResponseDTO();
-
+        dto.setBusinessLicenseCode(owner.getBusinessLicenseCode());
         dto.setFirstName(owner.getFirstName());
         dto.setLastName(owner.getLastName());
         dto.setEmail(owner.getEmail());
         dto.setPhone(owner.getPhone());
-        dto.setBusinessLicenseCode(owner.getBusinessLicenseCode());
+        dto.setCreatedDate(owner.getCreatedDate());
+        dto.setUpdatedDate(owner.getUpdatedDate());
+        dto.setActive(owner.isActive());
 
         return dto;
-    }
-
-    public static List<RestaurantOwnerResponseDTO> fromEntity(List<RestaurantOwner> owners) {
-        List<RestaurantOwnerResponseDTO> dtos = new ArrayList<>();
-        if (owners != null) {
-            for (RestaurantOwner owner : owners) {
-                dtos.add(fromEntity(owner));
-            }
-        }
-        return dtos;
     }
 }
