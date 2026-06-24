@@ -1,4 +1,46 @@
 package com.example.fooddelivery.Controllers;
 
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/drivers")
 public class DriverController {
+    DeliveryService deliveryService;
+    @Autowired
+    public DriverController(DeliveryService deliveryService) {
+        this.deliveryService = deliveryService;
+    }
+    @PostMapping
+    public ResponseEntity<DeliveryDriverResponseDTO> createDriver(@Valid @RequestBody DeliveryDriverRequestDTO dto) {
+        DeliveryDriverResponseDTO driver = deliveryService.createDriver(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(driver);
+    }
+    @GetMapping
+    public ResponseEntity<List<DeliveryDriverResponseDTO>> getAllDrivers() {
+        return ResponseEntity.ok(deliveryService.getAllDrivers());
+    }
+    @GetMapping("/online")
+    public ResponseEntity<List<DeliveryDriverResponseDTO>> getOnlineDrivers() {
+        return ResponseEntity.ok(deliveryService.getOnlineDrivers());
+    }
+    @PutMapping("/{id}/status")
+    public ResponseEntity<DeliveryDriverResponseDTO> updateStatus(@PathVariable Integer id, @RequestParam boolean isOnline) {
+        return ResponseEntity.ok(deliveryService.toggleDriverOnlineStatus(id, isOnline));
+    }
+    @PutMapping("/{id}/location")
+    public ResponseEntity<DeliveryDriverResponseDTO> updateLocation(@PathVariable Integer id, @RequestParam double lat,
+                                                                    @RequestParam double lng) {
+        return ResponseEntity.ok(deliveryService.updateDriverLocation(id, lat, lng));
+    }
+    @GetMapping("/{id}/deliveries")
+    public ResponseEntity<List<DeliveryResponseDTO>> getDeliveryHistory(@PathVariable Integer id) {
+        return ResponseEntity.ok(deliveryService.getDeliveriesForDriver(id, "DELIVERED"));
+    }
+    @GetMapping("/{id}/deliveries/active")
+    public ResponseEntity<List<DeliveryResponseDTO>> getActiveDeliveries(@PathVariable Integer id) {
+        return ResponseEntity.ok(deliveryService.getDeliveriesForDriver(id, "ASSIGNED"));
+    }
+
 }
