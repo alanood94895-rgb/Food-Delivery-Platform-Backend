@@ -2,6 +2,8 @@ package com.example.fooddelivery.Services;
 
 import com.example.fooddelivery.DTO.Response.ReviewResponseDTO;
 import com.example.fooddelivery.Entities.Customer;
+import com.example.fooddelivery.Entities.Restaurant;
+import com.example.fooddelivery.Entities.Review;
 import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
 import com.example.fooddelivery.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
