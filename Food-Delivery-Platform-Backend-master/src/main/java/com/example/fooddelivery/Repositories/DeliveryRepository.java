@@ -11,6 +11,9 @@ import java.util.List;
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
 
-    @Query("SELECT d FROM Delivery d " + "WHERE d.deliveryDriver.id = :driverId AND d.status = :status AND d.isActive = true")
-    List<Delivery> findByDeliveryDriverIdAndStatus(@Param("driverId") Integer driverId, @Param("status") String status);
+    @Query("select d from Delivery d where d.isActive=true and d.deliveryDriver.driverCode=:driverId and d.status=:status")
+    List<Delivery> findByDeliveryDriverIdAndStatus(Integer driverId, String status);
+
+    @Query("select d from Delivery d where d.isActive=true and d.status=:status")
+    List<Delivery> findDeliveryByStatus(String status);
 }
