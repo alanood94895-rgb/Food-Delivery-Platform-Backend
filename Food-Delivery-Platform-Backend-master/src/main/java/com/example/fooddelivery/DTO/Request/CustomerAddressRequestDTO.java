@@ -22,7 +22,7 @@ public class CustomerAddressRequestDTO {
     private Boolean isDefault;
 
 
-    public CustomerAddress toEntity() { //For Creating
+    public static CustomerAddress toEntity() { //For Creating
         CustomerAddress customerAddress = new CustomerAddress();
 
         customerAddress.setStreet(street);

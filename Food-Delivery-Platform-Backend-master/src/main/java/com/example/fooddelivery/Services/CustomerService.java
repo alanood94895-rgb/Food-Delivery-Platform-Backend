@@ -23,16 +23,16 @@ public class CustomerService {
     }
 
     public CustomerResponseDTO createCustomer(CustomerRequestDTO dto) {
-        Customer customer = CustomerRequestDTO.toEntity(dto);
+        Customer customer = CustomerRequestDTO.toEntity();
         customerRepository.save(customer);
         return CustomerResponseDTO.fromEntity(customer);
     }
 
     public CustomerResponseDTO createCustomer(CustomerRequestDTO dto, CustomerAddressRequestDTO initialAddress) {
-        Customer customer = CustomerRequestDTO.toEntity(dto);
+        Customer customer = CustomerRequestDTO.toEntity();
         customerRepository.save(customer);
 
-        CustomerAddress customerAddress = CustomerAddressRequestDTO.toEntity(initialAddress);
+        CustomerAddress customerAddress = CustomerAddressRequestDTO.toEntity();
         customerAddress.setCustomer(customer);
 
         customerAddressRepository.save(customerAddress);
@@ -46,7 +46,7 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
-        CustomerAddress customerAddress = CustomerAddressRequestDTO.toEntity(address);
+        CustomerAddress customerAddress = CustomerAddressRequestDTO.toEntity();
         customerAddress.setCustomer(customer);
         customerAddressRepository.save(customerAddress);
 
