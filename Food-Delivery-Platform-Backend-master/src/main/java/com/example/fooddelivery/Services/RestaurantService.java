@@ -1,12 +1,25 @@
 package com.example.fooddelivery.Services;
 
+import com.example.fooddelivery.DTO.Request.ComboMealRequestDTO;
+import com.example.fooddelivery.DTO.Request.MenuItemRequestDTO;
+import com.example.fooddelivery.DTO.Request.RestaurantRequestDTO;
+import com.example.fooddelivery.DTO.Response.ComboMealResponseDTO;
+import com.example.fooddelivery.DTO.Response.MenuItemResponseDTO;
 import com.example.fooddelivery.DTO.Response.RestaurantResponseDTO;
+import com.example.fooddelivery.Entities.ComboMeal;
+import com.example.fooddelivery.Entities.MenuItem;
+import com.example.fooddelivery.Entities.Restaurant;
+import com.example.fooddelivery.Entities.RestaurantOwner;
 import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
 import com.example.fooddelivery.Repositories.ComboMealRepository;
 import com.example.fooddelivery.Repositories.MenuItemRepository;
+import com.example.fooddelivery.Repositories.RestaurantOwnerRepository;
 import com.example.fooddelivery.Repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RestaurantService {
@@ -30,8 +43,8 @@ public class RestaurantService {
         restaurant.setName(dto.getName());
         restaurant.setDescription(dto.getDescription());
         restaurant.setCuisineType(dto.getCuisineType());
-        restaurant.setOpeningTime(dto.getOpeningTime());
-        restaurant.setClosingTime(dto.getClosingTime());
+        //restaurant.setOpeningTime(dto.getOpeningTime());//
+      //  restaurant.setClosingTime(dto.getClosingTime());//
         restaurant.setMinOrderAmount(dto.getMinOrderAmount());
         restaurant.setDeliveryFee(dto.getDeliveryFee());
         restaurant.setAcceptingOrders(dto.isAcceptingOrders());
@@ -76,7 +89,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
         List<MenuItemResponseDTO> result = new ArrayList<>();
-        for(MenuItem item : restaurant.getMenuItemList()){
+        for(MenuItem item : restaurant.getMenuItems()){
             result.add(MenuItemResponseDTO.fromEntity(item));
         }
         return result;
@@ -85,7 +98,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
-        for(MenuItem item : restaurant.getMenuItemList()){
+        for(MenuItem item : restaurant.getMenuItems()){
             double newPrice = item.getPrice() + (item.getPrice() * percentageIncrease / 100);
             item.setPrice(newPrice);
             menuItemRepository.save(item);
@@ -114,7 +127,7 @@ public class RestaurantService {
         item.setPrice(dto.getPrice());
         item = menuItemRepository.save(item);
 
-        restaurant.getMenuItemList().add(item);
+        restaurant.getMenuItems().add(item);
         restaurantRepository.save(restaurant);
 
         return MenuItemResponseDTO.fromEntity(item);
@@ -132,7 +145,7 @@ public class RestaurantService {
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
         List<ComboMealResponseDTO> result = new ArrayList<>();
-        for (ComboMeal combo : restaurant.getComboMealList()) {
+        for (ComboMeal combo : restaurant.getComboMeals()) {
             result.add(ComboMealResponseDTO.fromEntity(combo));
         }
         return result;
@@ -149,7 +162,7 @@ public class RestaurantService {
 
         comboMeal.setRestaurant(restaurant);
         comboMeal = comboMealRepository.save(comboMeal);
-        restaurant.getComboMealList().add(comboMeal);
+        restaurant.getComboMeals().add(comboMeal);
         restaurantRepository.save(restaurant);
 
         return ComboMealResponseDTO.fromEntity(comboMeal);

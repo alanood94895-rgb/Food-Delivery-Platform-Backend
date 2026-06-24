@@ -1,6 +1,5 @@
 package com.example.fooddelivery.Repositories;
 
-import com.example.fooddelivery.Entities.Customer;
 import com.example.fooddelivery.Entities.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -8,13 +7,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
     @Query("SELECT r FROM Restaurant r WHERE r.cuisineType = :cuisineType AND r.isActive = true")
-    Optional<Restaurant> findByCuisineTypeIgnoreCase(@Param("cuisineType") String cuisineType);
+    List<Restaurant> findByCuisineTypeIgnoreCase(@Param("cuisineType") String cuisineType);
 
     @Query("SELECT r FROM Restaurant r WHERE r.acceptingOrders = true AND r.isActive = true")
     List<Restaurant> findByAcceptingOrdersTrue();
