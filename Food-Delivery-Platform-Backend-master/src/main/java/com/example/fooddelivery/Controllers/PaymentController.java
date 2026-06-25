@@ -3,9 +3,12 @@ package com.example.fooddelivery.Controllers;
 import com.example.fooddelivery.DTO.Response.PaymentResponseDTO;
 import com.example.fooddelivery.Services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/payments")
@@ -31,5 +34,10 @@ public class PaymentController {
     @GetMapping("/order/{orderId}")
     public ResponseEntity<PaymentResponseDTO> getPaymentByOrder(@PathVariable Integer orderId) {
         return ResponseEntity.ok(paymentService.getPaymentByOrder(orderId));
+    }
+    @GetMapping
+    public ResponseEntity<Page<PaymentResponseDTO>> searchPayments(@RequestParam String method, @RequestParam String status, @RequestParam Date from,
+                                                                   @RequestParam Date to, @RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(paymentService.searchPayments(method, status, from, to, page, size));
     }
 }
