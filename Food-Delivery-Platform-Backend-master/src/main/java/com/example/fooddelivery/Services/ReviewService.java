@@ -5,6 +5,9 @@ import com.example.fooddelivery.Entities.*;
 import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
 import com.example.fooddelivery.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -104,5 +107,38 @@ public class ReviewService {
         review.setActive(false);
         review.setUpdatedDate(new Date());
         reviewRepository.save(review);
+    }
+    public Double getRestaurantAverageRating(Integer restaurantId) {
+        restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+        Double avg = reviewRepository.getRestaurantAverage(restaurantId);
+        return avg != null ? avg : 0.0;
+    }
+    public Double getDriverAverageRating(Integer driverId) {
+        deliveryDriverRepository.findById(driverId)
+                .orElseThrow(() -> new ResourceNotFoundException("Driver not found"));
+        Double avg = reviewRepository.getDriverAverage(driverId);
+        return avg != null ? avg : 0.0;
+    }
+    public Page<ReviewResponseDTO> getRestaurantReviews(Integer restaurantId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Review> reviews = reviewRepository.findByRestaurantIdAndIsActiveTrue(restaurantId, pageable);
+
+        return reviews.map(ReviewResponseDTO::fromEntity);
+    }
+    public Double getRestaurantRevenue(Integer restaurantId, Date from, Date to) {
+        restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+        Double revenue = orderRepository.getRestaurantRevenue(restaurantId, from, to);
+        return revenue != null ? revenue : 0.0;
+    }
+    public Double getDriverEarnings(Integer driverId, Date from, Date to) {
+        deliveryDriverRepository.findById(driverId)
+                .orElseThrow(() -> new ResourceNotFoundException("Driver not found"));
+        Double earnings = deliveryRepository.getDriverEarnings(driverId, from, to);
+        return earnings != null ? earnings : 0.0;
+    }
+    public List<Object[]> getBusiestHours() {
+        return orderRepository.getOrdersByHour();
     }
 }
