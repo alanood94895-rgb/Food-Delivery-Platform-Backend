@@ -6,19 +6,14 @@ import com.example.fooddelivery.DTO.Request.RestaurantRequestDTO;
 import com.example.fooddelivery.DTO.Response.ComboMealResponseDTO;
 import com.example.fooddelivery.DTO.Response.MenuItemResponseDTO;
 import com.example.fooddelivery.DTO.Response.RestaurantResponseDTO;
-import com.example.fooddelivery.Entities.ComboMeal;
-import com.example.fooddelivery.Entities.MenuItem;
-import com.example.fooddelivery.Entities.Restaurant;
-import com.example.fooddelivery.Entities.RestaurantOwner;
+import com.example.fooddelivery.Entities.*;
 import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
-import com.example.fooddelivery.Repositories.ComboMealRepository;
-import com.example.fooddelivery.Repositories.MenuItemRepository;
-import com.example.fooddelivery.Repositories.RestaurantOwnerRepository;
-import com.example.fooddelivery.Repositories.RestaurantRepository;
+import com.example.fooddelivery.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,12 +22,15 @@ public class RestaurantService {
     MenuItemRepository menuItemRepository;
     RestaurantOwnerRepository restaurantOwnerRepository;
     ComboMealRepository comboMealRepository;
+    OrderRepository orderRepository;
     @Autowired
-    public RestaurantService(RestaurantRepository restaurantRepository,MenuItemRepository menuItemRepository,RestaurantOwnerRepository restaurantOwnerRepository,ComboMealRepository  comboMealRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository,MenuItemRepository menuItemRepository,RestaurantOwnerRepository restaurantOwnerRepository,ComboMealRepository  comboMealRepository,
+                             OrderRepository orderRepository) {
         this.restaurantRepository = restaurantRepository;
         this.menuItemRepository = menuItemRepository;
         this.restaurantOwnerRepository= restaurantOwnerRepository;
         this.comboMealRepository = comboMealRepository;
+        this.orderRepository= orderRepository;
     }
 
     public RestaurantResponseDTO createRestaurant(RestaurantRequestDTO dto, Integer ownerId){
@@ -89,7 +87,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
         List<MenuItemResponseDTO> result = new ArrayList<>();
-        for(MenuItem item : restaurant.getMenuItems()){
+        for(MenuItem item : restaurant.getMenuItemList()){
             result.add(MenuItemResponseDTO.fromEntity(item));
         }
         return result;
@@ -98,7 +96,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
-        for(MenuItem item : restaurant.getMenuItems()){
+        for(MenuItem item : restaurant.getMenuItemList()){
             double newPrice = item.getPrice() + (item.getPrice() * percentageIncrease / 100);
             item.setPrice(newPrice);
             menuItemRepository.save(item);
@@ -127,7 +125,7 @@ public class RestaurantService {
         item.setPrice(dto.getPrice());
         item = menuItemRepository.save(item);
 
-        restaurant.getMenuItems().add(item);
+        restaurant.getMenuItemList().add(item);
         restaurantRepository.save(restaurant);
 
         return MenuItemResponseDTO.fromEntity(item);
@@ -145,7 +143,7 @@ public class RestaurantService {
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
         List<ComboMealResponseDTO> result = new ArrayList<>();
-        for (ComboMeal combo : restaurant.getComboMeals()) {
+        for (ComboMeal combo : restaurant.getComboMealList()) {
             result.add(ComboMealResponseDTO.fromEntity(combo));
         }
         return result;
@@ -162,9 +160,24 @@ public class RestaurantService {
 
         comboMeal.setRestaurant(restaurant);
         comboMeal = comboMealRepository.save(comboMeal);
-        restaurant.getComboMeals().add(comboMeal);
+        restaurant.getComboMealList().add(comboMeal);
         restaurantRepository.save(restaurant);
 
         return ComboMealResponseDTO.fromEntity(comboMeal);
+    }
+    public Double getRestaurantRevenue(Integer restaurantId, Date date) {
+        restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+        List<Order> orders = orderRepository.totalDeliveredOrdersInDate(restaurantId, date);
+        double revenue = 0;
+        for (Order order : orders) {
+            revenue += order.getTotalAmount();
+        }
+        return revenue;
+    }
+    public Long getRestaurantOrderCount(Integer restaurantId) {
+        restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+        return orderRepository.totalCompletedOrdersForRestaurant(restaurantId);
     }
 }
