@@ -31,7 +31,7 @@ public class ReviewController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-    @GetMapping("/restaurant/{restaurantId}")
+    @GetMapping("/restaurant/{restaurantID}")
     public ResponseEntity<List<ReviewResponseDTO>> getRestaurantReviews(@PathVariable Integer restaurantId) {
         return ResponseEntity.ok(reviewService.getRestaurantReviews(restaurantId));
     }
@@ -43,5 +43,17 @@ public class ReviewController {
     public ResponseEntity<Void> deleteReview(@PathVariable Integer reviewId) {
         reviewService.deleteReview(reviewId);
         return ResponseEntity.noContent().build();
+    }
+    @GetMapping("/restaurant/{restaurantId}/average")
+    public ResponseEntity<Double> getRestaurantAverage(@PathVariable Integer restaurantId) {
+        return ResponseEntity.ok(reviewService.getRestaurantAverageRating(restaurantId));
+    }
+    @GetMapping("/driver/{driverId}/average")
+    public ResponseEntity<Double> getDriverAverage(@PathVariable Integer driverId) {
+        return ResponseEntity.ok(reviewService.getDriverAverageRating(driverId));
+    }
+    @GetMapping("/restaurant/{restaurantId}")
+    public ResponseEntity<?> getRestaurantReviews(@PathVariable Integer restaurantId, @RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(reviewService.getRestaurantReviews(restaurantId, page, size));
     }
 }
