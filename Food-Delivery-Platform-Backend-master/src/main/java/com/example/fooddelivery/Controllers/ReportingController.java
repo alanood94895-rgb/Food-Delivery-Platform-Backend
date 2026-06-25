@@ -56,11 +56,11 @@ public class ReportingController {
     @GetMapping("/revenue/restaurant/{restaurantID}")
     public ResponseEntity<Double> getRestaurantRevenue(@PathVariable Integer restaurantId, @RequestParam Date from,
                                                        @RequestParam Date to) {
-        return ResponseEntity.ok(reviewService.getRestaurantRevenue(restaurantId, from, to));
+        return ResponseEntity.ok(reviewService.getRestaurantReviews(restaurantId, from, to));
     }
     @GetMapping("/drivers/{driverId}/earnings")
     public ResponseEntity<Double> getDriverEarnings(@PathVariable Integer driverId, @RequestParam Date from, @RequestParam Date to) {
-        return ResponseEntity.ok(reviewService.getDriverEarnings(driverId, from, to));
+        return ResponseEntity.ok(reviewService.getDriverReviews(driverId, from, to));
     }
     @GetMapping("/platform/busiest-hours")
     public ResponseEntity<List<Object[]>> getBusiestHours() {

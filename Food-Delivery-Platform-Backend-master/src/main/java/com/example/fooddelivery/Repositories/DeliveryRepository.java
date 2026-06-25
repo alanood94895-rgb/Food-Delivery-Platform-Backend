@@ -6,14 +6,22 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
-
     @Query("select d from Delivery d where d.isActive=true and d.deliveryDriver.driverCode=:driverId and d.status=:status")
     List<Delivery> findByDeliveryDriverIdAndStatus(Integer driverId, String status);
-
     @Query("select d from Delivery d where d.isActive=true and d.status=:status")
-    List<Delivery> findDeliveryByStatus(String status);
+    List<Delivery> findDeliveryByStatus( String status);
+    @Query("""
+       select sum(o.totalAmount)
+       from Delivery d
+       join d.order o
+       where d.deliveryDriver.driverCode =:driverId
+       and d.deliveredAt between :from and :to
+       and d.status = 'DELIVERED'
+       """)
+    Double getDriverEarnings(Integer driverId, Date from, Date to);
 }
