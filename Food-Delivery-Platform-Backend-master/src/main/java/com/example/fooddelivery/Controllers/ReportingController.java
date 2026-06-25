@@ -1,8 +1,10 @@
 package com.example.fooddelivery.Controllers;
 
+import com.example.fooddelivery.Services.CustomerService;
 import com.example.fooddelivery.Services.DeliveryService;
 import com.example.fooddelivery.Services.OrderService;
 import com.example.fooddelivery.Services.RestaurantService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
