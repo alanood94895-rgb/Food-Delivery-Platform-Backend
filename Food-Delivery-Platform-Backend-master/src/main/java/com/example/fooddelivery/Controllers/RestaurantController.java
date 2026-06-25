@@ -78,4 +78,13 @@ public class RestaurantController {
         restaurantService.bulkUpdateMenuItemPrices(id, percentage);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/{id}/menu/topSellers")
+    public ResponseEntity<List<MenuItemResponseDTO>> getTopSellingItems(@PathVariable Integer id) {
+        return ResponseEntity.ok(restaurantService.getTopSellingItems(id));
+    }
+    @GetMapping("/menu/search")
+    public ResponseEntity<List<MenuItemResponseDTO>> searchMenuItems(@RequestParam String keyword, @RequestParam double minCalories,
+                                                                     @RequestParam double maxCalories) {
+        return ResponseEntity.ok(restaurantService.searchMenuItems(keyword, minCalories, maxCalories));
+    }
 }
