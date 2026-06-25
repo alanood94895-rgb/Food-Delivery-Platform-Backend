@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -77,7 +78,7 @@ public class OrderService {
         item.setUnitPrice(menuItem.getPrice());
         item.setTotalPrice(quantity * menuItem.getPrice());
         item = orderItemRepository.save(item);
-        order.getOrderItems().add(item);
+        order.getOrderItemList().add(item);
         orderRepository.save(order);
 
         return OrderResponseDTO.fromEntity(order);
@@ -85,8 +86,8 @@ public class OrderService {
     public void removeMenuItemFromOrder(Integer orderId, Integer orderItemId){
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-        if (order.getOrderItems() != null) {
-            for (OrderItem item : order.getOrderItems()) {
+        if (order.getOrderItemList() != null) {
+            for (OrderItem item : order.getOrderItemList()) {
                 if (item.getItemCode() == orderItemId) {
                     item.setActive(false);
                     break;
@@ -129,7 +130,7 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         double subtotal = 0;
-        for(OrderItem item : order.getOrderItems()){
+        for(OrderItem item : order.getOrderItemList()){
             subtotal += item.getTotalPrice();
         }
         order.setSubtotal(subtotal);
@@ -173,5 +174,11 @@ public class OrderService {
         order = orderRepository.save(order);
 
         return OrderResponseDTO.fromEntity(order);
+    }
+    public Double getPlatformDeliveryFees(Date start, Date end) {
+        return orderRepository.totalDeliveryFeesForDate(start,end);
+    }
+    public Long getPlatformOrderCount(Date start, Date end) {
+        return (long) orderRepository.findByOrderDateBetween(start, end).size();
     }
 }
