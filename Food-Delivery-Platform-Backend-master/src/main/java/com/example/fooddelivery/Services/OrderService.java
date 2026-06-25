@@ -78,7 +78,7 @@ public class OrderService {
         item.setUnitPrice(menuItem.getPrice());
         item.setTotalPrice(quantity * menuItem.getPrice());
         item = orderItemRepository.save(item);
-        order.getOrderItemList().add(item);
+        order.getOrderItems().add(item);
         orderRepository.save(order);
 
         return OrderResponseDTO.fromEntity(order);
@@ -86,8 +86,8 @@ public class OrderService {
     public void removeMenuItemFromOrder(Integer orderId, Integer orderItemId){
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-        if (order.getOrderItemList() != null) {
-            for (OrderItem item : order.getOrderItemList()) {
+        if (order.getOrderItems() != null) {
+            for (OrderItem item : order.getOrderItems()) {
                 if (item.getItemCode() == orderItemId) {
                     item.setActive(false);
                     break;
@@ -130,7 +130,7 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
 
         double subtotal = 0;
-        for(OrderItem item : order.getOrderItemList()){
+        for(OrderItem item : order.getOrderItems()){
             subtotal += item.getTotalPrice();
         }
         order.setSubtotal(subtotal);
