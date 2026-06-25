@@ -1,5 +1,6 @@
 package com.example.fooddelivery.Controllers;
 
+import com.example.fooddelivery.DTO.Response.DeliveryDriverResponseDTO;
 import com.example.fooddelivery.DTO.Response.DeliveryResponseDTO;
 import com.example.fooddelivery.Services.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,10 @@ public class DeliveryController {
     @GetMapping("/status/{status}")
     public ResponseEntity<List<DeliveryResponseDTO>> getByStatus(@PathVariable String status) {
         return ResponseEntity.ok(deliveryService.getDeliveriesByStatus(status));
+    }
+    @GetMapping("/drivers/nearby")
+    public ResponseEntity<List<DeliveryDriverResponseDTO>> getNearbyDrivers(@RequestParam double lat, @RequestParam double lng,
+                                                                            @RequestParam double radiusKm) {
+        return ResponseEntity.ok(deliveryService.getNearbyDrivers(lat, lng, radiusKm));
     }
 }
