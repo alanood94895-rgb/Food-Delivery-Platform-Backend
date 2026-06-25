@@ -25,4 +25,21 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     List<Order> totalDeliveredOrdersInDate(@Param("restaurantId") Integer restaurantId, @Param("date") Date date);
     @Query("select sum(o.deliveryFee) from Order o where o.isActive=true and o.orderDate between :start and :end")
     Double totalDeliveryFeesForDate(@Param("start") Date start, @Param("end") Date end);
+    @Query("""
+       select sum(o.totalAmount)
+       from Order o
+       where o.restaurant.id =:restaurantId
+       and o.orderDate between :from and :to
+       and o.status = 'COMPLETED'
+       and o.isActive=true
+       """)
+    Double getRestaurantRevenue(Integer restaurantId, Date from, Date to);
+    @Query("""
+       select function('hour', o.orderDate), count(o)
+       from Order o
+       where o.isActive =true
+       group by function('hour', o.orderDate)
+       order by count(o) desc
+       """)
+    List<Object[]> getOrdersByHour();
 }
