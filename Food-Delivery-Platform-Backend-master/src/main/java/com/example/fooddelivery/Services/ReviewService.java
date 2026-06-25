@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,17 +19,20 @@ public class ReviewService {
     RestaurantRepository restaurantRepository;
     OrderRepository orderRepository;
     DeliveryRepository deliveryRepository;
+    DeliveryDriverRepository deliveryDriverRepository;
     @Autowired
     public ReviewService(ReviewRepository reviewRepository, CustomerRepository customerRepository,
-                         RestaurantRepository restaurantRepository, OrderRepository orderRepository,DeliveryRepository deliveryRepository) {
+                         RestaurantRepository restaurantRepository, OrderRepository orderRepository,
+                         DeliveryRepository deliveryRepository, DeliveryDriverRepository deliveryDriverRepository) {
         this.reviewRepository = reviewRepository;
         this.customerRepository = customerRepository;
         this.restaurantRepository = restaurantRepository;
         this.orderRepository = orderRepository;
         this.deliveryRepository= deliveryRepository;
+        this.deliveryDriverRepository = deliveryDriverRepository;
     }
     public ReviewResponseDTO leaveRestaurantReview(Integer customerId,
-                                                   Integer restaurantId, int rating, String comment){
+                                                   Integer restaurantId, int rating,String comment){
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
 
@@ -69,5 +74,35 @@ public class ReviewService {
         review = reviewRepository.save(review);
 
         return ReviewResponseDTO.fromEntity(review);
+    }
+    public List<ReviewResponseDTO> getRestaurantReviews(Integer restaurantId) {
+        restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+        List<Review> reviews = reviewRepository.findByRestaurantIdAndIsActiveTrue(restaurantId);
+        List<ReviewResponseDTO> responseList = new ArrayList<>();
+        for (Review review : reviews) {
+            ReviewResponseDTO dto = ReviewResponseDTO.fromEntity(review);
+            responseList.add(dto);
+        }
+        return responseList;
+    }
+    public List<ReviewResponseDTO> getDriverReviews(Integer driverId) {
+        deliveryDriverRepository.findById(driverId)
+                .orElseThrow(() -> new ResourceNotFoundException("Driver not found"));
+        List<Review> reviews = reviewRepository.findByDeliveryDriverIdAndIsActiveTrue(driverId);
+        List<ReviewResponseDTO> responseList = new ArrayList<>();
+
+        for (Review review : reviews) {
+            ReviewResponseDTO dto = ReviewResponseDTO.fromEntity(review);
+            responseList.add(dto);
+        }
+        return responseList;
+    }
+    public void deleteReview(Integer reviewId) {
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
+        review.setActive(false);
+        review.setUpdatedDate(new Date());
+        reviewRepository.save(review);
     }
 }
