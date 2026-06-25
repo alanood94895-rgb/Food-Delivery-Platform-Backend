@@ -87,7 +87,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
         List<MenuItemResponseDTO> result = new ArrayList<>();
-        for(MenuItem item : restaurant.getMenuItemList()){
+        for(MenuItem item : restaurant.getMenuItems()){
             result.add(MenuItemResponseDTO.fromEntity(item));
         }
         return result;
@@ -96,7 +96,7 @@ public class RestaurantService {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
-        for(MenuItem item : restaurant.getMenuItemList()){
+        for(MenuItem item : restaurant.getMenuItems()){
             double newPrice = item.getPrice() + (item.getPrice() * percentageIncrease / 100);
             item.setPrice(newPrice);
             menuItemRepository.save(item);
@@ -125,7 +125,7 @@ public class RestaurantService {
         item.setPrice(dto.getPrice());
         item = menuItemRepository.save(item);
 
-        restaurant.getMenuItemList().add(item);
+        restaurant.getMenuItems().add(item);
         restaurantRepository.save(restaurant);
 
         return MenuItemResponseDTO.fromEntity(item);
@@ -143,7 +143,7 @@ public class RestaurantService {
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
 
         List<ComboMealResponseDTO> result = new ArrayList<>();
-        for (ComboMeal combo : restaurant.getComboMealList()) {
+        for (ComboMeal combo : restaurant.getComboMeals()) {
             result.add(ComboMealResponseDTO.fromEntity(combo));
         }
         return result;
@@ -160,7 +160,7 @@ public class RestaurantService {
 
         comboMeal.setRestaurant(restaurant);
         comboMeal = comboMealRepository.save(comboMeal);
-        restaurant.getComboMealList().add(comboMeal);
+        restaurant.getComboMeals().add(comboMeal);
         restaurantRepository.save(restaurant);
 
         return ComboMealResponseDTO.fromEntity(comboMeal);
