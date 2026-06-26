@@ -25,9 +25,6 @@ public class Order extends BaseEntity {
     private Double totalAmount;
     private String deliveryNotes;
 
-
-
-
     @ManyToOne
     private Customer customer;
 
