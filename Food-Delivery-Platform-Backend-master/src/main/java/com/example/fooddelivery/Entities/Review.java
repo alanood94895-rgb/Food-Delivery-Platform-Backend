@@ -13,17 +13,10 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 public class Review {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
     private String targetType;
-    private int rating;
+    private Integer rating;
     private String comment;
     private LocalDateTime createdAt;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean  isActive;
 
     @ManyToOne
     private Customer customer;

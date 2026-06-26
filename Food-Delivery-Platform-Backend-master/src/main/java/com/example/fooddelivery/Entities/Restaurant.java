@@ -14,20 +14,15 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Restaurant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
     private String name;
     private String description;
     private String cuisineType;
-    private LocalDateTime openingTime;
-    private LocalDateTime closingTime;
-    private int minOrderAmount;
-    private double deliveryFee;
-    private boolean acceptingOrders;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean  isActive;
+    private String openingTime;
+    private String closingTime;
+    private Double minOrderAmount;
+    private Double deliveryFee;
+    private Boolean acceptingOrders;
+
 
     @ManyToOne
     private RestaurantOwner restaurantOwner;

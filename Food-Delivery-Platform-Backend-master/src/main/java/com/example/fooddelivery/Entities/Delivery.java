@@ -12,17 +12,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Delivery {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int trackingCode;
-
+public class Delivery extends BaseEntity{
+    private String trackingCode;
     private String status;
     private LocalDateTime assignedAt;
-    private  LocalDateTime pickedUpAt;
+    private LocalDateTime pickedUpAt;
     private LocalDateTime deliveredAt;
-    private Date createdDate;
-    private Date updatedDate;
     private boolean  isActive;
 
     @OneToOne

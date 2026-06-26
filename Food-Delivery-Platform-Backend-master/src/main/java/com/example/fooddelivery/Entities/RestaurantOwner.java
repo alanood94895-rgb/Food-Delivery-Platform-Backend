@@ -15,17 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class RestaurantOwner {
-    @Id
-    private String businessLicenseCode;
-
     private String firstName;
     private String lastName;
     private String email;
-    private int phone;
+    private String phone;
     private String passwordHash;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean  isActive;
+    private String businessLicenseCode;
+
 
     @OneToMany (mappedBy = "restaurantOwner")
     private List<Restaurant> restaurants;

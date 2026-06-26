@@ -12,20 +12,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int customerCode;
+public class Customer extends BaseEntity {
     private String firstName;
     private String lastName;
-    private String email;
-    private int phone;
+    private String customerEmail;
+    private String phone;
     private String passwordHash;
-    private int loyaltyPoints;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean  isActive;
-
+    private Integer loyaltyPoints;
+    private String customerCode;
 
     @OneToMany
     private List<CustomerAddress> customerAddressList;

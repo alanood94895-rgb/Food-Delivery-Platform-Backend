@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -13,19 +14,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class CorporateOrder {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int corporateCode;
+public class CorporateOrder extends BaseEntity {
 
+    private String corporateCode;
     private String companyName;
     private String costCenter;
-    private Date orderDate;
+    private LocalDate orderDate;
     private String status;
-    private double totalAmount;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean  isActive;
+    private Double totalAmount;
 
     @ManyToOne
     private Restaurant restaurant;
@@ -35,5 +31,5 @@ public class CorporateOrder {
 
 
     @OneToMany (mappedBy = "corporateOrder")
-    private List<CorporateOrderItem> corporateOrderItems;
+    private List<OrderItem> orderItems;
 }

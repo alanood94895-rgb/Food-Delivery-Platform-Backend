@@ -12,17 +12,10 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int itemCode;
-
-    private int quantity;
-    private double unitPrice;
-    private double totalPrice;
+    private Integer quantity;
+    private Double unitPrice;
+    private Double totalPrice;
     private String specialInstructions;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean  isActive;
 
     @ManyToOne
     private Order order;

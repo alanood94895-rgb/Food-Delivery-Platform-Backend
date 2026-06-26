@@ -12,22 +12,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class MenuItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+public class MenuItem extends BaseEntity {
     private String name;
     private String description;
-    private double price;
-    private boolean isAvailable;
-    private boolean isVegetarian;
-    private double calories;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean isActive;
+    private Double price;
+    private Boolean isAvailable;
+    private Boolean isVegetarian;
+    private Integer calories;
+
+
+
     @ManyToOne
     private Restaurant restaurant;
-    @OneToMany
+
+    @OneToMany (mappedBy = "menuItem")
     private List<OrderItem> orderItemList;
 }

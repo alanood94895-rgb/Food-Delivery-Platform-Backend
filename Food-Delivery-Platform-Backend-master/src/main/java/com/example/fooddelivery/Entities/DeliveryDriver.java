@@ -13,24 +13,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class DeliveryDriver {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int driverCode;
-
+public class DeliveryDriver extends BaseEntity {
     private String firstName;
     private String lastName;
     private String email;
-    private int phone;
+    private String phone;
     private String passwordHash;
+    private String driverCode;
     private String vehicleType;
     private String vehiclePlate;
-    private String currentLat;
-    private String currentLng;
+    private Double currentLat;
+    private Double currentLng;
     private boolean isOnline;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean  isActive;
+
 
     @OneToMany(mappedBy = "deliveryDriver")
     private List<Delivery> deliveries;

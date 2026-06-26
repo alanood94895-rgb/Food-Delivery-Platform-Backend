@@ -13,18 +13,11 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 public class Payment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    private int transactionRef;
-    private String paymentMethod;
-    private String  status;
-    private double amount;
+    public String paymentMethod;
+    public String status;
+    public Double amount;
+    private String transactionRef;
     private LocalDateTime processedAt;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean  isActive;
 
     @OneToOne
     private Order order;

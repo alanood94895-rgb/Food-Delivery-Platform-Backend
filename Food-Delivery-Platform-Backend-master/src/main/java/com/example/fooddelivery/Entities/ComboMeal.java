@@ -12,18 +12,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ComboMeal {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class ComboMeal extends BaseEntity{
 
     private String comboName;
     private String description;
     private double totalPrice;
     private boolean isAvailable;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean  isActive;
+
 
     @ManyToOne
     private Restaurant restaurant;
