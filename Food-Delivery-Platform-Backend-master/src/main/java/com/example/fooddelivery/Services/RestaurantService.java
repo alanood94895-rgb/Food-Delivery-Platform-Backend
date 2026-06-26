@@ -32,7 +32,6 @@ public class RestaurantService {
     @Autowired
     ComboMealRepository comboMealRepository;
 
-    //create a brand-new Restaurant
     public RestaurantResponseDTO createResponse(RestaurantRequestDTO dto, Integer ownerId){
         List<RestaurantOwner> owners = restaurantOwnerRepository.findActiveById(ownerId);
 
