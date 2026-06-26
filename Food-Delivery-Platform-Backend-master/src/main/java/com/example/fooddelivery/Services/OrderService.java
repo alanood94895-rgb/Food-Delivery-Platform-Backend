@@ -120,7 +120,7 @@ public class OrderService {
             throw new InvalidOrderStateException("Only pending orders can be cancelled");
         }
         order.setStatus("CANCELLED");
-        order.setActive(false);
+        order.setIsActive(false);
         order = orderRepository.save(order);
 
         return OrderResponseDTO.fromEntity(order);
@@ -190,7 +190,7 @@ public class OrderService {
         newOrder.setRestaurant(oldOrder.getRestaurant());
         newOrder.setStatus("PENDING");
         newOrder.setOrderDate(new Date());
-        newOrder.setActive(true);
+        newOrder.setIsActive(true);
         newOrder = orderRepository.save(newOrder);
         return OrderResponseDTO.fromEntity(newOrder);
     }

@@ -34,8 +34,8 @@ public class CustomerService {
         customer.setFirstName(dto.getFirstName());
         customer.setLastName(dto.getLastName());
       //  customer.setPhone(dto.getPhone());//
-        customer.setCustomerEmail(dto.getEmail());
-        customer.setPasswordHash(dto.getPasswordHash());
+        customer.setCustomerEmail(dto.getCustomerEmail());
+        customer.setPasswordHash(dto.getCustomerCode());
         customer= customerRepository.save(customer);
         return CustomerResponseDTO.fromEntity(customer);
     }
@@ -44,15 +44,15 @@ public class CustomerService {
         customer.setFirstName(dto.getFirstName());
         customer.setLastName(dto.getLastName());
         //customer.setPhone(dto.getPhone());//
-        customer.setCustomerEmail(dto.getEmail());
-        customer.setPasswordHash(dto.getPasswordHash());
+        customer.setCustomerEmail(dto.getCustomerEmail());
+        customer.setPasswordHash(dto.getCustomerCode());
         customer.setLoyaltyPoints(dto.getLoyaltyPoints());
 
         CustomerAddress customerAddress = initialAddress.toEntity();
         customerAddress.setStreet(initialAddress.getStreet());
         customerAddress.setCity(initialAddress.getCity());
         customerAddress.setBuilding(initialAddress.getBuilding());
-        customerAddress.setIsDefault(initialAddress.isDefault());
+        customerAddress.setIsDefault(initialAddress.getIsDefault());
         customerAddress = customerAddressRepository.save(customerAddress);
         customer.getCustomerAddressList().add(customerAddress);
         customer = customerRepository.save(customer);
@@ -69,7 +69,7 @@ public class CustomerService {
         customerAddress.setStreet(address.getStreet());
         customerAddress.setCity(address.getCity());
         customerAddress.setBuilding(address.getBuilding());
-        customerAddress.setIsDefault(address.isDefault());
+        customerAddress.setIsDefault(address.getIsDefault());
         customerAddress = customerAddressRepository.save(customerAddress);
         customer.getCustomerAddressList().add(customerAddress);
         customerRepository.save(customer);

@@ -17,11 +17,9 @@ public class CustomerAddressSummaryDTO {
 
     public static CustomerAddressResponseDTO fromEntity(CustomerAddress customerAddress){
         CustomerAddressResponseDTO dto = new CustomerAddressResponseDTO();
-        dto.setId(customerAddress.getId());
         dto.setStreet(customerAddress.getStreet());
         dto.setCity(customerAddress.getCity());
         dto.setBuilding(customerAddress.getBuilding());
-        dto.setActive(customerAddress.isActive());
 
         return dto;
     }

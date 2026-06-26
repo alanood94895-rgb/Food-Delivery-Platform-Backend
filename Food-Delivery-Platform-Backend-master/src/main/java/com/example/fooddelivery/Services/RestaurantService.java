@@ -47,7 +47,7 @@ public class RestaurantService {
         restaurant.setClosingTime(dto.getClosingTime());
         restaurant.setMinOrderAmount(dto.getMinOrderAmount());
         restaurant.setDeliveryFee(dto.getDeliveryFee());
-        restaurant.setAcceptingOrders(dto.isAcceptingOrders());
+        restaurant.setAcceptingOrders(dto.getAcceptingOrders());
         restaurant.setRestaurantOwner(owner);
         restaurant = restaurantRepository.save(restaurant);
 
@@ -135,7 +135,7 @@ public class RestaurantService {
     public MenuItemResponseDTO updateMenuItemAvailability(Integer itemId, boolean status) {
         MenuItem item = menuItemRepository.findById(itemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Menu item not found"));
-        item.setAvailable(status);
+        item.setIsAvailable(status);
         item = menuItemRepository.save(item);
 
         return MenuItemResponseDTO.fromEntity(item);
@@ -158,7 +158,7 @@ public class RestaurantService {
         comboMeal.setComboName(dto.getComboName());
         comboMeal.setDescription(dto.getDescription());
         comboMeal.setTotalPrice(dto.getTotalPrice());
-        comboMeal.setAvailable(dto.isAvailable());
+        comboMeal.setAvailable(dto.getIsAvailable());
 
         comboMeal.setRestaurant(restaurant);
         comboMeal = comboMealRepository.save(comboMeal);
