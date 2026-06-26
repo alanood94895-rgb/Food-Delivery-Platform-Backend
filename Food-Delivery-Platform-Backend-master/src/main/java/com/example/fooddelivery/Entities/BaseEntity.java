@@ -19,6 +19,7 @@ public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
     private Boolean isActive = true;
