@@ -22,6 +22,7 @@ public class ComboMeal extends BaseEntity{
 
     @ManyToOne
     private Restaurant restaurant;
+
     @ManyToMany
     private List<MenuItem> menuItemList;
 
