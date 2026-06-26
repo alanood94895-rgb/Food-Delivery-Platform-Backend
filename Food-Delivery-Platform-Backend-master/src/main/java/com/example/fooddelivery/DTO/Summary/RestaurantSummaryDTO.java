@@ -12,23 +12,23 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestaurantSummaryDTO {
-    private int id;
     private String name;
-    private String description;
     private String cuisineType;
-    private LocalDateTime openingTime;
-    private LocalDateTime closingTime;
-    private boolean  isActive;
+    private Double deliveryFee;
+    private Boolean acceptingOrders;
 
-    public static RestaurantResponseDTO fromEntity(Restaurant restaurant){
-        RestaurantResponseDTO dto = new RestaurantResponseDTO();
-        dto.setId(restaurant.getId());
+    public static RestaurantSummaryDTO fromEntity(Restaurant restaurant) {
+        if (restaurant == null) {
+            return null;
+        }
+
+        RestaurantSummaryDTO dto = new RestaurantSummaryDTO();
+
         dto.setName(restaurant.getName());
-        dto.setDescription(restaurant.getDescription());
         dto.setCuisineType(restaurant.getCuisineType());
-        dto.setOpeningTime(restaurant.getOpeningTime());
-        dto.setClosingTime(restaurant.getClosingTime());
-        dto.setActive(restaurant.isActive());
+        dto.setDeliveryFee(restaurant.getDeliveryFee());
+        dto.setAcceptingOrders(restaurant.getAcceptingOrders());
+
 
         return dto;
     }

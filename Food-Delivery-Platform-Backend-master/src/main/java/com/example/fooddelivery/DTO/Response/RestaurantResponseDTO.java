@@ -13,28 +13,35 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestaurantResponseDTO {
-    private int id;
     private String name;
-    private String description;
     private String cuisineType;
-    private LocalDateTime openingTime;
-    private LocalDateTime closingTime;
-    private int minOrderAmount;
-    private double deliveryFee;
-    private boolean  isActive;
+    private Double deliveryFee;
+    private Boolean acceptingOrders;
 
-    public static RestaurantResponseDTO fromEntity(Restaurant restaurant){
+    public static RestaurantResponseDTO fromEntity(Restaurant restaurant) {
+        if (restaurant == null) {
+            return null;
+        }
+
         RestaurantResponseDTO dto = new RestaurantResponseDTO();
-        dto.setId(restaurant.getId());
+
         dto.setName(restaurant.getName());
-        dto.setDescription(restaurant.getDescription());
         dto.setCuisineType(restaurant.getCuisineType());
-        dto.setOpeningTime(restaurant.getOpeningTime());
-        dto.setClosingTime(restaurant.getClosingTime());
-        dto.setMinOrderAmount(restaurant.getMinOrderAmount());
         dto.setDeliveryFee(restaurant.getDeliveryFee());
-        dto.setActive(restaurant.isActive());
+        dto.setAcceptingOrders(restaurant.getAcceptingOrders());
 
         return dto;
     }
+
+    public static List<RestaurantResponseDTO> fromEntity(List<Restaurant> restaurants){
+        List<RestaurantResponseDTO> dtos = new ArrayList<>(); //return type
+        if (restaurants != null){
+            for (Restaurant restaurant : restaurants){
+                dtos.add(fromEntity(restaurant));
+            }
+        }
+        return dtos;
+    }
+
+
 }

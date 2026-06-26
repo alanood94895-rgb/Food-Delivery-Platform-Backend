@@ -33,8 +33,8 @@ public class CustomerService {
         Customer customer = dto.toEntity();
         customer.setFirstName(dto.getFirstName());
         customer.setLastName(dto.getLastName());
-        customer.setPhone(dto.getPhone());
-        customer.setEmail(dto.getEmail());
+      //  customer.setPhone(dto.getPhone());//
+        customer.setCustomerEmail(dto.getEmail());
         customer.setPasswordHash(dto.getPasswordHash());
         customer= customerRepository.save(customer);
         return CustomerResponseDTO.fromEntity(customer);
@@ -43,8 +43,8 @@ public class CustomerService {
         Customer customer = dto.toEntity();
         customer.setFirstName(dto.getFirstName());
         customer.setLastName(dto.getLastName());
-        customer.setPhone(dto.getPhone());
-        customer.setEmail(dto.getEmail());
+        //customer.setPhone(dto.getPhone());//
+        customer.setCustomerEmail(dto.getEmail());
         customer.setPasswordHash(dto.getPasswordHash());
         customer.setLoyaltyPoints(dto.getLoyaltyPoints());
 
@@ -52,7 +52,7 @@ public class CustomerService {
         customerAddress.setStreet(initialAddress.getStreet());
         customerAddress.setCity(initialAddress.getCity());
         customerAddress.setBuilding(initialAddress.getBuilding());
-        customerAddress.setDefault(initialAddress.isDefault());
+        customerAddress.setIsDefault(initialAddress.isDefault());
         customerAddress = customerAddressRepository.save(customerAddress);
         customer.getCustomerAddressList().add(customerAddress);
         customer = customerRepository.save(customer);
@@ -69,7 +69,7 @@ public class CustomerService {
         customerAddress.setStreet(address.getStreet());
         customerAddress.setCity(address.getCity());
         customerAddress.setBuilding(address.getBuilding());
-        customerAddress.setDefault(address.isDefault());
+        customerAddress.setIsDefault(address.isDefault());
         customerAddress = customerAddressRepository.save(customerAddress);
         customer.getCustomerAddressList().add(customerAddress);
         customerRepository.save(customer);
@@ -96,7 +96,7 @@ public class CustomerService {
     public CustomerResponseDTO deactivateCustomer(Integer customerId){
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
-        customer.setActive(false);
+        customer.setIsActive(false);
         customer = customerRepository.save(customer);
 
         return CustomerResponseDTO.fromEntity(customer);
@@ -125,7 +125,7 @@ public class CustomerService {
         CustomerAddress address = customerAddressRepository.findById(addressId)
                 .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
 
-        address.setDefault(true);
+        address.setIsDefault(true);
         customerAddressRepository.save(address);
         return CustomerAddressResponseDTO.fromEntity(address);
     }
@@ -133,7 +133,7 @@ public class CustomerService {
     public void deleteAddress(Integer addressId) {
         CustomerAddress address = customerAddressRepository.findById(addressId)
                 .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
-        address.setActive(false);
+        address.setIsActive(false);
         customerAddressRepository.save(address);
     }
     public CustomerResponseDTO getCustomerById(Integer customerId) {

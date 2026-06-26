@@ -12,25 +12,36 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerResponseDTO {
-    private int customerCode;
     private String firstName;
     private String lastName;
-    private String email;
-    private int phone;
-    private int loyaltyPoints;
-    private boolean  isActive;
+    private String customerEmail;
+    private String phone;
+    private Integer loyaltyPoints;
+    private String customerCode;
+
 
     public static CustomerResponseDTO fromEntity(Customer customer){
+        if (customer == null){
+            return null;
+        }
+
         CustomerResponseDTO dto = new CustomerResponseDTO();
-        dto.setCustomerCode(customer.getCustomerCode());
+
         dto.setFirstName(customer.getFirstName());
         dto.setLastName(customer.getLastName());
-        dto.setEmail(customer.getEmail());
+        dto.setCustomerEmail(customer.getCustomerEmail());
         dto.setPhone(customer.getPhone());
+        dto.setCustomerCode(customer.getCustomerCode());
         dto.setLoyaltyPoints(customer.getLoyaltyPoints());
-        dto.setActive(customer.isActive());
-
         return dto;
     }
-
+    public static List<CustomerResponseDTO> fromEntity(List<Customer> customers) {
+        List<CustomerResponseDTO> dtos = new ArrayList<>();
+        if (customers != null) {
+            for (Customer customer : customers) {
+                dtos.add(fromEntity(customer));
+            }
+        }
+        return dtos;
+    }
 }

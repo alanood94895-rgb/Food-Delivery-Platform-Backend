@@ -6,35 +6,42 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ComboMealResponseDTO {
-    private int id;
     private String comboName;
     private String description;
-    private double totalPrice;
-    private boolean isAvailable;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean isActive;
+    private Double totalPrice;
+    private Boolean isAvailable;
 
     public static ComboMealResponseDTO fromEntity(ComboMeal comboMeal) {
+        if (comboMeal == null) {
+            return null;
+        }
 
         ComboMealResponseDTO dto = new ComboMealResponseDTO();
 
-        dto.setId(comboMeal.getId());
         dto.setComboName(comboMeal.getComboName());
         dto.setDescription(comboMeal.getDescription());
         dto.setTotalPrice(comboMeal.getTotalPrice());
-        dto.setAvailable(comboMeal.isAvailable());
-        dto.setCreatedDate(comboMeal.getCreatedDate());
-        dto.setUpdatedDate(comboMeal.getUpdatedDate());
-        dto.setActive(comboMeal.isActive());
-
+        dto.setIsAvailable(comboMeal.getIsActive());
         return dto;
     }
+
+    public static List<ComboMealResponseDTO> fromEntity(List<ComboMeal> comboMeals) {
+        List<ComboMealResponseDTO> dtos = new ArrayList<>();
+        if (comboMeals != null) {
+            for (ComboMeal comboMeal : comboMeals) {
+                dtos.add(fromEntity(comboMeal));
+            }
+        }
+        return dtos;
+    }
+
 }

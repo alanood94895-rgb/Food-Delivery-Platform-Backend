@@ -20,7 +20,7 @@ public class CustomerAddressRequestDTO {
         customerAddress.setStreet(street);
         customerAddress.setCity(city);
         customerAddress.setBuilding(building);
-        customerAddress.setDefault(isDefault);
+        customerAddress.setIsDefault(isDefault);
         return customerAddress;
     }
 
@@ -28,6 +28,6 @@ public class CustomerAddressRequestDTO {
         customerAddress.setStreet(street);
         customerAddress.setCity(city);
         customerAddress.setBuilding(building);
-        customerAddress.setDefault(isDefault);
+        customerAddress.setIsDefault(isDefault);
     }
 }

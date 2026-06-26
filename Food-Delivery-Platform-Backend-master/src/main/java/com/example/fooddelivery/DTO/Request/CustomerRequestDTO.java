@@ -22,8 +22,7 @@ public class CustomerRequestDTO {
     @Email(message = "Invalid email format")
     private String email;
 
-    @Pattern(regexp = "^\\+?[0-9]{8,15}$", message = "Phone number must contain 8-15 digits")
-    private int phone;
+    private String phone;
     @NotBlank(message = "Password is required")
     private String passwordHash;
     private int loyaltyPoints;
@@ -32,7 +31,7 @@ public class CustomerRequestDTO {
         Customer customer =new Customer();
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
-        customer.setEmail(email);
+        customer.setCustomerEmail(email);
         customer.setPhone(phone);
         customer.setPasswordHash(passwordHash);
         customer.setLoyaltyPoints(loyaltyPoints);
@@ -42,7 +41,7 @@ public class CustomerRequestDTO {
     public void applyTo(Customer customer){
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
-        customer.setEmail(email);
+        customer.setCustomerEmail(email);
         customer.setPhone(phone);
         customer.setPasswordHash(passwordHash);
         customer.setLoyaltyPoints(loyaltyPoints);

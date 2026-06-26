@@ -16,7 +16,6 @@ public class OrderItemSummeryDTO {
     public static OrderItemSummeryDTO fromEntity(OrderItem orderItem) {
 
         OrderItemSummeryDTO dto = new OrderItemSummeryDTO();
-        dto.setItemCode(orderItem.getItemCode());
         dto.setQuantity(orderItem.getQuantity());
         dto.setTotalPrice(orderItem.getTotalPrice());
 

@@ -6,28 +6,46 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeliveryResponseDTO {
-    private int trackingCode;
+    private String trackingCode;
     private String status;
     private LocalDateTime assignedAt;
-    private  LocalDateTime pickedUpAt;
+    private LocalDateTime pickedUpAt;
     private LocalDateTime deliveredAt;
-    private boolean  isActive;
 
-    public static DeliveryResponseDTO fromEntity(Delivery delivery){
+
+    public static DeliveryResponseDTO fromEntity(Delivery delivery) {
+        if (delivery == null) {
+            return null;
+        }
+
         DeliveryResponseDTO dto = new DeliveryResponseDTO();
+
         dto.setTrackingCode(delivery.getTrackingCode());
         dto.setStatus(delivery.getStatus());
         dto.setAssignedAt(delivery.getAssignedAt());
         dto.setPickedUpAt(delivery.getPickedUpAt());
         dto.setDeliveredAt(delivery.getDeliveredAt());
-        dto.setActive(delivery.isActive());
 
         return dto;
     }
+
+    public static List<DeliveryResponseDTO> fromEntity(List<Delivery> deliveries) {
+        List<DeliveryResponseDTO> dtos = new ArrayList<>();
+        if (deliveries != null) {
+            for (Delivery delivery : deliveries) {
+                dtos.add(fromEntity(delivery));
+            }
+        }
+        return dtos;
+    }
+
+
 }

@@ -22,7 +22,6 @@ public class RestaurantOwnerSummeryDTO {
         dto.setFirstName(owner.getFirstName());
         dto.setLastName(owner.getLastName());
         dto.setEmail(owner.getEmail());
-        dto.setActive(owner.isActive());
 
         return dto;
     }

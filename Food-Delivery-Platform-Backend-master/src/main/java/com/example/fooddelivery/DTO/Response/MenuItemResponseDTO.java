@@ -14,32 +14,38 @@ import java.util.List;
 @NoArgsConstructor
 public class MenuItemResponseDTO {
 
-
-        private int id;
-        private String name;
-        private String description;
-        private double price;
-        private boolean isAvailable;
-        private boolean isVegetarian;
-        private double calories;
-        private Date createdDate;
-        private Date updatedDate;
+    private String name;
+    private String description;
+    private Double price;
+    private Boolean isAvailable;
+    private Boolean isVegetarian;
+    private Integer calories;
 
 
-        public static MenuItemResponseDTO fromEntity(MenuItem item) {
-
-            MenuItemResponseDTO dto = new MenuItemResponseDTO();
-
-            dto.setId(item.getId());
-            dto.setName(item.getName());
-            dto.setDescription(item.getDescription());
-            dto.setPrice(item.getPrice());
-            dto.setAvailable(item.isAvailable());
-            dto.setVegetarian(item.isVegetarian());
-            dto.setCalories(item.getCalories());
-            dto.setCreatedDate(item.getCreatedDate());
-            dto.setUpdatedDate(item.getUpdatedDate());
-
-            return dto;
+    public static MenuItemResponseDTO fromEntity(MenuItem menuItem) {
+        if (menuItem == null) {
+            return null;
         }
+
+        MenuItemResponseDTO dto = new MenuItemResponseDTO();
+
+        dto.setName(menuItem.getName());
+        dto.setDescription(menuItem.getDescription());
+        dto.setPrice(menuItem.getPrice());
+        dto.setIsAvailable(menuItem.getIsAvailable());
+        dto.setIsVegetarian(menuItem.getIsVegetarian());
+        dto.setCalories(menuItem.getCalories());
+
+        return dto;
     }
+
+    public static List<MenuItemResponseDTO> fromEntity(List<MenuItem> menuItems) {
+        List<MenuItemResponseDTO> dtos = new ArrayList<>();
+        if (menuItems != null) {
+            for (MenuItem menuItem : menuItems) {
+                dtos.add(fromEntity(menuItem));
+            }
+        }
+        return dtos;
+    }
+}

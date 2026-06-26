@@ -14,29 +14,36 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CorporateOrderResponseDTO {
-    private int corporateCode;
+    private String corporateCode;
     private String companyName;
     private String costCenter;
-    private Date orderDate;
+    private LocalDate orderDate;
     private String status;
-    private double totalAmount;
-    private Date createdDate;
-    private Date updatedDate;
-    private boolean isActive;
+    private Double totalAmount;
 
     public static CorporateOrderResponseDTO fromEntity(CorporateOrder corporateOrder) {
+        if (corporateOrder == null) {
+            return null;
+        }
 
         CorporateOrderResponseDTO dto = new CorporateOrderResponseDTO();
+
         dto.setCorporateCode(corporateOrder.getCorporateCode());
         dto.setCompanyName(corporateOrder.getCompanyName());
         dto.setCostCenter(corporateOrder.getCostCenter());
         dto.setOrderDate(corporateOrder.getOrderDate());
         dto.setStatus(corporateOrder.getStatus());
         dto.setTotalAmount(corporateOrder.getTotalAmount());
-        dto.setCreatedDate(corporateOrder.getCreatedDate());
-        dto.setUpdatedDate(corporateOrder.getUpdatedDate());
-        dto.setActive(corporateOrder.isActive());
-
         return dto;
+    }
+
+    public static List<CorporateOrderResponseDTO> fromEntity(List<CorporateOrder> corporateOrders) {
+        List<CorporateOrderResponseDTO> dtos = new ArrayList<>();
+        if (corporateOrders != null) {
+            for (CorporateOrder corporateOrder : corporateOrders) {
+                dtos.add(fromEntity(corporateOrder));
+            }
+        }
+        return dtos;
     }
 }
