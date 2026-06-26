@@ -26,7 +26,7 @@ public class CorporateOrder extends BaseEntity {
     @ManyToOne
     private Restaurant restaurant;
 
-    @OneToMany
+    @OneToMany (mappedBy = "corporateOrder")
     private List<OrderItem> orderItemList;
 
 
