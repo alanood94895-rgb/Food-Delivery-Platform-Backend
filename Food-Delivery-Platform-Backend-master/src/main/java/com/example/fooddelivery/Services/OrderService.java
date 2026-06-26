@@ -281,7 +281,6 @@ public class OrderService {
         return OrderResponseDTO.fromEntity(orders.get());
     }
 
-    // Get Orders By Restaurant And Status
     public List<OrderResponseDTO> getOrdersByRestaurantAndStatus(Integer restaurantId, String status) {
 
         List<Order> orders = orderRepository.findByRestaurantIdAndStatus(restaurantId, status);
