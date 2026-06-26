@@ -32,7 +32,6 @@ public class DeliveryService {
     private OrderRepository orderRepository;
 
 
-    //Assign Driver To Order
     public DeliveryResponseDTO assignDriverToOrder(Integer orderId, Integer driverId) {
 
         Order order = orderRepository.findActiveById(orderId).orElseThrow(() -> new ResourceNotFoundException(
@@ -60,7 +59,6 @@ public class DeliveryService {
         return DeliveryResponseDTO.fromEntity(deliveryRepository.save(delivery));
     }
 
-    // Auto Assign Driver
     public DeliveryResponseDTO autoAssignDriver(Integer orderId) {
 
         Order order = orderRepository.findActiveById(orderId)
