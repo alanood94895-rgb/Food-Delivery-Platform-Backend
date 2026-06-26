@@ -1,6 +1,7 @@
 package com.example.fooddelivery.DTO.Summary;
 
 import com.example.fooddelivery.DTO.Response.DeliveryDriverResponseDTO;
+import com.example.fooddelivery.Entities.Delivery;
 import com.example.fooddelivery.Entities.DeliveryDriver;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,22 +11,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeliveryDriverSummeryDTO {
-    private int driverId;
+    private Long id;
     private String firstName;
     private String lastName;
-    private String vehicleType;
+    private String driverCode;
     private boolean isOnline;
-    private boolean  isActive;
 
-    public static DeliveryDriverResponseDTO fromEntity(DeliveryDriver deliveryDriver) {
-        DeliveryDriverResponseDTO dto = new DeliveryDriverResponseDTO();
+    public static DeliveryDriverSummeryDTO fromEntity(DeliveryDriver driver) {
 
-        dto.setDriverId(deliveryDriver.getDriverCode());
-        dto.setFirstName(deliveryDriver.getFirstName());
-        dto.setLastName(deliveryDriver.getLastName());
-        dto.setVehicleType(deliveryDriver.getVehicleType());
-        dto.setOnline(deliveryDriver.isOnline());
-        dto.setActive(dto.isActive());
+        DeliveryDriverSummeryDTO dto = new DeliveryDriverSummeryDTO();
+
+        dto.setFirstName(driver.getFirstName());
+        dto.setLastName(driver.getLastName());
+        dto.setDriverCode(driver.getDriverCode());
+        dto.setOnline(driver.isOnline());
 
         return dto;
     }

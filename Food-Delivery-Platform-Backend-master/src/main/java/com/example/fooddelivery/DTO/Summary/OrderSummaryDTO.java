@@ -9,22 +9,22 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.Date;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderSummaryDTO {
-    private int orderCode;
-    private Date orderDate;
+    private String orderCode;
+    private LocalDate orderDate;
     private String status;
-    private double deliveryFee;
-    private double totalAmount;
-    private boolean  isActive;
+    private Double totalAmount;
 
-    public static OrderResponseDTO fromEntity(Order order){
-        OrderResponseDTO dto = new OrderResponseDTO();
+    public static OrderSummaryDTO fromEntity(Order order) {
+        OrderSummaryDTO dto = new OrderSummaryDTO();
+
         dto.setOrderCode(order.getOrderCode());
         dto.setOrderDate(order.getOrderDate());
         dto.setStatus(order.getStatus());
-        dto.setDeliveryFee(order.getDeliveryFee());
         dto.setTotalAmount(order.getTotalAmount());
-        dto.setActive(order.isActive());
 
         return dto;
     }

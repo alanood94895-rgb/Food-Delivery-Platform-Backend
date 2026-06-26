@@ -15,40 +15,52 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/drivers")
 public class DriverController {
-    DeliveryService deliveryService;
+
     @Autowired
-    public DriverController(DeliveryService deliveryService) {
-        this.deliveryService = deliveryService;
-    }
+    DeliveryService deliveryService;
+
+    //Register new driver
     @PostMapping
-    public ResponseEntity<DeliveryDriverResponseDTO> createDriver(@Valid @RequestBody DeliveryDriverRequestDTO dto) {
-        DeliveryDriverResponseDTO driver = deliveryService.createDriver(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(driver);
-    }
-    @GetMapping
-    public ResponseEntity<List<DeliveryDriverResponseDTO>> getAllDrivers() {
-        return ResponseEntity.ok(deliveryService.getAllDrivers());
-    }
-    @GetMapping("/online")
-    public ResponseEntity<List<DeliveryDriverResponseDTO>> getOnlineDrivers() {
-        return ResponseEntity.ok(deliveryService.getOnlineDrivers());
-    }
-    @PutMapping("/{id}/status")
-    public ResponseEntity<DeliveryDriverResponseDTO> updateStatus(@PathVariable Integer id, @RequestParam boolean isOnline) {
-        return ResponseEntity.ok(deliveryService.toggleDriverOnlineStatus(id, isOnline));
-    }
-    @PutMapping("/{id}/location")
-    public ResponseEntity<DeliveryDriverResponseDTO> updateLocation(@PathVariable Integer id, @RequestParam double lat,
-                                                                    @RequestParam double lng) {
-        return ResponseEntity.ok(deliveryService.updateDriverLocation(id, lat, lng));
-    }
-    @GetMapping("/{id}/deliveries")
-    public ResponseEntity<List<DeliveryResponseDTO>> getDeliveryHistory(@PathVariable Integer id) {
-        return ResponseEntity.ok(deliveryService.getDeliveriesForDriver(id, "DELIVERED"));
-    }
-    @GetMapping("/{id}/deliveries/active")
-    public ResponseEntity<List<DeliveryResponseDTO>> getActiveDeliveries(@PathVariable Integer id) {
-        return ResponseEntity.ok(deliveryService.getDeliveriesForDriver(id, "ASSIGNED"));
+    public ResponseEntity<DeliveryDriverResponseDTO> registerDriver(@RequestBody DeliveryDriverRequestDTO dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(deliveryService.registerDriver(dto));
     }
 
+    //Get All Drivers
+    @GetMapping
+    public ResponseEntity<List<DeliveryDriverResponseDTO>> getAllDrivers(){
+        return ResponseEntity.ok(deliveryService.getAllDrivers());
+    }
+
+    //Get Online Drivers
+    @GetMapping("/online")
+    public ResponseEntity<List<DeliveryDriverResponseDTO>> getOnlineDrivers(){
+        return ResponseEntity.ok(deliveryService.getOnlineDrivers());
+    }
+
+    //Toggle online status
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Void> toggleDriverOnlineStatus(@PathVariable Integer id, @RequestParam boolean isOnline) {
+        deliveryService.toggleDriverOnlineStatus(id, isOnline);
+        return ResponseEntity.noContent().build();
+    }
+
+    //Update coordinates
+    @PutMapping("/{id}/location")
+    public ResponseEntity<Void> updateDriverLocation(@PathVariable Integer id, @RequestParam double lat, @RequestParam double lng) {
+        deliveryService.updateDriverLocation(id, lat, lng);
+        return ResponseEntity.noContent().build();
+    }
+
+    //Get driver's delivery history
+    @GetMapping("/{id}/deliveries")
+    public ResponseEntity<List<DeliveryResponseDTO>> getDeliveriesForDriver(@PathVariable Integer id,
+                                                                            @RequestParam(required = false) String status) {
+        return ResponseEntity.ok(deliveryService.getDeliveriesForDriver(id, status));
+    }
+
+    //Get driver's current active delivery
+    @GetMapping("/{id}/deliveries/active")
+    public ResponseEntity<DeliveryResponseDTO> getActiveDeliveryForDriver(@PathVariable Integer id) {
+        return ResponseEntity.ok(deliveryService.getActiveDeliveryForDriver(id));
+    }
 }

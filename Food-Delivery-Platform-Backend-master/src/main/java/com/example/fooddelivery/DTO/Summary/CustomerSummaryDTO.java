@@ -10,17 +10,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerSummaryDTO {
-    private int customerCode;
     private String firstName;
     private String lastName;
-    private boolean  isActive;
+    private String customerCode;
 
     public static CustomerSummaryDTO fromEntity(Customer customer){
+
         CustomerSummaryDTO dto = new CustomerSummaryDTO();
-        dto.setCustomerCode(customer.getCustomerCode());
+
         dto.setFirstName(customer.getFirstName());
         dto.setLastName(customer.getLastName());
-        dto.setActive(customer.isActive());
+        dto.setCustomerCode(customer.getCustomerCode());
 
         return dto;
     }

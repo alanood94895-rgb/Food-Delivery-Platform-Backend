@@ -12,17 +12,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeliverySummeryDTO {
-    private int trackingCode;
+    private String trackingCode;
     private String status;
-    private  LocalDateTime pickedUpAt;
-    private LocalDateTime deliveredAt;
 
-    public static DeliveryResponseDTO fromEntity(Delivery delivery){
-        DeliveryResponseDTO dto = new DeliveryResponseDTO();
+    public static DeliverySummeryDTO fromEntity(Delivery delivery) {
+
+        DeliverySummeryDTO dto = new DeliverySummeryDTO();
+
         dto.setTrackingCode(delivery.getTrackingCode());
         dto.setStatus(delivery.getStatus());
-        dto.setPickedUpAt(delivery.getPickedUpAt());
-        dto.setDeliveredAt(delivery.getDeliveredAt());
 
         return dto;
     }

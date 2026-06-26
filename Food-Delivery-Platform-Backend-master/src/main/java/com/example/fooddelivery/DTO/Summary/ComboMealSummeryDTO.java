@@ -9,18 +9,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ComboMealSummeryDTO {
-    private int id;
     private String comboName;
-    private double totalPrice;
-    private boolean isAvailable;
+    private Double totalPrice;
+    private Boolean isAvailable;
 
     public static ComboMealSummeryDTO fromEntity(ComboMeal comboMeal) {
 
         ComboMealSummeryDTO dto = new ComboMealSummeryDTO();
-        dto.setId(comboMeal.getId());
+
         dto.setComboName(comboMeal.getComboName());
         dto.setTotalPrice(comboMeal.getTotalPrice());
-        dto.setAvailable(comboMeal.isAvailable());
+        dto.setIsAvailable(comboMeal.getIsActive());
 
         return dto;
     }
