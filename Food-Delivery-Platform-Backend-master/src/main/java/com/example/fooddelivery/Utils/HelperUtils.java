@@ -1,33 +1,36 @@
 package com.example.fooddelivery.Utils;
 
+import java.text.NumberFormat;
 import java.time.LocalTime;
+import java.util.Locale;
 import java.util.Random;
 
 public class HelperUtils {
     private static final Random RANDOM = new Random();
 
+    // Generate Code
     public static String generateCode(String prefix) {
-        int number = 1000 + RANDOM.nextInt(9000);
-        return prefix + "-" + number;
+        return generateCode(prefix, 4);
     }
 
     public static String generateCode(String prefix, int length) {
-        StringBuilder code = new StringBuilder();
+        StringBuilder code = new StringBuilder(prefix + "-");
 
         for (int i = 0; i < length; i++) {
             code.append(RANDOM.nextInt(10));
         }
 
-        return prefix + "-" + code;
+        return code.toString();
     }
 
+    // Calculate Distance (KM)
     public static double calculateDistance(
             double lat1,
             double lng1,
             double lat2,
             double lng2) {
 
-        final double EARTH_RADIUS = 6371;
+        final int EARTH_RADIUS = 6371; // km
 
         double latDistance = Math.toRadians(lat2 - lat1);
         double lngDistance = Math.toRadians(lng2 - lng1);
@@ -43,6 +46,7 @@ public class HelperUtils {
         return EARTH_RADIUS * c;
     }
 
+    // Calculate Total
     public static double calculateTotal(double subtotal, double fee) {
         return subtotal + fee;
     }
@@ -55,25 +59,30 @@ public class HelperUtils {
         return subtotal + fee - discount;
     }
 
+
+    // Format Currency
     public static String formatCurrency(double amount) {
-        return String.format("OMR %.2f", amount);
+        NumberFormat formatter =
+                NumberFormat.getCurrencyInstance(Locale.US);
+
+        return formatter.format(amount);
     }
 
     public static String formatCurrency(
             double amount,
             String currencyCode) {
 
-        return String.format("%s %.2f", currencyCode, amount);
+        return String.format("%.2f %s", amount, currencyCode);
     }
 
+    // Business Hours
     public static boolean isBusinessOpen(
             String openTime,
             String closeTime) {
 
-        LocalTime now = LocalTime.now();
-
         LocalTime open = LocalTime.parse(openTime);
         LocalTime close = LocalTime.parse(closeTime);
+        LocalTime now = LocalTime.now();
 
         return !now.isBefore(open) && !now.isAfter(close);
     }
