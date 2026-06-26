@@ -8,20 +8,27 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public interface DeliveryRepository extends JpaRepository<Delivery, Integer> {
-    @Query("select d from Delivery d where d.isActive=true and d.deliveryDriver.driverCode=:driverId and d.status=:status")
-    List<Delivery> findByDeliveryDriverIdAndStatus(Integer driverId, String status);
-    @Query("select d from Delivery d where d.isActive=true and d.status=:status")
-    List<Delivery> findDeliveryByStatus( String status);
-    @Query("""
-       select sum(o.totalAmount)
-       from Delivery d
-       join d.order o
-       where d.deliveryDriver.driverCode =:driverId
-       and d.deliveredAt between :from and :to
-       and d.status = 'DELIVERED'
-       """)
-    Double getDriverEarnings(Integer driverId, Date from, Date to);
+    @Query("SELECT d FROM Delivery d " + "WHERE d.deliveryDriver.id = :driverId AND d.status = :status AND d.isActive = true")
+    List<Delivery> findByDeliveryDriverIdAndStatus(@Param("driverId") Integer driverId, @Param("status") String status);
+
+
+    @Query("SELECT d FROM Delivery d WHERE d.id = :id AND d.isActive = true")
+    Optional<Delivery> findActiveById(@Param("id") Integer id);
+
+    @Query("SELECT d FROM Delivery d WHERE d.deliveryDriver.id = :driverId " +
+            "AND d.status NOT IN ('DELIVERED', 'CANCELLED') AND d.isActive = true")
+    Optional<Delivery> findActiveDeliveryByDriverId(@Param("driverId") Integer driverId);
+
+    @Query("SELECT d FROM Delivery d WHERE d.status = :status AND d.isActive = true")
+    List<Delivery> findByStatus(@Param("status") String status);
+
+
+    @Query(value = "SELECT d.first_name, d.last_name, d.driver_code, " + "COUNT(del.id) as completed_deliveries " + "FROM delivery_driver d " + "JOIN delivery del ON del.delivery_driver_id = d.id " + "WHERE del.status = 'DELIVERED' " + "AND del.is_active = true " + "AND d.is_active = true " + "GROUP BY d.id " + "ORDER BY completed_deliveries DESC", nativeQuery = true)
+    List<Map<String, Object>> findDriversLeaderboard();
+
 }

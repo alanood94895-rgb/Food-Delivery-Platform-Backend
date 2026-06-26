@@ -9,37 +9,26 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Integer> {
 
-    @Query("select o from Order o where o.isActive=true and o.customer.customerCode=:customerId")
-    Order findByCustomerId(@Param("customerId") Integer customerId);
-    @Query("select o from Order o where o.isActive=true and o.status=:status and o.restaurant.id=:restaurantId")
+    @Query("SELECT o FROM Order o " + "WHERE o.customer.id = :customerId AND o.isActive = true")
+    List<Order> findByCustomerId(@Param("customerId") Integer customerId);
+
+    @Query("SELECT o FROM Order o " + "WHERE o.restaurant.id = :restaurantId AND o.status = :status AND o.isActive = true")
     List<Order> findByRestaurantIdAndStatus(@Param("restaurantId") Integer restaurantId, @Param("status") String status);
-    @Query("select o from Order o where o.isActive=true and o.orderDate between :start and :end")
-    List<Order> findByOrderDateBetween(@Param("start") Date start, @Param("end") Date end);
-    @Query("select count(o) from Order o where o.isActive=true and o.restaurant.id=:restaurantId and o.status='COMPLETED'")
-    Long totalCompletedOrdersForRestaurant(@Param("restaurantId") Integer restaurantId);
-    @Query("select sum(o) from Order o where o.isActive=true and o.restaurant.id=:restaurantId and o.delivery.deliveredAt=:date")
-    List<Order> totalDeliveredOrdersInDate(@Param("restaurantId") Integer restaurantId, @Param("date") Date date);
-    @Query("select sum(o.deliveryFee) from Order o where o.isActive=true and o.orderDate between :start and :end")
-    Double totalDeliveryFeesForDate(@Param("start") Date start, @Param("end") Date end);
-    @Query("""
-       select sum(o.totalAmount)
-       from Order o
-       where o.restaurant.id =:restaurantId
-       and o.orderDate between :from and :to
-       and o.status = 'COMPLETED'
-       and o.isActive=true
-       """)
-    Double getRestaurantRevenue(Integer restaurantId, Date from, Date to);
-    @Query("""
-       select function('hour', o.orderDate), count(o)
-       from Order o
-       where o.isActive =true
-       group by function('hour', o.orderDate)
-       order by count(o) desc
-       """)
-    List<Object[]> getOrdersByHour();
+
+    @Query("SELECT o FROM Order o " + "WHERE o.orderDate BETWEEN :start AND :end AND o.isActive = true")
+    List<Order> findByOrderDateBetween(@Param("start") LocalDate start, @Param("end") LocalDate end);
+
+    @Query("SELECT COUNT(o) FROM Order o " + "WHERE o.restaurant.id = :restaurantId AND o.status = 'DELIVERED' AND o.isActive = true")
+    long countCompletedOrdersForRestaurant(@Param("restaurantId") Integer restaurantId);
+
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o " + "WHERE o.status = 'DELIVERED' AND o.orderDate = :date AND o.isActive = true")
+    Double sumDeliveredRevenueForDate(@Param("date") LocalDate date);
+
+    @Query("SELECT o FROM Order o WHERE o.id = :id AND o.isActive = true")
+    Optional<Order> findActiveById(@Param("id") Integer id);
 }
