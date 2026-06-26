@@ -84,7 +84,6 @@ public class ReviewService {
         return ReviewResponseDTO.fromEntity(savedReview);
     }
 
-    // Get Reviews By Restaurant
     public List<ReviewResponseDTO> getReviewsByRestaurant(Integer restaurantId) {
         List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId);
         return ReviewResponseDTO.fromEntity(reviews);
