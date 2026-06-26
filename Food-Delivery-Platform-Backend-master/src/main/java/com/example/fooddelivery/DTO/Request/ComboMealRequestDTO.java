@@ -12,15 +12,22 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ComboMealRequestDTO {
-    @NotBlank
+    @NotBlank(message = "Combo name is required")
     private String comboName;
-    private String description;
-    @PositiveOrZero
-    @DecimalMin("0.0")
-    private double totalPrice;
-    private boolean isAvailable;
 
-    public ComboMeal toEntity() {
+    @NotBlank(message = "Description is required")
+    private String description;
+
+    @NotNull(message = "Total price is required")
+    @Min(value = 0, message = "Total price cannot be negative")
+    private Double totalPrice;
+
+    private Boolean isAvailable;
+
+    @NotNull(message = "Restaurant ID is required")
+    private Integer restaurantId;
+
+    public ComboMeal toEntity() { // For Creating
         ComboMeal comboMeal = new ComboMeal();
 
         comboMeal.setComboName(comboName);
@@ -31,10 +38,12 @@ public class ComboMealRequestDTO {
         return comboMeal;
     }
 
-    public void applyTo(ComboMeal comboMeal) {
+    public void applyTo(ComboMeal comboMeal) { // For Updating
         comboMeal.setComboName(comboName);
         comboMeal.setDescription(description);
         comboMeal.setTotalPrice(totalPrice);
         comboMeal.setAvailable(isAvailable);
     }
+
+
 }

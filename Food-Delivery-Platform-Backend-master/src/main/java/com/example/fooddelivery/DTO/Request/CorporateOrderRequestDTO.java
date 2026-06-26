@@ -16,28 +16,45 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CorporateOrderRequestDTO {
-    @NotBlank
-    private String companyName;
-    private String costCenter;
-    private String status;
-    @PositiveOrZero
-    @DecimalMin("0.0")
-    private double totalAmount;
+    @NotBlank(message = "Corporate code is required")
+    private String corporateCode;
 
-    public CorporateOrder toEntity() {
+    @NotBlank(message = "Company name is required")
+    private String companyName;
+
+    @NotBlank(message = "Cost center is required")
+    private String costCenter;
+
+    @NotNull(message = "Order date is required")
+    private LocalDate orderDate;
+
+    @NotBlank(message = "Status is required")
+    private String status;
+
+    @NotNull(message = "Total amount is required")
+    private Double totalAmount;
+
+    @NotNull(message = "Restaurant ID is required")
+    private Integer restaurantId;
+
+    public CorporateOrder toEntity() { // For Creating
         CorporateOrder corporateOrder = new CorporateOrder();
 
+        corporateOrder.setCorporateCode(corporateCode);
         corporateOrder.setCompanyName(companyName);
         corporateOrder.setCostCenter(costCenter);
+        corporateOrder.setOrderDate(orderDate);
         corporateOrder.setStatus(status);
         corporateOrder.setTotalAmount(totalAmount);
 
         return corporateOrder;
     }
 
-    public void applyTo(CorporateOrder corporateOrder) {
+    public void applyTo(CorporateOrder corporateOrder) { // For Updating
+        corporateOrder.setCorporateCode(corporateCode);
         corporateOrder.setCompanyName(companyName);
         corporateOrder.setCostCenter(costCenter);
+        corporateOrder.setOrderDate(orderDate);
         corporateOrder.setStatus(status);
         corporateOrder.setTotalAmount(totalAmount);
     }

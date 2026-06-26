@@ -16,23 +16,38 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequestDTO {
-    private Date orderDate;
+    @NotBlank(message = "Order code is required")
+    private String orderCode;
+
+    @NotNull(message = "Order date is required")
+    private LocalDate orderDate;
+
+    @NotBlank(message = "Status is required")
     private String status;
-    private double subtotal;
-    @PositiveOrZero
-    @DecimalMin("0.0")
-    private double deliveryFee;
-    @PositiveOrZero
-    @DecimalMin("0.0")
-    private double discountAmount;
-    @PositiveOrZero
-    @DecimalMin("0.0")
-    private double totalAmount;
+
+    @NotNull(message = "Subtotal is required")
+    private Double subtotal;
+
+    @NotNull(message = "Delivery fee is required")
+    private Double deliveryFee;
+
+    private Double discountAmount;
+
+    @NotNull(message = "Total amount is required")
+    private Double totalAmount;
+
     private String deliveryNotes;
 
+    @NotNull(message = "Customer ID is required")
+    private Long customerId;
 
-    public Order toEntity() {
+    @NotNull(message = "Restaurant ID is required")
+    private Long restaurantId;
+
+    public Order toEntity() { // For Creating
         Order order = new Order();
+
+        order.setOrderCode(orderCode);
         order.setOrderDate(orderDate);
         order.setStatus(status);
         order.setSubtotal(subtotal);
@@ -44,7 +59,8 @@ public class OrderRequestDTO {
         return order;
     }
 
-    public void applyTo(Order order){
+    public void applyTo(Order order) { // For Updating
+        order.setOrderCode(orderCode);
         order.setOrderDate(orderDate);
         order.setStatus(status);
         order.setSubtotal(subtotal);

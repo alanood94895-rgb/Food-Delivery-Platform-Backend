@@ -11,38 +11,42 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class MenuItemRequestDTO {
-    @NotBlank
+    @NotBlank(message = "Item name is required")
     private String name;
-    @NotBlank
+
+    @NotBlank(message = "Description is required")
     private String description;
-    @PositiveOrZero
-    @DecimalMin("0.0")
-    private double price;
-    private boolean isAvailable;
-    private boolean isVegetarian;
-    @DecimalMin("0.0")
-    private double calories;
 
-    public MenuItem toEntity() {
+    @NotNull(message = "Price is required")
+    @Min(value = 0, message = "Price cannot be negative")
+    private Double price;
 
-        MenuItem item = new MenuItem();
-        item.setName(name);
-        item.setDescription(description);
-        item.setPrice(price);
-        item.setAvailable(isAvailable);
-        item.setVegetarian(isVegetarian);
-        item.setCalories(calories);
+    private Boolean isAvailable;
+    private Boolean isVegetarian;
+    private Integer calories;
 
-        return item;
+    @NotNull(message = "Restaurant ID is required")
+    private Integer restaurantId;
+
+    public MenuItem toEntity(){
+        MenuItem menuItem = new MenuItem();
+
+        menuItem.setName(name);
+        menuItem.setDescription(description);
+        menuItem.setPrice(price);
+        menuItem.setIsAvailable(isAvailable);
+        menuItem.setIsVegetarian(isVegetarian);
+        menuItem.setCalories(calories);
+
+        return menuItem;
     }
 
-    public void applyTo(MenuItem item) {
-
-        item.setName(name);
-        item.setDescription(description);
-        item.setPrice(price);
-        item.setAvailable(isAvailable);
-        item.setVegetarian(isVegetarian);
-        item.setCalories(calories);
+    public void applyTo(MenuItem menuItem){
+        menuItem.setName(name);
+        menuItem.setDescription(description);
+        menuItem.setPrice(price);
+        menuItem.setIsAvailable(isAvailable);
+        menuItem.setIsVegetarian(isVegetarian);
+        menuItem.setCalories(calories);
     }
 }

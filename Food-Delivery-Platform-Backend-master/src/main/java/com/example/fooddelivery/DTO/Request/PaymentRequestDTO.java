@@ -12,27 +12,36 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentRequestDTO {
-    private int transactionRef;
+    @NotBlank(message = "Payment method is required")
     private String paymentMethod;
-    private String status;
-    @PositiveOrZero
-    @DecimalMin("0.0")
-    private double amount;
 
-    public Payment toEntity() {
+    @NotBlank(message = "Status is required")
+    private String status;
+
+    @NotNull(message = "Amount is required")
+    @Min(value = 0, message = "Amount cannot be negative")
+    private Double amount;
+
+    private String transactionRef;
+    private LocalDateTime processedAt;
+
+    public Payment toEntity() { // For Creating
         Payment payment = new Payment();
-        payment.setTransactionRef(transactionRef);
+
         payment.setPaymentMethod(paymentMethod);
         payment.setStatus(status);
         payment.setAmount(amount);
+        payment.setTransactionRef(transactionRef);
+        payment.setProcessedAt(processedAt);
 
         return payment;
     }
 
-    public void applyTo(Payment payment) {
-        payment.setTransactionRef(transactionRef);
+    public void applyTo(Payment payment) { // For Updating
         payment.setPaymentMethod(paymentMethod);
         payment.setStatus(status);
         payment.setAmount(amount);
+        payment.setTransactionRef(transactionRef);
+        payment.setProcessedAt(processedAt);
     }
 }

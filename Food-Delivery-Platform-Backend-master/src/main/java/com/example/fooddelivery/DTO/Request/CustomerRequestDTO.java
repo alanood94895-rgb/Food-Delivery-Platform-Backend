@@ -14,36 +14,42 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerRequestDTO {
+
     @NotBlank(message = "First name is required")
     private String firstName;
+
     @NotBlank(message = "Last name is required")
     private String lastName;
+
     @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
-    private String email;
+    @Email(message = "Please provide a valid email address")
+    private String customerEmail;
 
+    @NotBlank(message = "Phone number is required")
     private String phone;
-    @NotBlank(message = "Password is required")
-    private String passwordHash;
-    private int loyaltyPoints;
 
-    public Customer toEntity() {
-        Customer customer =new Customer();
+    private Integer loyaltyPoints;
+    private String customerCode;
+
+
+    public Customer toEntity() { //For Creating
+        Customer customer = new Customer();
+
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
-        customer.setCustomerEmail(email);
+        customer.setCustomerEmail(customerEmail);
         customer.setPhone(phone);
-        customer.setPasswordHash(passwordHash);
+        customer.setCustomerCode(customerCode);
         customer.setLoyaltyPoints(loyaltyPoints);
         return customer;
     }
 
-    public void applyTo(Customer customer){
+    public void applyTo(Customer customer){ //For Updating
         customer.setFirstName(firstName);
         customer.setLastName(lastName);
-        customer.setCustomerEmail(email);
+        customer.setCustomerEmail(customerEmail);
         customer.setPhone(phone);
-        customer.setPasswordHash(passwordHash);
+        customer.setCustomerCode(customerCode);
         customer.setLoyaltyPoints(loyaltyPoints);
     }
 }

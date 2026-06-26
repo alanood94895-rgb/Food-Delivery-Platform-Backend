@@ -15,19 +15,32 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestaurantRequestDTO {
+    @NotBlank(message = "Restaurant name is required")
     private String name;
-    private String description;
-    private String cuisineType;
-    private LocalDateTime openingTime;
-    private LocalDateTime closingTime;
-    private int minOrderAmount;
-    @PositiveOrZero
-    @DecimalMin("0.0")
-    private double deliveryFee;
-    private boolean acceptingOrders;
 
-    public Restaurant toEntity() {
-        Restaurant restaurant= new Restaurant();
+    @NotBlank(message = "Description is required")
+    private String description;
+
+    @NotBlank(message = "Cuisine type is required")
+    private String cuisineType;
+
+    @NotBlank(message = "Opening time is required")
+    private String openingTime;
+
+    @NotBlank(message = "Closing time is required")
+    private String closingTime;
+
+    @NotNull(message = "Minimum order amount is required")
+    private Double minOrderAmount;
+
+    @NotNull(message = "Delivery fee is required")
+    private Double deliveryFee;
+
+    private Boolean acceptingOrders;
+
+    public Restaurant toEntity() { //For Creating
+        Restaurant restaurant = new Restaurant();
+
         restaurant.setName(name);
         restaurant.setDescription(description);
         restaurant.setCuisineType(cuisineType);
@@ -40,7 +53,7 @@ public class RestaurantRequestDTO {
         return restaurant;
     }
 
-    public void applyTo(Restaurant restaurant){
+    public void applyTo(Restaurant restaurant) { //For Updating
         restaurant.setName(name);
         restaurant.setDescription(description);
         restaurant.setCuisineType(cuisineType);

@@ -12,44 +12,64 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class DeliveryDriverRequestDTO {
-    @NotBlank
+    @NotBlank(message = "First name is required")
     private String firstName;
-    @NotBlank
+
+    @NotBlank(message = "Last name is required")
     private String lastName;
+
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
     private String email;
-    @Pattern(regexp = "^\\+?[0-9]{8,15}$", message = "Phone number must contain 8-15 digits")
-    private int phone;
+
+    @NotBlank(message = "Phone number is required")
+    private String phone;
+
     @NotBlank(message = "Password is required")
     private String passwordHash;
+
+    @NotBlank(message = "Driver code is required")
+    private String driverCode;
+
+    @NotBlank(message = "Vehicle type is required")
     private String vehicleType;
+
+    @NotBlank(message = "Vehicle plate number is required")
     private String vehiclePlate;
-    private String currentLat;
-    private String currentLng;
+
+    private Double currentLat;
+    private Double currentLng;
     private boolean isOnline;
 
-    public DeliveryDriver toEntity() {
-        DeliveryDriver deliveryDriver = new DeliveryDriver();
+    public DeliveryDriver toEntity() { // For Creating
+        DeliveryDriver driver = new DeliveryDriver();
 
-        deliveryDriver.setFirstName(firstName);
-        deliveryDriver.setLastName(lastName);
-        deliveryDriver.setEmail(email);
-        deliveryDriver.setPhone(phone);
-        deliveryDriver.setPasswordHash(passwordHash);
-        deliveryDriver.setVehicleType(vehicleType);
-        deliveryDriver.setVehiclePlate(vehiclePlate);
+        driver.setFirstName(firstName);
+        driver.setLastName(lastName);
+        driver.setEmail(email);
+        driver.setPhone(phone);
+        driver.setPasswordHash(passwordHash);
+        driver.setDriverCode(driverCode);
+        driver.setVehicleType(vehicleType);
+        driver.setVehiclePlate(vehiclePlate);
+        driver.setCurrentLat(currentLat);
+        driver.setCurrentLng(currentLng);
+        driver.setOnline(false);
 
-        return deliveryDriver;
+        return driver;
     }
 
-    public void applyTo(DeliveryDriver deliveryDriver) {
-        deliveryDriver.setFirstName(firstName);
-        deliveryDriver.setLastName(lastName);
-        deliveryDriver.setEmail(email);
-        deliveryDriver.setPhone(phone);
-        deliveryDriver.setPasswordHash(passwordHash);
-        deliveryDriver.setVehicleType(vehicleType);
-        deliveryDriver.setVehiclePlate(vehiclePlate);
+    public void applyTo(DeliveryDriver driver) { // For Updating
+        driver.setFirstName(firstName);
+        driver.setLastName(lastName);
+        driver.setEmail(email);
+        driver.setPhone(phone);
+        driver.setPasswordHash(passwordHash);
+        driver.setDriverCode(driverCode);
+        driver.setVehicleType(vehicleType);
+        driver.setVehiclePlate(vehiclePlate);
+        driver.setCurrentLat(currentLat);
+        driver.setCurrentLng(currentLng);
+        driver.setOnline(isOnline);
     }
 }
