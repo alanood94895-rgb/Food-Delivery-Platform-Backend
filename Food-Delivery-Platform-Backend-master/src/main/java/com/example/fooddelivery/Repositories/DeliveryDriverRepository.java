@@ -12,6 +12,6 @@ public interface DeliveryDriverRepository extends JpaRepository<DeliveryDriver,I
 
     @Query("select d from DeliveryDriver d where d.isActive=true and d.isOnline=true")
     List<DeliveryDriver> getOnlineDrivers();
-    @Query(value = " select distinct d from DeliveryDriver d  join d.deliveryList dl where d.isActive=true and dl.status='COMPLETED'")
+    @Query(value = " select distinct d from DeliveryDriver d join d.deliveries dl where d.isActive = true and dl.status = 'COMPLETED'")
     List<DeliveryDriver> getDriverLeaderboard();
 }

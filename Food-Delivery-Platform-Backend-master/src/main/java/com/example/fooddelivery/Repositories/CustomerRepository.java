@@ -16,7 +16,7 @@ import java.util.List;
 @Repository
 public interface CustomerRepository extends JpaRepository <Customer, Integer> {
 
-    @Query("SELECT c from Customer c WHERE c.isActive=true AND c.email=:email")
+    @Query("SELECT c FROM Customer c WHERE c.isActive = true AND c.customerEmail = :email")
     Customer  findByEmail(@Param("email") String email);
 
     @Query("Select c from Customer c where c.isActive=true and c.loyaltyPoints>=:points")
