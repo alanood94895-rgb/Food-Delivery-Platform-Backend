@@ -7,22 +7,30 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
-    @Query("select r from Restaurant r where r.isActive and r.cuisineType=:cuisineType")
+    @Query("SELECT r FROM Restaurant r " + "WHERE LOWER(r.cuisineType) = LOWER(:cuisineType) AND r.isActive = true")
     List<Restaurant> findByCuisineTypeIgnoreCase(@Param("cuisineType") String cuisineType);
 
-    @Query("select r from Restaurant r where r.acceptingOrders=true ")
+    @Query("SELECT r FROM Restaurant r " + "WHERE r.acceptingOrders = true AND r.isActive = true")
     List<Restaurant> findByAcceptingOrdersTrue();
-    @Query("Select r from Restaurant r where r.isActive=true and r.deliveryFee<=:fee")
-    List<Restaurant>  findByDeliveryFeeLessThanEqual(@Param("fee") double fee);
 
-    @Query("select r from Restaurant r where r.isActive=true and r.restaurantOwner.businessLicenseCode=:id")
-    List<Restaurant> allRestaurantOwnedById(@Param("id") String id);
+    @Query("SELECT r FROM Restaurant r " + "WHERE r.deliveryFee <= :fee AND r.isActive = true")
+    List<Restaurant> findByDeliveryFeeLessThanEqual(@Param("fee") double fee);
 
-    @Query("SELECT r FROM Restaurant r WHERE r.isActive=true AND r.name LIKE (CONCAT('%', :keyword, '%'))")
-    List<Restaurant> searchRestaurantsByName(@Param("keyword") String keyword);
+    @Query("SELECT r FROM Restaurant r " + "WHERE r.owner.id = :ownerId AND r.isActive = true")
+    List<Restaurant> findByOwnerId(@Param("ownerId") Integer ownerId);
+
+    @Query("SELECT r FROM Restaurant r " + "WHERE LOWER(r.name) LIKE LOWER(CONCAT('%', :keyword, '%')) AND r.isActive = true")
+    List<Restaurant> searchByNameKeyword(@Param("keyword") String keyword);
+
+    @Query("SELECT r FROM Restaurant r WHERE r.id = :id AND r.isActive = true")
+    Optional<Restaurant> findActiveById(@Param("id") Integer id);
+
+    @Query("SELECT r FROM Restaurant r WHERE r.isActive = true")
+    List<Restaurant> findAllActiveRestaurants();
 
 }

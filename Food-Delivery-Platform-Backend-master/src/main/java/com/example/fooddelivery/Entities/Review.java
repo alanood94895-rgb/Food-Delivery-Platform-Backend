@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Review {
+public class Review extends BaseEntity {
     private String targetType;
     private Integer rating;
     private String comment;
@@ -25,6 +25,6 @@ public class Review {
     private Restaurant restaurant;
 
     @ManyToOne
-    private DeliveryDriver driver;
+    private DeliveryDriver deliveryDriver;
 
 }

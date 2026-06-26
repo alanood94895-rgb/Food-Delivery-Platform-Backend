@@ -12,7 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Payment {
+public class Payment extends BaseEntity{
     public String paymentMethod;
     public String status;
     public Double amount;

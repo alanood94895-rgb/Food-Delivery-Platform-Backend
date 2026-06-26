@@ -1,144 +1,148 @@
 package com.example.fooddelivery.Services;
 
+import com.example.fooddelivery.DTO.Response.CustomerResponseDTO;
 import com.example.fooddelivery.DTO.Response.ReviewResponseDTO;
 import com.example.fooddelivery.Entities.*;
 import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
 import com.example.fooddelivery.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ReviewService {
-    ReviewRepository reviewRepository;
-    CustomerRepository customerRepository;
-    RestaurantRepository restaurantRepository;
-    OrderRepository orderRepository;
-    DeliveryRepository deliveryRepository;
-    DeliveryDriverRepository deliveryDriverRepository;
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository, CustomerRepository customerRepository,
-                         RestaurantRepository restaurantRepository, OrderRepository orderRepository,
-                         DeliveryRepository deliveryRepository, DeliveryDriverRepository deliveryDriverRepository) {
-        this.reviewRepository = reviewRepository;
-        this.customerRepository = customerRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.orderRepository = orderRepository;
-        this.deliveryRepository= deliveryRepository;
-        this.deliveryDriverRepository = deliveryDriverRepository;
-    }
-    public ReviewResponseDTO leaveRestaurantReview(Integer customerId,
-                                                   Integer restaurantId, int rating,String comment){
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
+    ReviewRepository reviewRepository;
 
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @Autowired
+    RestaurantRepository restaurantRepository;
+
+    @Autowired
+    DeliveryDriverRepository deliveryDriverRepository;
+
+
+    @Autowired
+    OrderRepository orderRepository;
+
+    @Autowired
+    DeliveryRepository deliveryRepository;
+    private Integer restaurantId;
+
+
+    public ReviewResponseDTO leaveRestaurantReview(Integer customerId, Integer restaurantId, int rating, String comment) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Active Customer not found with id: " + customerId));
+
+        Restaurant restaurant = restaurantRepository.findActiveById(restaurantId)
+                .orElseThrow(() -> new ResourceNotFoundException("Active Restaurant not found with id: " + restaurantId));
+
         Review review = new Review();
-        review.setCustomer(customer);
-        review.setRestaurant(restaurant);
         review.setTargetType("RESTAURANT");
         review.setRating(rating);
         review.setComment(comment);
         review.setCreatedAt(LocalDateTime.now());
-        review = reviewRepository.save(review);
-
-        return ReviewResponseDTO.fromEntity(review);
-    }
-    public ReviewResponseDTO leaveDriverReview(Integer customerId, Integer driverId,
-                                               int rating, String comment){
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
-
-        DeliveryDriver driver = new DeliveryDriver();
-        List<Delivery> deliveries = deliveryRepository.findAll();
-
-        for (Delivery delivery : deliveries) {
-            if (delivery.getDeliveryDriver() != null &&
-                    delivery.getDeliveryDriver().getDriverCode() == driverId) {
-                driver = delivery.getDeliveryDriver();
-                break;
-            }
-        }
-        Review review = new Review();
         review.setCustomer(customer);
-        review.setDriver(driver);
+        review.setRestaurant(restaurant);
+        review.setDeliveryDriver(null);
+
+        review.setCreatedDate(LocalDateTime.now());
+        review.setUpdatedDate(LocalDateTime.now());
+        review.setIsActive(true);
+
+        Review savedReview = reviewRepository.save(review);
+        return ReviewResponseDTO.fromEntity(savedReview);
+    }
+
+
+    public ReviewResponseDTO leaveDriverReview(Integer customerId, Integer driverId, int rating, String comment) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Active Customer not found with id: " + customerId));
+
+        DeliveryDriver driver = deliveryDriverRepository.findById(driverId)
+                .orElseThrow(() -> new ResourceNotFoundException("Active Delivery Driver not found with id: " + driverId));
+
+        Review review = new Review();
         review.setTargetType("DRIVER");
         review.setRating(rating);
         review.setComment(comment);
         review.setCreatedAt(LocalDateTime.now());
-        review = reviewRepository.save(review);
+        review.setCustomer(customer);
+        review.setRestaurant(null);
+        review.setDeliveryDriver(driver);
 
-        return ReviewResponseDTO.fromEntity(review);
-    }
-    public List<ReviewResponseDTO> getRestaurantReviews(Integer restaurantId) {
-        restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
-        List<Review> reviews = reviewRepository.findByRestaurantIdAndIsActiveTrue(restaurantId);
-        List<ReviewResponseDTO> responseList = new ArrayList<>();
-        for (Review review : reviews) {
-            ReviewResponseDTO dto = ReviewResponseDTO.fromEntity(review);
-            responseList.add(dto);
-        }
-        return responseList;
-    }
-    public List<ReviewResponseDTO> getDriverReviews(Integer driverId) {
-        deliveryDriverRepository.findById(driverId)
-                .orElseThrow(() -> new ResourceNotFoundException("Driver not found"));
-        List<Review> reviews = reviewRepository.findByDeliveryDriverIdAndIsActiveTrue(driverId);
-        List<ReviewResponseDTO> responseList = new ArrayList<>();
+        review.setCreatedDate(LocalDateTime.now());
+        review.setUpdatedDate(LocalDateTime.now());
+        review.setIsActive(true);
 
-        for (Review review : reviews) {
-            ReviewResponseDTO dto = ReviewResponseDTO.fromEntity(review);
-            responseList.add(dto);
-        }
-        return responseList;
+        Review savedReview = reviewRepository.save(review);
+        return ReviewResponseDTO.fromEntity(savedReview);
     }
+
+    // Get Reviews By Restaurant
+    public List<ReviewResponseDTO> getReviewsByRestaurant(Integer restaurantId) {
+        List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId);
+        return ReviewResponseDTO.fromEntity(reviews);
+    }
+
+
+    // Get Reviews By Driver
+    public List<ReviewResponseDTO> getReviewsByDriver(Integer driverId) {
+        List<Review> reviews = reviewRepository.findByDeliveryDriverId(driverId);
+        return ReviewResponseDTO.fromEntity(reviews);
+    }
+
+    // Soft-delete Review
     public void deleteReview(Integer reviewId) {
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new ResourceNotFoundException("Review not found"));
-        review.setActive(false);
-        review.setUpdatedDate(new Date());
+        Review review = reviewRepository.findActiveById(reviewId)
+                .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " + reviewId));
+
+        review.setIsActive(false);
+        review.setUpdatedDate(LocalDateTime.now());
         reviewRepository.save(review);
     }
-    public Double getRestaurantAverageRating(Integer restaurantId) {
-        restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
-        Double avg = reviewRepository.getRestaurantAverage(restaurantId);
-        return avg != null ? avg : 0.0;
-    }
-    public Double getDriverAverageRating(Integer driverId) {
-        deliveryDriverRepository.findById(driverId)
-                .orElseThrow(() -> new ResourceNotFoundException("Driver not found"));
-        Double avg = reviewRepository.getDriverAverage(driverId);
-        return avg != null ? avg : 0.0;
-    }
-    public Page<ReviewResponseDTO> getRestaurantReviews(Integer restaurantId, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Review> reviews = reviewRepository.findByRestaurantIdAndIsActiveTrue(restaurantId, pageable);
 
-        return reviews.map(ReviewResponseDTO::fromEntity);
+
+
+    //For Reporting
+    // Revenue for a restaurant on a specific day
+    public Double getRevenueForRestaurantOnDate(Integer restaurantId, LocalDate date) {
+        return orderRepository.sumDeliveredRevenueForDate(restaurantId, date);
     }
-    public Double getRestaurantRevenue(Integer restaurantId, Date from, Date to) {
-        restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found"));
-        Double revenue = orderRepository.getRestaurantRevenue(restaurantId, from, to);
-        return revenue != null ? revenue : 0.0;
+
+    // Total lifetime orders for a restaurant
+    public Long getTotalOrdersForRestaurant(Integer restaurantId) {
+        return orderRepository.countCompletedOrdersForRestaurant(restaurantId);
     }
-    public Double getDriverEarnings(Integer driverId, Date from, Date to) {
-        deliveryDriverRepository.findById(driverId)
-                .orElseThrow(() -> new ResourceNotFoundException("Driver not found"));
-        Double earnings = deliveryRepository.getDriverEarnings(driverId, from, to);
-        return earnings != null ? earnings : 0.0;
+
+    // Top 10 customers by loyalty points
+    public List<CustomerResponseDTO> getTopLoyaltyCustomers() {
+        return CustomerResponseDTO.fromEntity(
+                customerRepository.findTop10ByLoyaltyPoints());
     }
-    public List<Object[]> getBusiestHours() {
-        return orderRepository.getOrdersByHour();
+
+    // Top drivers by completed deliveries
+    public List<Map<String, Object>> getDriversLeaderboard() {
+        return deliveryRepository.findDriversLeaderboard();
+    }
+
+    // Platform daily summary
+    public Map<String, Object> getPlatformDailySummary(LocalDate date) {
+        Long totalOrders = orderRepository.countOrdersForDate(date);
+        Double totalRevenue = orderRepository.sumDeliveredRevenueForDate(restaurantId, date);
+        Double totalDeliveryFees = orderRepository.sumDeliveryFeesForDate(date);
+
+        Map<String, Object> summary = new HashMap<>();
+        summary.put("date", date);
+        summary.put("totalOrders", totalOrders);
+        summary.put("totalRevenue", totalRevenue != null ? totalRevenue : 0.0);
+        summary.put("totalDeliveryFees", totalDeliveryFees != null ? totalDeliveryFees : 0.0);
+
+        return summary;
     }
 }

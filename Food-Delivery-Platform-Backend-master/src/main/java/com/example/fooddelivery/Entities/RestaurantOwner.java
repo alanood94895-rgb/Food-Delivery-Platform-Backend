@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class RestaurantOwner {
+public class RestaurantOwner extends BaseEntity {
     private String firstName;
     private String lastName;
     private String email;
@@ -22,7 +22,6 @@ public class RestaurantOwner {
     private String passwordHash;
     private String businessLicenseCode;
 
-
-    @OneToMany (mappedBy = "restaurantOwner")
-    private List<Restaurant> restaurants;
+    @OneToMany(mappedBy = "owner")
+    private List<Restaurant> restaurants ;
 }

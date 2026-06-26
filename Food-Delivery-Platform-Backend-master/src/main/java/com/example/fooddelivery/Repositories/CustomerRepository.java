@@ -30,4 +30,8 @@ public interface CustomerRepository extends JpaRepository <Customer, Integer> {
     @Query("select c from Customer c where c.isActive=true and c.firstName=:nam ")
     Page<Customer> findByFirstName(String name, Pageable pageable);
 
+    //For Reporting
+    @Query(value = "SELECT * FROM customer " + "WHERE is_active = true " + "ORDER BY loyalty_points DESC LIMIT 10", nativeQuery = true)
+    List<Customer> findTop10ByLoyaltyPoints();
+
 }

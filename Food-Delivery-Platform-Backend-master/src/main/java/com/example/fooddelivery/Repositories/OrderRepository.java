@@ -7,7 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +26,19 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     long countCompletedOrdersForRestaurant(@Param("restaurantId") Integer restaurantId);
 
     @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o " + "WHERE o.status = 'DELIVERED' AND o.orderDate = :date AND o.isActive = true")
-    Double sumDeliveredRevenueForDate(@Param("date") LocalDate date);
+    Double sumDeliveredRevenueForDate(Integer restaurantId, @Param("date") LocalDate date);
 
     @Query("SELECT o FROM Order o WHERE o.id = :id AND o.isActive = true")
     Optional<Order> findActiveById(@Param("id") Integer id);
+
+
+
+    @Query("SELECT COALESCE(SUM(o.totalAmount), 0) FROM Order o " + "WHERE o.restaurant.id = :restaurantId AND o.status = 'DELIVERED' " + "AND o.orderDate = :date AND o.isActive = true")
+    Double sumDeliveredRevenueForRestaurantOnDate(@Param("restaurantId") Integer restaurantId, @Param("date") LocalDate date);
+
+    @Query("SELECT COUNT(o) FROM Order o " + "WHERE o.orderDate = :date AND o.isActive = true")
+    Long countOrdersForDate(@Param("date") LocalDate date);
+
+    @Query("SELECT COALESCE(SUM(o.deliveryFee), 0) FROM Order o " + "WHERE o.orderDate = :date AND o.isActive = true")
+    Double sumDeliveryFeesForDate(@Param("date") LocalDate date);
 }

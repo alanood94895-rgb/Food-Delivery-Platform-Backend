@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Restaurant {
+public class Restaurant extends BaseEntity{
     private String name;
     private String description;
     private String cuisineType;
@@ -25,7 +25,7 @@ public class Restaurant {
 
 
     @ManyToOne
-    private RestaurantOwner restaurantOwner;
+    private RestaurantOwner owner;
 
     @OneToMany (mappedBy = "restaurant")
     private List<MenuItem> menuItems;

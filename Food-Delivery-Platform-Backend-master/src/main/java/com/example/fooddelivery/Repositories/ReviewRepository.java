@@ -8,21 +8,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review,Integer> {
 
-    @Query("select r from Review r where r.restaurant.isActive=true and r.restaurant.id=:restaurantId")
-    List<Review> findByRestaurantIdAndIsActiveTrue(@Param("restaurantId") Integer restaurantId);
+    @Query("SELECT r FROM Review r WHERE r.id = :id AND r.isActive = true")
+    Optional<Review> findActiveById(@Param("id") Integer id);
 
-    @Query("select r from Review r where r.deliveryDriver.isActive=true and r.deliveryDriver.driverCode=:driverId")
-    List<Review> findByDeliveryDriverIdAndIsActiveTrue(@Param("driverId") Integer driverId);
+    @Query("SELECT r FROM Review r WHERE r.restaurant.id = :restaurantId AND r.isActive = true")
+    List<Review> findByRestaurantId(@Param("restaurantId") Integer restaurantId);
 
-    @Query(" select avg(r.rating) from Review r where r.restaurant.id =:restaurantId and r.isActive=true")
-    Double getRestaurantAverage(@Param("restaurantId") Integer restaurantId);
-
-    @Query(" select avg(r.rating) from Review r where r.deliveryDriver.driverCode =:driverId and r.isActive = true")
-    Double getDriverAverage(@Param("driverId") Integer driverId);
-
-    @Query("select r from Review r where r.restaurant.isActive=true and r.restaurant.id=:restaurantId")
-    Page<Review> findByRestaurantIdAndIsActiveTrue(@Param("restaurantId") Integer restaurantId, Pageable pageable);
+    @Query("SELECT r FROM Review r WHERE r.deliveryDriver.id = :driverId AND r.isActive = true")
+    List<Review> findByDeliveryDriverId(@Param("driverId") Integer driverId);
 }
