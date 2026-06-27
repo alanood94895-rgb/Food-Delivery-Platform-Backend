@@ -10,6 +10,9 @@ import com.example.fooddelivery.Entities.*;
 import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
 import com.example.fooddelivery.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -32,7 +35,7 @@ public class RestaurantService {
     @Autowired
     ComboMealRepository comboMealRepository;
 
-    public RestaurantResponseDTO createResponse(RestaurantRequestDTO dto, Integer ownerId){
+    public RestaurantResponseDTO createResponse(RestaurantRequestDTO dto, Integer ownerId) {
         List<RestaurantOwner> owners = restaurantOwnerRepository.findActiveById(ownerId);
 
         if (owners.isEmpty()) {
@@ -64,7 +67,7 @@ public class RestaurantService {
     }
 
     //Updating deliveryFee
-    public RestaurantResponseDTO updateDeliveryFee(Integer restaurantId, double newFee){
+    public RestaurantResponseDTO updateDeliveryFee(Integer restaurantId, double newFee) {
         Restaurant restaurant = restaurantRepository.findActiveById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with id: " + restaurantId));
 
@@ -76,7 +79,7 @@ public class RestaurantService {
     }
 
     //get Restaurants By Cuisine
-    public List<RestaurantResponseDTO> getRestaurantsByCuisine(String cuisine){
+    public List<RestaurantResponseDTO> getRestaurantsByCuisine(String cuisine) {
         List<Restaurant> restaurants = restaurantRepository.findByCuisineTypeIgnoreCase(cuisine);
         return RestaurantResponseDTO.fromEntity(restaurants);
     }
@@ -88,7 +91,7 @@ public class RestaurantService {
     }
 
     //get Menu For Restaurant
-    public List<MenuItemResponseDTO> getMenuForRestaurant(Integer restaurantId){
+    public List<MenuItemResponseDTO> getMenuForRestaurant(Integer restaurantId) {
         restaurantRepository.findActiveById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with id: " + restaurantId));
 
@@ -114,13 +117,13 @@ public class RestaurantService {
     }
 
     //Get All Restaurants
-    public List<RestaurantResponseDTO> getAllRestaurants(){
+    public List<RestaurantResponseDTO> getAllRestaurants() {
         List<Restaurant> restaurants = restaurantRepository.findAllActiveRestaurants();
         return RestaurantResponseDTO.fromEntity(restaurants);
     }
 
     //Get Restaurants by ID
-    public RestaurantResponseDTO getRestaurantById(Integer restaurantId){
+    public RestaurantResponseDTO getRestaurantById(Integer restaurantId) {
         Restaurant restaurant = restaurantRepository.findActiveById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with id: " + restaurantId));
 
@@ -128,7 +131,7 @@ public class RestaurantService {
     }
 
     //Add new Item to Restaurant
-    public MenuItemResponseDTO addMenuItem(Integer restaurantId, MenuItemRequestDTO dto){
+    public MenuItemResponseDTO addMenuItem(Integer restaurantId, MenuItemRequestDTO dto) {
         Restaurant restaurant = restaurantRepository.findActiveById(restaurantId)
                 .orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with id: " + restaurantId));
 
@@ -176,5 +179,59 @@ public class RestaurantService {
 
         ComboMeal saved = comboMealRepository.save(comboMeal);
         return ComboMealResponseDTO.fromEntity(saved);
+    }
+
+    // Nearby Restaurants
+    public List<RestaurantResponseDTO> getNearbyRestaurants(double lat,
+                                                            double lng,
+                                                            double radiusKm) {
+
+        // سيتم تنفيذ HelperUtils.calculateDistance هنا لاحقاً
+        List<Restaurant> restaurants = restaurantRepository.findAllActiveRestaurants();
+
+        return RestaurantResponseDTO.fromEntity(restaurants);
+    }
+
+
+    // Restaurant Analytics
+    public RestaurantResponseDTO getRestaurantAnalytics(Integer restaurantId) {
+
+        restaurantRepository.findActiveById(restaurantId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Restaurant not found with id: " + restaurantId));
+
+        RestaurantResponseDTO dto = new RestaurantResponseDTO();
+
+        return dto;
+    }
+
+
+    // Top Selling Menu Items
+    public List<MenuItemResponseDTO> getTopSellingMenuItems(Integer restaurantId) {
+
+        restaurantRepository.findActiveById(restaurantId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Restaurant not found with id: " + restaurantId));
+
+        List<MenuItem> items = menuItemRepository.findByRestaurantId(restaurantId);
+
+        return MenuItemResponseDTO.fromEntity(items);
+    }
+
+
+    // Search Menu Items
+    public Page<MenuItemResponseDTO> searchMenuItems(String keyword,
+                                                     Integer minCalories,
+                                                     Integer maxCalories,
+                                                     int page,
+                                                     int size) {
+
+        List<MenuItemResponseDTO> items = MenuItemResponseDTO.fromEntity(menuItemRepository.findAll());
+
+        return new PageImpl<>(
+                items,
+                PageRequest.of(page, size),
+                items.size()
+        );
     }
 }

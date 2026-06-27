@@ -9,6 +9,7 @@ import com.example.fooddelivery.DTO.Response.RestaurantResponseDTO;
 import com.example.fooddelivery.Services.RestaurantService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -94,5 +95,56 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.bulkUpdateMenuItemPrices(id, percentage));
     }
 
+    // Extended Endpoints
+    @GetMapping("/near")
+    public ResponseEntity<List<RestaurantResponseDTO>> getNearbyRestaurants(
+            @RequestParam double lat,
+            @RequestParam double lng,
+            @RequestParam double radiusKm) {
+
+        return ResponseEntity.ok(
+                restaurantService.getNearbyRestaurants(lat, lng, radiusKm)
+        );
+    }
+
+    // GET /api/restaurants/{id}/analytics
+    @GetMapping("/{id}/analytics")
+    public ResponseEntity<RestaurantResponseDTO> getRestaurantAnalytics(
+            @PathVariable Integer id) {
+
+        return ResponseEntity.ok(
+                restaurantService.getRestaurantAnalytics(id)
+        );
+    }
+
+    // Best-selling MenuItems
+    @GetMapping("/{id}/menu/top-sellers")
+    public ResponseEntity<List<MenuItemResponseDTO>> getTopSellingMenuItems(
+            @PathVariable Integer id) {
+
+        return ResponseEntity.ok(
+                restaurantService.getTopSellingMenuItems(id)
+        );
+    }
+
+    // Search menu items across restaurants
+    @GetMapping("/menu/search")
+    public ResponseEntity<Page<MenuItemResponseDTO>> searchMenuItems(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(required = false) Integer minCalories,
+            @RequestParam(required = false) Integer maxCalories,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        return ResponseEntity.ok(
+                restaurantService.searchMenuItems(
+                        keyword,
+                        minCalories,
+                        maxCalories,
+                        page,
+                        size
+                )
+        );
+    }
 
 }
