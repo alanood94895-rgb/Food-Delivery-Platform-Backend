@@ -24,9 +24,16 @@ public class ReportingController {
     @GetMapping("/revenue/restaurant/{restaurantId}")
     public ResponseEntity<Double> getRevenueForRestaurant(
             @PathVariable Integer restaurantId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
 
-        return ResponseEntity.ok(reviewService.getRevenueForRestaurantOnDate(restaurantId, date));
+        return ResponseEntity.ok(
+                reviewService.getRevenueForRestaurant(
+                        restaurantId,
+                        from,
+                        to
+                )
+        );
     }
 
     // GET /api/reports/orders/count/restaurant/{restaurantId}
@@ -56,5 +63,52 @@ public class ReportingController {
 
         return ResponseEntity.ok(reviewService.getPlatformDailySummary(date));
     }
+// ===================================
+// Extended Endpoints
+// ===================================
 
+    // GET /api/reports/drivers/{driverId}/earnings?from=&to=
+    @GetMapping("/drivers/{driverId}/earnings")
+    public ResponseEntity<Double> getDriverEarnings(
+            @PathVariable Integer driverId,
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate from,
+
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate to) {
+
+        return ResponseEntity.ok(
+                reviewService.getDriverEarnings(driverId, from, to)
+        );
+    }
+
+
+    // GET /api/reports/orders/cancellation-rate?from=&to=
+    @GetMapping("/orders/cancellation-rate")
+    public ResponseEntity<Double> getCancellationRate(
+
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate from,
+
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate to) {
+
+        return ResponseEntity.ok(
+                reviewService.getCancellationRate(from, to)
+        );
+    }
+
+
+    // GET /api/reports/platform/busiest-hours
+    @GetMapping("/platform/busiest-hours")
+    public ResponseEntity<Map<Integer, Long>> getBusiestHours() {
+
+        return ResponseEntity.ok(
+                reviewService.getBusiestHours()
+        );
+    }
 }

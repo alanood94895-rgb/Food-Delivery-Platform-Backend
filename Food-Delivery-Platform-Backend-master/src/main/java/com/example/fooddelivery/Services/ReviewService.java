@@ -188,4 +188,32 @@ public class ReviewService {
                 .average()
                 .orElse(0.0);
     }
+
+    public Double getRevenueForRestaurant(Integer restaurantId,
+                                          LocalDate from,
+                                          LocalDate to) {
+
+        return 0.0;
+    }
+
+
+    public Double getDriverEarnings(Integer driverId,
+                                    LocalDate from,
+                                    LocalDate to) {
+
+        return 0.0;
+    }
+
+
+    public Double getCancellationRate(LocalDate from,
+                                      LocalDate to) {
+
+        return 0.0;
+    }
+
+
+    public Map<Integer, Long> getBusiestHours() {
+
+        return Collections.emptyMap();
+    }
 }
