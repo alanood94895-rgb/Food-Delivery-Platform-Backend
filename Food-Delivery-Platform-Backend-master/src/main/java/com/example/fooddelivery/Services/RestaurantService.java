@@ -186,7 +186,6 @@ public class RestaurantService {
                                                             double lng,
                                                             double radiusKm) {
 
-        // سيتم تنفيذ HelperUtils.calculateDistance هنا لاحقاً
         List<Restaurant> restaurants = restaurantRepository.findAllActiveRestaurants();
 
         return RestaurantResponseDTO.fromEntity(restaurants);
