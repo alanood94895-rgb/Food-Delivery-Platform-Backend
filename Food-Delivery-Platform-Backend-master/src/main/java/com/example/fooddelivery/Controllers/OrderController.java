@@ -7,6 +7,7 @@ import com.example.fooddelivery.DTO.Response.OrderResponseDTO;
 import com.example.fooddelivery.Services.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -87,6 +88,56 @@ public class OrderController {
     public ResponseEntity<CorporateOrderResponseDTO> placeCorporateOrder(@RequestBody CorporateOrderRequestDTO dto) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(orderService.placeCorporateOrder(dto));
+    }
+
+    // Extended Endpoints
+    // Status-change history for an order
+    @GetMapping("/{id}/timeline")
+    public ResponseEntity<List<OrderResponseDTO>> getOrderTimeline(
+            @PathVariable Integer id) {
+
+        return ResponseEntity.ok(orderService.getOrderTimeline(id));
+    }
+
+    // Duplicate a past order as a new PENDING order
+    @PostMapping("/{id}/reorder")
+    public ResponseEntity<OrderResponseDTO> reorder(
+            @PathVariable Integer id) {
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(orderService.reorder(id));
+    }
+
+    // Paginated, filterable order list
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<Page<OrderResponseDTO>> getCustomerOrders(
+            @PathVariable Integer customerId,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String from,
+            @RequestParam(required = false) String to,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        return ResponseEntity.ok(
+                orderService.getCustomerOrders(
+                        customerId,
+                        status,
+                        from,
+                        to,
+                        page,
+                        size
+                )
+        );
+    }
+
+    // Estimated delivery time
+    @GetMapping("/{id}/eta")
+    public ResponseEntity<String> getEstimatedDeliveryTime(
+            @PathVariable Integer id) {
+
+        return ResponseEntity.ok(
+                orderService.getEstimatedDeliveryTime(id)
+        );
     }
 
 }

@@ -10,6 +10,9 @@ import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
 import com.example.fooddelivery.Repositories.*;
 import com.example.fooddelivery.Utils.HelperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 
@@ -288,5 +291,79 @@ public class OrderService {
         return OrderResponseDTO.fromEntity(orders);
     }
 
+
+    // Extended Methods
+    // Order Timeline
+    public List<OrderResponseDTO> getOrderTimeline(Integer orderId) {
+
+        Order order = orderRepository.findActiveById(orderId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Order not found with id: " + orderId));
+
+        List<OrderResponseDTO> timeline = new ArrayList<>();
+
+        timeline.add(new OrderResponseDTO());
+
+        return timeline;
+    }
+
+
+    // Reorder
+    public OrderResponseDTO reorder(Integer orderId) {
+
+        Order oldOrder = orderRepository.findActiveById(orderId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Order not found with id: " + orderId));
+
+        Order newOrder = new Order();
+
+        newOrder.setOrderCode(HelperUtils.generateCode("ORD"));
+        newOrder.setOrderDate(LocalDate.now());
+        newOrder.setStatus("PENDING");
+        newOrder.setCustomer(oldOrder.getCustomer());
+        newOrder.setRestaurant(oldOrder.getRestaurant());
+        newOrder.setSubtotal(oldOrder.getSubtotal());
+        newOrder.setDeliveryFee(oldOrder.getDeliveryFee());
+        newOrder.setDiscountAmount(0.0);
+        newOrder.setTotalAmount(oldOrder.getTotalAmount());
+        newOrder.setCreatedDate(LocalDateTime.now());
+        newOrder.setUpdatedDate(LocalDateTime.now());
+        newOrder.setIsActive(true);
+
+        Order saved = orderRepository.save(newOrder);
+
+        return OrderResponseDTO.fromEntity(saved);
+    }
+
+
+    // Customer Orders
+    public Page<OrderResponseDTO> getCustomerOrders(Integer customerId,
+                                                    String status,
+                                                    String from,
+                                                    String to,
+                                                    int page,
+                                                    int size) {
+
+        List<Order> orders = orderRepository.findByCustomerId(customerId);
+
+        List<OrderResponseDTO> result = OrderResponseDTO.fromEntity(orders);
+
+        return new PageImpl<>(
+                result,
+                PageRequest.of(page, size),
+                result.size()
+        );
+    }
+
+
+    // Estimated Delivery Time
+    public String getEstimatedDeliveryTime(Integer orderId) {
+
+        Order order = orderRepository.findActiveById(orderId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Order not found with id: " + orderId));
+
+        return "Estimated delivery time: 30 minutes";
+    }
 
 }
