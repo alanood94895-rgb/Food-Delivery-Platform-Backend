@@ -4,6 +4,7 @@ import com.example.fooddelivery.DTO.Request.ReviewRequestDTO;
 import com.example.fooddelivery.DTO.Response.ReviewResponseDTO;
 import com.example.fooddelivery.Services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,9 +34,18 @@ public class ReviewController {
 
     // Get all reviews for a restaurant
     @GetMapping("/restaurant/{restaurantId}")
-    public ResponseEntity<List<ReviewResponseDTO>> getRestaurantReviews(@PathVariable Integer restaurantId) {
+    public ResponseEntity<Page<ReviewResponseDTO>> getRestaurantReviews(
+            @PathVariable Integer restaurantId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
-        return ResponseEntity.ok(reviewService.getReviewsByRestaurant(restaurantId));
+        return ResponseEntity.ok(
+                reviewService.getReviewsByRestaurant(
+                        restaurantId,
+                        page,
+                        size
+                )
+        );
     }
 
     // Get all reviews for a driver
@@ -53,5 +63,26 @@ public class ReviewController {
         return ResponseEntity.noContent().build();
     }
 
+    // Extended Endpoints
+
+    // GET /api/reviews/restaurant/{restaurantId}/average
+    @GetMapping("/restaurant/{restaurantId}/average")
+    public ResponseEntity<Double> getRestaurantAverageRating(
+            @PathVariable Integer restaurantId) {
+
+        return ResponseEntity.ok(
+                reviewService.getRestaurantAverageRating(restaurantId)
+        );
+    }
+
+
+    @GetMapping("/driver/{driverId}/average")
+    public ResponseEntity<Double> getDriverAverageRating(
+            @PathVariable Integer driverId) {
+
+        return ResponseEntity.ok(
+                reviewService.getDriverAverageRating(driverId)
+        );
+    }
 
 }

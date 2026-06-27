@@ -6,6 +6,9 @@ import com.example.fooddelivery.Entities.*;
 import com.example.fooddelivery.Exceptions.ResourceNotFoundException;
 import com.example.fooddelivery.Repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -84,9 +87,19 @@ public class ReviewService {
         return ReviewResponseDTO.fromEntity(savedReview);
     }
 
-    public List<ReviewResponseDTO> getReviewsByRestaurant(Integer restaurantId) {
+    public Page<ReviewResponseDTO> getReviewsByRestaurant(Integer restaurantId,
+                                                          int page,
+                                                          int size) {
+
         List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId);
-        return ReviewResponseDTO.fromEntity(reviews);
+
+        List<ReviewResponseDTO> result = ReviewResponseDTO.fromEntity(reviews);
+
+        return new PageImpl<>(
+                result,
+                PageRequest.of(page, size),
+                result.size()
+        );
     }
 
 
@@ -143,5 +156,36 @@ public class ReviewService {
         summary.put("totalDeliveryFees", totalDeliveryFees != null ? totalDeliveryFees : 0.0);
 
         return summary;
+    }
+
+    // Average Restaurant Rating
+    public Double getRestaurantAverageRating(Integer restaurantId) {
+
+        List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId);
+
+        if (reviews.isEmpty()) {
+            return 0.0;
+        }
+
+        return reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
+    }
+
+
+    // Average Driver Rating
+    public Double getDriverAverageRating(Integer driverId) {
+
+        List<Review> reviews = reviewRepository.findByDeliveryDriverId(driverId);
+
+        if (reviews.isEmpty()) {
+            return 0.0;
+        }
+
+        return reviews.stream()
+                .mapToInt(Review::getRating)
+                .average()
+                .orElse(0.0);
     }
 }
