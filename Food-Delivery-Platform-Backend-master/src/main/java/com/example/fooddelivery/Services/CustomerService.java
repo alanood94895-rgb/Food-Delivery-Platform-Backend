@@ -159,5 +159,10 @@ public class CustomerService {
         Pageable pageable = PageRequest.of(page, size);
         return customerRepository.findByFirstName(name,pageable).map(CustomerResponseDTO::fromEntity);
     }
+
+    public CustomerResponseDTO updateCustomer(Integer id, CustomerResponseDTO dto) {
+
+        return dto;
+    }
 }
 

@@ -75,8 +75,30 @@ public class CustomerController {
     public ResponseEntity<List<OrderResponseDTO>> getCustomerOrders(@PathVariable Integer id) {
         return ResponseEntity.ok(customerService.getCustomerOrders(id));
     }
+
+    // Extended Requirement:
+    // GET /search?name=&page=&size=
     @GetMapping("/search")
-    public ResponseEntity<Page<CustomerResponseDTO>> searchCustomers(@RequestParam String name, @RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(customerService.searchCustomers(name, page, size));
+    public ResponseEntity<Page<CustomerResponseDTO>> searchCustomers(
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        return ResponseEntity.ok(
+                customerService.searchCustomers(name, page, size)
+        );
     }
+
+    // Extended Requirement:
+    // PATCH /{id}
+    @PatchMapping("/{id}")
+    public ResponseEntity<CustomerResponseDTO> updateCustomer(
+            @PathVariable Integer id,
+            @RequestBody CustomerResponseDTO dto) {
+
+        return ResponseEntity.ok(
+                customerService.updateCustomer(id, dto)
+        );
+    }
+
 }
