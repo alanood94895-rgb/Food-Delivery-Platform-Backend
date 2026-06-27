@@ -63,10 +63,9 @@ public class ReportingController {
 
         return ResponseEntity.ok(reviewService.getPlatformDailySummary(date));
     }
-// ===================================
-// Extended Endpoints
-// ===================================
 
+
+    // Extended Endpoints
     // GET /api/reports/drivers/{driverId}/earnings?from=&to=
     @GetMapping("/drivers/{driverId}/earnings")
     public ResponseEntity<Double> getDriverEarnings(

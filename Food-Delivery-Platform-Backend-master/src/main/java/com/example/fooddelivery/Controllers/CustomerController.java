@@ -77,7 +77,6 @@ public class CustomerController {
     }
 
     // Extended Requirement:
-    // GET /search?name=&page=&size=
     @GetMapping("/search")
     public ResponseEntity<Page<CustomerResponseDTO>> searchCustomers(
             @RequestParam(defaultValue = "") String name,
@@ -89,7 +88,7 @@ public class CustomerController {
         );
     }
 
-    // Extended Requirement:
+    // Extended Requirement
     // PATCH /{id}
     @PatchMapping("/{id}")
     public ResponseEntity<CustomerResponseDTO> updateCustomer(

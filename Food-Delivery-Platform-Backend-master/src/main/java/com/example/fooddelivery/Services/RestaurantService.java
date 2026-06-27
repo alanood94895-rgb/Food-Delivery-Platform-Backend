@@ -84,7 +84,6 @@ public class RestaurantService {
         return RestaurantResponseDTO.fromEntity(restaurants);
     }
 
-    //getRestaurantsUnderDeliveryFee (show me restaurants that charge no more than this much for delivery)
     public List<RestaurantResponseDTO> getRestaurantsUnderDeliveryFee(double maxFee) {
         List<Restaurant> restaurants = restaurantRepository.findByDeliveryFeeLessThanEqual(maxFee);
         return RestaurantResponseDTO.fromEntity(restaurants);
