@@ -20,7 +20,7 @@ public class Delivery extends BaseEntity{
     private LocalDateTime deliveredAt;
     private boolean  isActive;
 
-    @OneToOne (mappedBy = "Delivery")
+    @OneToOne (mappedBy = "delivery")
     private Order order;
 
     @ManyToOne
