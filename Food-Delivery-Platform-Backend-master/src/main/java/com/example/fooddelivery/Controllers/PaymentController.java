@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/payments")
@@ -36,8 +37,32 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.getPaymentByOrder(orderId));
     }
     @GetMapping
-    public ResponseEntity<Page<PaymentResponseDTO>> searchPayments(@RequestParam String method, @RequestParam String status, @RequestParam Date from,
-                                                                   @RequestParam Date to, @RequestParam int page, @RequestParam int size) {
-        return ResponseEntity.ok(paymentService.searchPayments(method, status, from, to, page, size));
+    public ResponseEntity<Page<PaymentResponseDTO>> searchPayments(
+            @RequestParam(required = false) String method,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) Date from,
+            @RequestParam(required = false) Date to,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        return ResponseEntity.ok(
+                paymentService.searchPayments(
+                        method,
+                        status,
+                        from,
+                        to,
+                        page,
+                        size
+                )
+        );
+    }
+
+    // GET /api/payments/analytics/by-method
+    @GetMapping("/analytics/by-method")
+    public ResponseEntity<List<PaymentResponseDTO>> getPaymentAnalyticsByMethod() {
+
+        return ResponseEntity.ok(
+                paymentService.getPaymentAnalyticsByMethod()
+        );
     }
 }

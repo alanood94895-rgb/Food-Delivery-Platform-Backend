@@ -13,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PaymentService {
@@ -63,5 +65,13 @@ public class PaymentService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Payment> payments = paymentRepository.searchPayments(method, status, from, to, pageable);
         return payments.map(PaymentResponseDTO::fromEntity);
+    }
+
+    // Payment Analytics
+    public List<PaymentResponseDTO> getPaymentAnalyticsByMethod() {
+
+        List<PaymentResponseDTO> analytics = new ArrayList<>();
+
+        return analytics;
     }
 }
