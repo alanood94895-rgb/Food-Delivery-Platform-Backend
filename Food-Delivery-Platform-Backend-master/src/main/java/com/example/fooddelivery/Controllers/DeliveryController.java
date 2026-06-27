@@ -58,6 +58,28 @@ public class DeliveryController {
         return ResponseEntity.ok(deliveryService.getDeliveriesByStatus(status));
     }
 
+    // Extended Endpoints
 
+    // Available online drivers within a radius
+    @GetMapping("/drivers/nearby")
+    public ResponseEntity<List<DeliveryDriverResponseDTO>> getNearbyDrivers(
+            @RequestParam double lat,
+            @RequestParam double lng,
+            @RequestParam double radiusKm) {
+
+        return ResponseEntity.ok(
+                deliveryService.getNearbyDrivers(lat, lng, radiusKm)
+        );
+    }
+
+    // Completed deliveries, average delivery time, rating
+    @GetMapping("/drivers/{driverId}/performance")
+    public ResponseEntity<DeliveryResponseDTO> getDriverPerformance(
+            @PathVariable Integer driverId) {
+
+        return ResponseEntity.ok(
+                deliveryService.getDriverPerformance(driverId)
+        );
+    }
 
 }

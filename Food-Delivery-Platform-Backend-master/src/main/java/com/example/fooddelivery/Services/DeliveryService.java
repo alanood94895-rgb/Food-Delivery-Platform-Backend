@@ -209,4 +209,27 @@ public class DeliveryService {
         List<Delivery> deliveries = deliveryRepository.findByStatus(status);
         return DeliveryResponseDTO.fromEntity(deliveries);
     }
+
+    // Nearby Drivers
+    public List<DeliveryDriverResponseDTO> getNearbyDrivers(double lat,
+                                                            double lng,
+                                                            double radiusKm) {
+
+        List<DeliveryDriver> drivers = deliveryDriverRepository.findAll();
+
+        return DeliveryDriverResponseDTO.fromEntity(drivers);
+    }
+
+
+    // Driver Performance
+    public DeliveryResponseDTO getDriverPerformance(Integer driverId) {
+
+        deliveryDriverRepository.findById(driverId)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Driver not found with id: " + driverId));
+
+        DeliveryResponseDTO dto = new DeliveryResponseDTO();
+
+        return dto;
+    }
 }
