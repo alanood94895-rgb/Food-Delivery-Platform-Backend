@@ -24,7 +24,7 @@ public interface CustomerRepository extends JpaRepository <Customer, Integer> {
     @Query("SELECT c FROM Customer c WHERE c.isActive=true AND c.createdDate BETWEEN :createdDate AND CURRENT_TIMESTAMP")
     List<Customer> CustomerRegisterWithDateRange(@Param("createdDate") Date createdDate);
     @Query("select c from Customer c where c.isActive=true")
-    List<CustomerResponseDTO> getAllCustomers();
+    List<Customer> getAllCustomers();
     @Query(value = " select c from Customer c where c.isActive=true order by c.loyaltyPoints desc limit 10")
     List<Customer> getTopLoyalCustomers();
     @Query("select c from Customer c where c.isActive=true and c.firstName=:nam ")

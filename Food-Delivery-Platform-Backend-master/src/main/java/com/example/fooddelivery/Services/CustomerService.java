@@ -102,7 +102,7 @@ public class CustomerService {
         return CustomerResponseDTO.fromEntity(customer);
     }
     public List<CustomerResponseDTO> getAllCustomers() {
-        return customerRepository.getAllCustomers();
+        return CustomerResponseDTO.fromEntity(customerRepository.getAllCustomers());
     }
     public CustomerResponseDTO getCustomerByEmail(String email) {
         Customer customer = customerRepository.findByEmail(email);
